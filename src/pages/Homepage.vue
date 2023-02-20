@@ -1,5 +1,5 @@
 <script>
-import HomepageCard from '../components/HomepageCard/HomepageCard.vue';
+import HomepageCard from '../components/HomepageCard.vue';
 export default {
     data() {
         return {
@@ -9,7 +9,6 @@ export default {
                 {link: 'http://localhost:5000/assets/00c1c2c1deb2c6f2bcddc49c4f56baad', title: 'Clearance sale', description: 'view all available items', isShow: false, isChosen: false}
 
             ]
-
         }
     },
     methods: {
@@ -44,6 +43,9 @@ export default {
             setTimeout(() => {
                 this.cardClick(title, i - 1);
             }, 700)
+        },
+        redirect() {
+            this.$router.push('/shop');
         }
     },
     components: {
@@ -56,19 +58,20 @@ export default {
 </script>
 
 <template>
-    <main class="Home page">
+    <main class="Homepage">
         <HomepageCard 
             v-for="(card, index) in cards"
             :card="card"
             :index="index"
             :key="card.title"
             @cardClick="cardClick"
+            @redirect="redirect"
         />
     </main>
 </template>
 
 <style>
-    .Home {
+    .Homepage {
         height: 100vh;
         display: flex;
     }
