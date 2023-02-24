@@ -1,24 +1,47 @@
 <script>
 import SvgIcon from '@jamescoyle/vue-icon';
 import { mdiShopping } from '@mdi/js';
+import { mdiAccountCircle } from '@mdi/js';
+import { mdiLogout } from '@mdi/js';
     export default {
         data() {
             return {
-                buttons: ['Men\'s', 'Women\'s', 'Sale'],
-                icons: {
-                    basket: mdiShopping
-                }
+                buttons: ['Men\'s', 'Women\'s', 'Sale']
+            }
+        },
+        methods: {
+            loginIconClick() {
+                this.$store.commit('toggleLoginModal', true);
             }
         },
         components: {
             SvgIcon
+        },
+        computed: {
+            authenticated() {
+                return this.$store.state.isAuth;
+            },
+            icons() {
+                return {
+                    basket: mdiShopping,
+                    userIcon: this.authenticated ? mdiLogout : mdiAccountCircle
+                };
+            },
+            login_caption() {
+                if (this.authenticated) {
+                    const email = this.$store.state.user.email;
+                    return email.slice(0, email.indexOf('@')).slice(0, 10);
+                } else {
+                    return 'Login'
+                }
+            }
         }
     }
 </script>
 
 <template>
     <v-layout>
-        <v-app-bar 
+        <v-app-bar
             class="header" 
             color="background" 
             elevation="16"
@@ -30,33 +53,39 @@ import { mdiShopping } from '@mdi/js';
             <header-button v-for="button in buttons">
                 {{ button }}
             </header-button>
-            <v-btn
-                class="basket ma-2"
-                variant="text"
-                color="surface"
-                icon="mdi-cloud-upload"
-              >
-              <v-badge :content="1" color="error">
-                <svg-icon 
-                    style="color: white" 
-                    type="mdi" 
-                    :path="icons.basket"
-                ></svg-icon>
-                </v-badge>
-            </v-btn>
+            <div class="right-panel">
+                <v-btn
+                    class="user py-6"
+                    variant="text"
+                    color="surface"
+                    title="Login"
+                    @click="loginIconClick"
+                >
+                    <svg-icon 
+                        type="mdi" 
+                        :path="icons.userIcon"
+                    ></svg-icon>
+                    <p class="login-caption text-caption">{{ login_caption }}</p>
+                </v-btn>
+                <v-btn
+                    class="basket py-6"
+                    variant="text"
+                    color="surface"
+                >
+                  <v-badge location="bottom end" :content="1" color="error" title="Basket">
+                    <svg-icon 
+                        type="mdi" 
+                        :path="icons.basket"
+                        title="Basket"
+                    ></svg-icon>
+                    </v-badge>
+                </v-btn>
+            </div>
         </v-app-bar>
     </v-layout>
 </template>
 
 <style>
-    @keyframes logoIn {
-        0% {
-            transform: translateX(-100px);
-        }
-        100% {
-            transform: translateX(0px);
-        }
-    }
     .header {
         display: flex;
         justify-content: center !important;
@@ -67,20 +96,31 @@ import { mdiShopping } from '@mdi/js';
         max-width: calc(50px + 50 * (100vw / 1400)) !important;
         min-width: 50px;
         margin: 0 25px 0 50px;
-        animation: logoIn 1s ease 1s;
     }
-    .basket {
+    .right-panel {
         position: absolute !important;
         top: 50%;
-        right: 25px;
-        transform: translateY(-65%);
+        left: calc(100vw - 178px);
+        transform: translateY(-50%);
+        display: flex;
     }
-    .basket:active {
-        scale: 0.98;
+    .user, .basket {
+        display: flex !important;
     }
-    @media (max-width: 550px) {
-        .basket {
-            display: none !important;
+    .basket {
+        position: relative !important;
+        bottom: 1px;
+    }
+    .basket:active, .user:active {
+        transform: translateY(5%);
+    }
+    .login-caption {
+        position: absolute !important;
+        bottom: -5px;
+    }
+    @media (max-width: 630px) {
+        .right-panel {
+            display: none;
         }
     }
     @media (max-width: 470px) {

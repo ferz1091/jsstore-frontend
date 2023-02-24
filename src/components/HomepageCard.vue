@@ -138,7 +138,7 @@ export default {
         z-index: 2;
         left: 0;
         height: 100vh;
-        animation: cardHasChosen 2s ease-in;
+        animation: cardHasChosen 2.5s ease-in;
     }
     .card:hover img{
         scale: 1.15;
@@ -155,6 +155,7 @@ export default {
         z-index: 1;
         display: flex;
         flex-direction: column;
+        max-width: 235px !important;
     }
     .desc {
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 1);
