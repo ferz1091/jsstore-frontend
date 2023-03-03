@@ -73,11 +73,11 @@ import AlertSnackbar from './components/AlertSnackbar.vue';
 * {
   padding: 0;
   margin: 0;
-  box-sizing: border-box;
+  box-sizing: border-box !important;
 }
 body,
 #app {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
 }
 .page {

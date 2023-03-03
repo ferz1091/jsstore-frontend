@@ -2,6 +2,7 @@ import { createStore } from 'vuex';
 import api from '../http/api';
 import axios from 'axios';
 import { BASE_URL } from '../http';
+import products from './productsModule';
 
 const defaultState = {
     user: {
@@ -124,6 +125,6 @@ export default createStore({
         },
     },
     modules: {
-
+        products
     }
 })

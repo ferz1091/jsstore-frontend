@@ -17,6 +17,7 @@ const themes = createVuetify({
                     info: '#2196F3',
                     success: '#4CAF50',
                     warning: '#FB8C00',
+                    rating: '#DAA520'
                 }
             },
             darkTheme: {
@@ -32,6 +33,7 @@ const themes = createVuetify({
                     info: '#2196F3',
                     success: '#4CAF50',
                     warning: '#FB8C00',
+                    rating: '#DAA520'
                 }
             }
         }

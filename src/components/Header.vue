@@ -6,7 +6,7 @@ import { mdiLogout } from '@mdi/js';
     export default {
         data() {
             return {
-                buttons: ['Men\'s', 'Women\'s', 'Sale']
+                buttons: [{title:'Men\'s', link: '/shop/entry/men'}, {title:'Women\'s', link: '/shop/entry/women'}, {title:'Sale', link: '/sale'}]
             }
         },
         methods: {
@@ -50,8 +50,8 @@ import { mdiLogout } from '@mdi/js';
                 class="logo" 
                 :src="'http://localhost:5000/assets/8403518d375d97abbe6abc8227c6907b'"
             ></v-img>
-            <header-button v-for="button in buttons">
-                {{ button }}
+            <header-button v-for="button in buttons" @click="$event => this.$router.push(button.link)">
+                {{ button.title }}
             </header-button>
             <div class="right-panel">
                 <v-btn
@@ -90,6 +90,7 @@ import { mdiLogout } from '@mdi/js';
         display: flex;
         justify-content: center !important;
         height: calc(64px + 30 * (100vw / 1400)) !important;
+        overflow-y: hidden;
     }
     .logo {
         cursor: pointer;

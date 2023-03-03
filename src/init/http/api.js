@@ -12,6 +12,12 @@ const api = {
     },
     refresh() {
         return instance.get('/auth/refresh');
+    },
+    getProducts(gender, category, currentPage, sort) {
+        return instance.get(`/product/get?gender=${gender}&category=${category}&currentPage=${currentPage}&sort=${sort ? sort : 'rating'}`);
+    },
+    getFilters(gender, category) {
+        return instance.get(`/product/getfilter?gender=${gender}&category=${category}`);
     }
 }
 

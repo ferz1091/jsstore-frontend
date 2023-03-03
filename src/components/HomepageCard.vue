@@ -51,7 +51,7 @@ export default {
             class="card" 
             v-show="card.isShow" 
             :class="{ card: !card.isChosen, chosen_card: card.isChosen }"
-            :style="card.isChosen ? 'max-width: none' : 'max-width: calc(100vw / 3);'"
+            :style="card.isChosen ? 'max-width: none' : 'max-width: calc(100% / 3);'"
             >
             <div class="info-wrapper">
                 <v-card 
@@ -101,12 +101,12 @@ export default {
 <style>
     @keyframes cardHasChosen {
         0% {
-            left: calc((100vw / 3) * v-bind(index));
-            width: calc(100vw / 3);
+            left: calc((100% / 3) * v-bind(index));
+            width: calc(100% / 3);
         }
         50% {
             left: 0;
-            width: calc(100vw / 3);
+            width: calc(100% / 3);
         }
         100% {
             left: 0;
