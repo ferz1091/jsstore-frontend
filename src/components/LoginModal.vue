@@ -27,9 +27,9 @@ import authModalMixin from '@/mixins/authModalMixin';
     <v-dialog
             transition="dialog-bottom-transition"
             width="auto"
-            absolute
             v-model="modalIsActive"
             @click:outside="closeModal"
+            scroll-strategy="none"
     >
     <v-container class="loginModal rounded-lg elevation-16">
         <v-form @submit.prevent="submitForm" ref="formRef">
@@ -43,6 +43,7 @@ import authModalMixin from '@/mixins/authModalMixin';
                 ref="emailInput"
                 :rules="emailRules"
                 @blur="toggleEmailInput"
+                bg-color="background"
             >
                 <clearable-icon :isVisible="emailLength" @click.stop="clearEmailInput" />
             </v-text-field>   
@@ -56,6 +57,7 @@ import authModalMixin from '@/mixins/authModalMixin';
                 :rules="passwordRules"
                 autocomplete="on"
                 @blur="togglePasswordInput"
+                bg-color="background"
             >
                 <password-icon :isVisible="passwordLength" :isPasswordVisible="passwordIsVisible" @click="showPassword" />
             </v-text-field>
@@ -66,13 +68,13 @@ import authModalMixin from '@/mixins/authModalMixin';
                 v-model="isRemember"
                 inset
             ></v-switch>
-            <v-btn class="reg-btn rounded-0" @click="openRegModal">
+            <v-btn class="reg-btn rounded-0" @click="openRegModal" color="background">
                     Create account
             </v-btn>
             <v-btn 
                 class="submit-btn rounded-0"
                 variant="flat" 
-                color="background"
+                color="surface"
                 type="submit"
             >
                 Login
@@ -82,7 +84,7 @@ import authModalMixin from '@/mixins/authModalMixin';
     </v-dialog>
 </template>
 
-<style scoped>
+<style >
     .loginModal {
         padding: 0 !important;
         background-color: rgb(220, 220, 220);
@@ -109,5 +111,8 @@ import authModalMixin from '@/mixins/authModalMixin';
     .v-switch__thumb {
         max-height: 14px;
         max-width: 14px;
+    }
+    .switch label {
+        color: black;
     }
 </style>

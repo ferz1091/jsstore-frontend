@@ -77,7 +77,6 @@ import authModalMixin from '@/mixins/authModalMixin';
     <v-dialog
         transition="dialog-top-transition"
         width="auto"
-        absolute
         v-model="modalIsActive"
         @click:outside="closeModal"
     >
@@ -93,6 +92,7 @@ import authModalMixin from '@/mixins/authModalMixin';
                     ref="emailInput"
                     :rules="emailRules"
                     @blur="toggleEmailInput"
+                    bg-color="background"
                 >
                     <clearable-icon :isVisible="emailLength" @click.stop="clearEmailInput" />
                 </v-text-field>   
@@ -100,7 +100,6 @@ import authModalMixin from '@/mixins/authModalMixin';
                     class="phoneInput"
                     v-model="phoneNumber"
                     show-code-on-list
-                    color="black"
                     no-country-selector
                     default-country-code="UA"
                     @update="results = $event"
@@ -118,6 +117,7 @@ import authModalMixin from '@/mixins/authModalMixin';
                     autocomplete="on"
                     :rules="passwordRules"
                     @blur="togglePasswordInput"
+                    bg-color="background"
                 >
                     <password-icon :isVisible="passwordLength" :isPasswordVisible="passwordIsVisible" @click="showPassword" />
                 </v-text-field>
@@ -131,10 +131,11 @@ import authModalMixin from '@/mixins/authModalMixin';
                     autocomplete="on"
                     :rules="confirmPasswordRules"
                     @blur="toggleConfirmPasswordInput"
+                    bg-color="background"
                 >
                     <password-icon :isVisible="confirmPasswordLength" :isPasswordVisible="confirmPasswordIsVisible" @click.stop="showConfirmPassword" />
                 </v-text-field>
-                <v-btn type="submit" class="submit-btn rounded-0" color="background">
+                <v-btn type="submit" class="submit-btn rounded-0" color="surface">
                         Create account
                 </v-btn>
             </v-form>

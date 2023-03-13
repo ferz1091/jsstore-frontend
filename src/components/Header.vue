@@ -43,7 +43,7 @@ import { mdiLogout } from '@mdi/js';
     <v-layout>
         <v-app-bar
             class="header" 
-            color="background" 
+            color="surface" 
             elevation="16"
         >
             <v-img 
@@ -57,7 +57,7 @@ import { mdiLogout } from '@mdi/js';
                 <v-btn
                     class="user py-6"
                     variant="text"
-                    color="surface"
+                    color="background"
                     title="Login"
                     @click="loginIconClick"
                 >
@@ -70,7 +70,7 @@ import { mdiLogout } from '@mdi/js';
                 <v-btn
                     class="basket py-6"
                     variant="text"
-                    color="surface"
+                    color="background"
                 >
                   <v-badge location="bottom end" :content="1" color="error" title="Basket">
                     <svg-icon 

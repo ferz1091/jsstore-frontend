@@ -13,11 +13,11 @@ const api = {
     refresh() {
         return instance.get('/auth/refresh');
     },
-    getProducts(gender, category, currentPage, sort) {
-        return instance.get(`/product/get?gender=${gender}&category=${category}&currentPage=${currentPage}&sort=${sort ? sort : 'rating'}`);
+    getProducts(gender, category, currentPage, sort, brands, types) {
+        return instance.get(`/product/get?gender=${gender}&category=${category}&currentPage=${currentPage}&sort=${sort ? sort : 'rating'}${brands ? `&brands=${brands}` : ''}${types ? `&types=${types}` : ''}`);
     },
-    getFilters(gender, category) {
-        return instance.get(`/product/getfilter?gender=${gender}&category=${category}`);
+    getFilters(gender, category, brands, types) {
+        return instance.get(`/product/getfilter?gender=${gender}&category=${category}${brands ? `&brands=${brands}` : ''}${types ? `&types=${types}` : ''}`);
     }
 }
 

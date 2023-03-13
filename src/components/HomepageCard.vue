@@ -57,14 +57,14 @@ export default {
                 <v-card 
                 class="desc"
                 variant="outlined"
-                color="surface"
+                color="background"
             >
                 <v-card-title class="card-title text-h5">
                     {{ card.title }}
                 </v-card-title>
                 <v-divider 
                     class="card-divider" 
-                    color="surface" 
+                    color="background" 
                     thickness="2"
                     inset 
                 ></v-divider>
@@ -77,7 +77,7 @@ export default {
                 size="large" 
                 draggable
                 variant="tonal" 
-                color="surface"
+                color="background"
                 label
                 @click="chipClick"
             >

@@ -2,7 +2,7 @@ import { createVuetify } from 'vuetify';
 
 const themes = createVuetify({
     theme: {
-        defaultTheme: 'light',
+        defaultTheme: 'dark',
         themes: {
             lightTheme: {
                 dark: false,
@@ -23,8 +23,8 @@ const themes = createVuetify({
             darkTheme: {
                 dark: true,
                 colors: {
-                    background: '#000000',
-                    surface: '#FFFFFF',
+                    background: '#FFFFFF',
+                    surface: '#000000',
                     primary: '#B00020',
                     'primary-darken-1': '#3700B3',
                     secondary: '#03DAC6',

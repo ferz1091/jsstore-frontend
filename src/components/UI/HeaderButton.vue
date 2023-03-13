@@ -5,7 +5,7 @@
 </script>
 
 <template>
-    <v-btn class="btn py-6 h-100" variant="text" color="surface" >
+    <v-btn class="btn py-6 h-100" variant="text" color="background" >
         <slot></slot>
     </v-btn>
 </template>

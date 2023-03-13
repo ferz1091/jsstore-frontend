@@ -27,6 +27,7 @@ import AlertSnackbar from './components/AlertSnackbar.vue';
       }
     },
     mounted() {
+      document.documentElement.style.overflowY = this.htmlOverflow;
       if (localStorage.getItem('token')) {
         this.$store.dispatch('checkAuth');
       }
@@ -37,6 +38,9 @@ import AlertSnackbar from './components/AlertSnackbar.vue';
           this.currentRoute = this.$route.path;
         },
         immediate: true
+      },
+      htmlOverflow(newValue) {
+        document.documentElement.style.overflowY = newValue;
       }
     },
     computed: {
@@ -51,6 +55,12 @@ import AlertSnackbar from './components/AlertSnackbar.vue';
       },
       isFetching() {
         return this.$store.state.isFetching;
+      },
+      htmlOverflow() {
+        return this.loginModalActive || this.regModalActive || this.$store.state.filterModalActive ? 'hidden' : 'auto';
+      },
+      appMarginRight() {
+        return this.loginModalActive || this.regModalActive || this.$store.state.filterModalActive ? '10px' : '0px';
       }
     }
   };
@@ -61,11 +71,13 @@ import AlertSnackbar from './components/AlertSnackbar.vue';
     <Transition name="header" appear>
       <Header v-show="this.currentRoute !== '/'" />
     </Transition>
-    <RouterView />
-    <login-modal :isActive="loginModalActive" @closeModal="closeLoginModal" />
-    <registration-modal :isActive="regModalActive" @closeModal="closeRegModal" />
-    <alert-snackbar :alertData="isAlertVisible" @closeAlert="closeAlert"/>
-    <v-progress-linear :active="isFetching" absolute location="bottom" color="background" height="5" indeterminate></v-progress-linear>
+    <v-app class="app" :style="{marginRight: appMarginRight}" full-height>
+      <RouterView />
+      <login-modal :isActive="loginModalActive" @closeModal="closeLoginModal" />
+      <registration-modal :isActive="regModalActive" @closeModal="closeRegModal" />
+      <alert-snackbar :alertData="isAlertVisible" @closeAlert="closeAlert"/>
+      <v-progress-linear class="progress-bar" location="bottom" :active="isFetching" color="surface" height="5" indeterminate></v-progress-linear>
+    </v-app>
   </v-theme-provider>
 </template>
 
@@ -78,11 +90,16 @@ import AlertSnackbar from './components/AlertSnackbar.vue';
 body,
 #app {
   width: 100%;
-  height: 100vh;
+  height: 100%;
+  background: white;
 }
 .page {
   margin-top: calc(64px + 30 * (100vw / 1400)) !important;
   min-height: calc(100% - calc(64px + 30 * (100vw / 1400)));
+}
+.progress-bar {
+  position: fixed !important;
+  z-index: 1000;
 }
 .header-enter-active,
 .header-leave-active {
@@ -91,5 +108,16 @@ body,
 
 .header-enter-from, .header-leave-to {
     transform: translateY(-100px);
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: black;
+  border: 2px solid white;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-track {
+  background-color: white;
 }
 </style>

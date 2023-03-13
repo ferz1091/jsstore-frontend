@@ -16,6 +16,7 @@ const defaultState = {
     isAuth: false,
     loginModalActive: false,
     regModalActive: false,
+    filterModalActive: false,
     alertData: {
         isVisible: false,
         message: '',
@@ -37,6 +38,9 @@ export default createStore({
         },
         toggleRegModal(state, isActive) {
             state.regModalActive = isActive;
+        },
+        toggleFilterModal(state, isActive) {
+            state.filterModalActive = isActive;
         },
         alertOn(state, { message, status }) {
             state.alertData = {
