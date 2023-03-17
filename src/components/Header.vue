@@ -6,7 +6,7 @@ import { mdiLogout } from '@mdi/js';
     export default {
         data() {
             return {
-                buttons: [{title:'Men\'s', link: '/shop/entry/men'}, {title:'Women\'s', link: '/shop/entry/women'}, {title:'Sale', link: '/sale'}]
+                buttons: [{title:'Men\'s', link: '/shop/entry/men'}, {title:'Women\'s', link: '/shop/entry/women'}, {title:'Sale', link: '/shop/sale/1'}]
             }
         },
         methods: {

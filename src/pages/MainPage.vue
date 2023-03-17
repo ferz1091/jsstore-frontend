@@ -41,12 +41,12 @@ export default {
 
 <template>
     <main class="Main page">
-        <Transition name="men-cards-container" appear @after-leave="() => onAfterLeave('men')">
+        <Transition name="men-cards-container" appear @after-leave="() => onAfterLeave('men')" >
             <v-container class="cards-container" v-if="currentCategory === 'men' && isVisible.men" key="men-cards-container" fluid>
                 <MainPageCard v-for="category in categories.find(category => category.path === 'men').categories" :category="category" />
             </v-container>
         </Transition>
-        <Transition name="women-cards-container" appear @after-leave="() => onAfterLeave('women')">
+        <Transition name="women-cards-container" appear @after-leave="() => onAfterLeave('women')" >
             <v-container class="cards-container" v-if="currentCategory === 'women' && isVisible.women" key="women-cards-container" fluid>
                 <MainPageCard v-for="category in categories.find(category => category.path === 'women').categories" :category="category" />
             </v-container>

@@ -10,8 +10,9 @@ export const router = createRouter({
             beforeEnter: (to, from, next) => {
                 if (!to.params.gender || !['men', 'women'].some(key => key === to.params.gender)) {
                     next({path: '/'})
+                } else {
+                    next();
                 }
-                next();
             }
         },
         {
@@ -20,9 +21,21 @@ export const router = createRouter({
             beforeEnter: (to, from, next) => {
                 if (!to.params.page || to.params.page < 1 || !Number(to.params.page)) {
                     next({path: `/shop/entry/${to.params.gender}`});
+                } else {
+                    next();
                 }
-                next();
             },
+        },
+        {
+            path: '/shop/sale/:page?', 
+            component: () => import('../pages/Salepage.vue'),
+            beforeEnter: (to, from, next) => {
+                if (!to.params.page || to.params.page < 1 || !Number(to.params.page)) {
+                    next({ path: '/shop/sale/1' });
+                } else {
+                    next();
+                }
+            }
         },
         {path: '/:pathMatch(.*)*', redirect: '/'}
     ],

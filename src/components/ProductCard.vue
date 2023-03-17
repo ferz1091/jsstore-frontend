@@ -1,5 +1,6 @@
 <script>
 export default {
+    name: 'product-card',
     props: {
         product: {
             type: Object,

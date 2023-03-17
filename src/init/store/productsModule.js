@@ -5,7 +5,7 @@ export default {
         category: '',
         gender: '',
         products: [],
-        filters: {typeStats: null, brandStats: null, valueRange: {min: null, max: null}},
+        filters: {typeStats: null, brandStats: null, valueRange: {min: null, max: null}, categoryStats: null},
         initFilters: null
     },
     mutations: {
@@ -20,7 +20,7 @@ export default {
             state.category = '';
             state.gender = '';
             state.products = [];
-            state.filters = {typeStats: null, brandStats: null, valueRange: {min: null, max: null}};
+            state.filters = {typeStats: null, brandStats: null, valueRange: {min: null, max: null}, categoryStats: null};
         },
         setFilters(state, {filters}) {
             state.filters = filters;
@@ -38,12 +38,12 @@ export default {
 
     },
     actions: {
-        async getProducts({commit, dispatch, state}, {gender, category, page, fetchFilters, sort, brands, types}) {
+        async getProducts({commit, dispatch, state}, {gender, category, page, fetchFilters, sort, brands, types, valueRange}) {
             try {
                 commit('toggleIsFetching', true);
-                const response = await api.getProducts(gender, category, page ? page : 1, sort, brands, types);
+                const response = await api.getProducts({ gender, category, currentPage: page ? page : 1, sort, brands, types, valueRange});
                 if (fetchFilters) {
-                    const filters = await api.getFilters(gender, category, brands, types);
+                    const filters = await api.getFilters({gender, category, brands, types, sale: false, valueRange});
                     if (state.initFilters) {
                         commit('setFilters', {filters:{
                             typeStats: filters.data.typeStats ? 
@@ -63,6 +63,49 @@ export default {
                 commit('setProducts', {
                     data: response.data.data, 
                     totalPages: state.totalPages ? null : response.data.totalPages, 
+                    page: response.data.page,
+                    category: state.category ? null : category,
+                    gender: state.gender ? null : gender
+                });
+            } catch (error) {
+                console.log(error);
+                dispatch('activateAlert', {message: error.response.data.error, status: 'error'});
+            } finally {
+                setTimeout(() => {
+                    commit('toggleIsFetching', false);
+                }, 2000);
+            }
+        },
+        async getSale({ commit, dispatch, state }, {gender, category, page, fetchFilters, sort, brands, types, categoryFilters, valueRange}) {
+            try {
+                commit('toggleIsFetching', true);
+                const response = await api.getSales({ gender, category, currentPage: page, sort, brands, types, categoryFilters, valueRange});
+                if (fetchFilters) {
+                    const filters = await api.getFilters({ gender, category, brands, types, sale: true, categoryFilters, valueRange});
+                    if (state.initFilters) {
+                        commit('setFilters', {filters:{
+                            typeStats: filters.data.typeStats && state.initFilters.typeStats ? 
+                            [...state.initFilters.typeStats.filter(stat => !filters.data.typeStats.some(type => type._id.type === stat._id.type)).map(type => {
+                                return {...type, count: 0}
+                            }), ...filters.data.typeStats] 
+                            : state.initFilters.typeStats, 
+                            brandStats: filters.data.brandStats && state.initFilters.brandStats ? 
+                            [...state.initFilters.brandStats.filter(stat => !filters.data.brandStats.some(brand => brand._id.brand === stat._id.brand)).map(brand => {
+                                return { ...brand, count: 0 }
+                            }), ...filters.data.brandStats] : state.initFilters.brandStats,
+                            categoryStats: filters.data.categoryStats && state.initFilters.categoryStats ? 
+                            [...state.initFilters.categoryStats.filter(stat => !filters.data.categoryStats.some(category => category._id.category === stat._id.category)).map(category => {
+                                return { ...category, count: 0 }
+                            }), ...filters.data.categoryStats] : state.initFilters.categoryStats,
+                            valueRange: filters.data.valueRange[0]
+                        }});
+                    } else {
+                        commit('setFilters', {filters:{...filters.data, valueRange: filters.data.valueRange[0]}});
+                    }
+                }
+                commit('setProducts', {
+                    data: response.data.data,
+                    totalPages: state.totalPages ? null : response.data.totalPages,
                     page: response.data.page,
                     category: state.category ? null : category,
                     gender: state.gender ? null : gender

@@ -5,18 +5,46 @@ export default {
         isActive: {
             type: Boolean,
             required: true
+        },
+        gender: {
+            type: String,
+            required: true
+        },
+        categoryIsVisible: {
+            type: Boolean,
+            required: true
         }
     },
     data() {
         return {
             priceRange: [null, null],
             brands: [],
-            types: []
+            types: [],
+            categories: [],
+            isSubmitted: false
         }
     },
     methods: {
         closeModal() {
             this.$emit('closeModal');
+        },
+        valueRangeSubmit() {
+            this.$emit('filtersChanged', this.brands, this.types, this.categories, this.priceRange);
+            this.isSubmitted = true;
+        },
+        resetValueRange() {
+            const range = this.$store.state.products.filters.valueRange;
+            this.priceRange = [range.min, range.max];
+            if (this.$store.state.products.initFilters) {
+                this.valueRangeSubmit();
+            }
+            this.isSubmitted = false;
+        },
+        clearFilters() {
+            this.brands = [];
+            this.types = [];
+            this.categories = [];
+            this.priceRange = [this.filters.valueRange.min, this.filters.valueRange.max];
         }
     },
     watch: {
@@ -25,11 +53,20 @@ export default {
                 this.priceRange = [this.filters.valueRange.min, this.filters.valueRange.max]
             }
         },
+        gender() {
+            this.brands = [];
+            this.types = [];
+            this.categories = [];
+            this.priceRange = [null, null];
+        },
         brands() {
-            this.$emit('filtersChanged', this.brands, this.types);
+            if (this.brands.length || this.types.length || this.categories.length || this.$store.state.products.initFilters) this.$emit('filtersChanged', this.brands, this.types, this.categories, this.priceRange);
         },
         types() {
-            this.$emit('filtersChanged', this.brands, this.types);
+            if (this.brands.length || this.types.length || this.categories.length || this.$store.state.products.initFilters) this.$emit('filtersChanged', this.brands, this.types, this.categories, this.priceRange);
+        },
+        categories() {
+            if (this.brands.length || this.types.length || this.categories.length || this.$store.state.products.initFilters) this.$emit('filtersChanged', this.brands, this.types, this.categories, this.priceRange);
         }
     },
     computed: {
@@ -41,6 +78,13 @@ export default {
         },
         filterSheetIsVisible() {
             return this.$store.state.products.filters.brandStats && this.$store.state.products.filters.typeStats;
+        },
+        clearValueRangeButtonDisabled() {
+             return this.$store.state.products.filters.valueRange.min === this.priceRange[0] && this.$store.state.products.filters.valueRange.max === this.priceRange[1];
+        },
+        submitValueRangeButtonDisabled() {
+            return this.$store.state.products.filters.valueRange.min === this.priceRange[0] && this.$store.state.products.filters.valueRange.max === this.priceRange[1]
+            || this.$store.state.products.filters.valueRange.min === this.$store.state.products.filters.valueRange.max;
         }
     }
 }
@@ -56,17 +100,22 @@ export default {
         temporary
     >
         <Transition name="filterModalContent" mode="out-in">
-            <v-sheet class="h-100" color="background" v-if="filterSheetIsVisible" key="filters">
+            <v-sheet 
+                class="filterModalContent" 
+                v-if="filterSheetIsVisible" 
+                key="filters"
+                color="background"
+            >
                 <v-btn 
                     class="closeModal-btn" 
                     icon="mdi-close" 
                     variant="flat" 
                     size="small"
-                    color="background"
+                    color="transparent"
                     @click="closeModal"
                 />
                 <v-sheet class="px-5 pt-2" color="background">
-                    <p class="text-overline filter-caption">Price</p>
+                    <p class="text-overline filter-caption pt-2">Price</p>
                     <v-range-slider
                         class="mt-10"
                         v-model="priceRange"
@@ -75,10 +124,43 @@ export default {
                         :max="filters.valueRange.max"
                         thumb-label="always"
                         color="surface"
+                        :disabled="filters.valueRange.min === filters.valueRange.max"
+                        strict
                     ></v-range-slider>
+                    <div class="slider-btns-wrapper">
+                        <v-btn 
+                            class="submitValue-btn" 
+                            variant="elevated" 
+                            @click="valueRangeSubmit"
+                            :disabled="submitValueRangeButtonDisabled"
+                        >
+                            Search
+                        </v-btn>
+                        <v-btn
+                            class="clearValue-btn ml-1 rounded"
+                            icon="mdi-filter-off" 
+                            size="small"
+                            @click="resetValueRange"
+                            :disabled="clearValueRangeButtonDisabled || !isSubmitted"
+                        ></v-btn>
+                    </div>
+                </v-sheet>
+                <v-sheet class="px-5" color="background" v-if="categoryIsVisible">
+                    <p class="text-overline brand-caption pt-2">Category</p>
+                    <v-checkbox
+                        class="filter-checkbox"
+                        v-for="category in filters.categoryStats" 
+                        :key="category._id.category" 
+                        :value="category._id.category" 
+                        :label="`(${category.count}) ${category._id.category}`" 
+                        v-model="categories"
+                        density="compact"
+                        hide-details
+                        :disabled="!category.count"
+                    ></v-checkbox>
                 </v-sheet>
                 <v-sheet class="px-5" color="background">
-                    <p class="text-overline brand-caption">Brand</p>
+                    <p class="text-overline brand-caption pt-2">Brand</p>
                     <v-checkbox
                         class="filter-checkbox"
                         v-for="brand in filters.brandStats" 
@@ -92,7 +174,7 @@ export default {
                     ></v-checkbox>
                 </v-sheet>
                 <v-sheet class="px-5 pb-2" color="background">
-                    <p class="text-overline type-caption">Type</p>
+                    <p class="text-overline type-caption pt-2">Type</p>
                     <v-checkbox
                         class="filter-checkbox"
                         v-for="itemType in filters.typeStats" 
@@ -116,6 +198,15 @@ export default {
                 ></v-progress-circular>
             </v-sheet>
         </Transition>
+        <Transition name="filterModalClearBtn" mode="out-in">
+            <v-btn 
+                class="clearFilters-btn rounded-0" 
+                v-if="filterSheetIsVisible"
+                @click="clearFilters"
+            >
+                Clear
+            </v-btn>
+        </Transition>
     </v-navigation-drawer>
 </template>
 
@@ -125,10 +216,14 @@ export default {
     }
     .filterModal {
         margin-top: calc(64px + 30 * (100vw / 1400));
-        overflow-y: auto;
+    }
+    .filterModalContent {
+        height: calc(100vh - (64px + 30 * (100vw / 1400) + 36px));
+        overflow: auto;
     }
     .closeModal-btn {
         position: absolute;
+        z-index: 1;
         top: 0px;
         right: 8px;
     }
@@ -148,15 +243,31 @@ export default {
         left: 50%;
         transform: translate(-50%, -50%);
     }
+    .clearValue-btn {
+        max-height: 36px;
+    }
+    .submitValue-btn {
+        width: 80%;
+    }
+    .slider-btns-wrapper {
+        display: flex;
+        justify-content: space-between;
+    }
+    .clearFilters-btn {
+        position: absolute;
+        top: 85%;
+        width: 100%;
+    }
     .filterModalContent-enter-active,
-    .filterModalContent-leave-active {
+    .filterModalContent-leave-active,
+    .filterModalClearBtn-enter-active,
+    .filterModalClearBtn-leave-active {
         transition: all 0.5s ease;
     }
-
-    .filterModalContent-enter-from {
-        transform: translateX(-100%);
-    }
-    .filterModalContent-leave-to {
+    .filterModalContent-enter-from,
+    .filterModalContent-leave-to,
+    .filterModalClearBtn-enter-from,
+    .filterModalClearBtn-leave-to {
         transform: translateX(-100%);
     }
 </style>

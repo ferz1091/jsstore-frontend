@@ -13,11 +13,15 @@ const api = {
     refresh() {
         return instance.get('/auth/refresh');
     },
-    getProducts(gender, category, currentPage, sort, brands, types) {
-        return instance.get(`/product/get?gender=${gender}&category=${category}&currentPage=${currentPage}&sort=${sort ? sort : 'rating'}${brands ? `&brands=${brands}` : ''}${types ? `&types=${types}` : ''}`);
+    getProducts({gender, category, currentPage, sort, brands, types, valueRange}) {
+        console.log(valueRange);
+        return instance.get(`/product/get?gender=${gender}&category=${category}&currentPage=${currentPage}&sort=${sort ? sort : 'rating'}${brands ? `&brands=${brands}` : ''}${types ? `&types=${types}` : ''}${valueRange ? `&range=${valueRange}` : ''}`);
     },
-    getFilters(gender, category, brands, types) {
-        return instance.get(`/product/getfilter?gender=${gender}&category=${category}${brands ? `&brands=${brands}` : ''}${types ? `&types=${types}` : ''}`);
+    getFilters({gender, category, brands, types, sale, categoryFilters, valueRange}) {
+        return instance.get(`/product/getfilter?gender=${gender}${category ? `&category=${category}` : ''}${brands ? `&brands=${brands}` : ''}${types ? `&types=${types}` : ''}${sale ? `&sale=${sale}` : ''}${categoryFilters ? `&categoryFilters=${categoryFilters}` : ''}${valueRange ? `&range=${valueRange}` : ''}`);
+    },
+    getSales({gender, category, currentPage, sort, brands, types, categoryFilters, valueRange}) {
+        return instance.get(`/product/getsale?currentPage=${currentPage}${gender ? `&gender=${gender}` : ''}${category ? `&category=${category}` : ''}&sort=${sort ? sort : 'rating'}${brands ? `&brands=${brands}` : ''}${types ? `&types=${types}` : ''}${categoryFilters ? `&categoryFilters=${categoryFilters}` : ''}${valueRange ? `&range=${valueRange}` : ''}`)
     }
 }
 

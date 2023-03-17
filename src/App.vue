@@ -57,7 +57,7 @@ import AlertSnackbar from './components/AlertSnackbar.vue';
         return this.$store.state.isFetching;
       },
       htmlOverflow() {
-        return this.loginModalActive || this.regModalActive || this.$store.state.filterModalActive ? 'hidden' : 'auto';
+        return this.loginModalActive || this.regModalActive || this.$store.state.filterModalActive ? 'hidden' : 'scroll';
       },
       appMarginRight() {
         return this.loginModalActive || this.regModalActive || this.$store.state.filterModalActive ? '10px' : '0px';
