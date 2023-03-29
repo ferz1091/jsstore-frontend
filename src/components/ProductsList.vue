@@ -159,19 +159,12 @@ export default {
 <template>
     <main :class="(genderSwitchVisible ? 'Sale' : 'Products') + ' page'" v-scroll="handleScroll">
         <Transition name="pagination-top">
-            <v-pagination 
-                v-if="totalPages > 1" 
+            <pagination 
+                v-if="totalPages > 1"
                 :length="totalPages"
-                :total-visible="5"
-                density="comfortable"
-                prev-icon="mdi-menu-left"
-                next-icon="mdi-menu-right"
-                active-color="black"
-                variant="flat"
                 @update:modelValue="changePage"
                 v-model="page"
-                color="background"
-            ></v-pagination>
+            />
         </Transition>
         <Transition name="products-container" @after-enter="afterEnterPage" @before-leave="beforeLeavePage">
         <v-container class="products-container" v-if="showProducts">
@@ -222,20 +215,12 @@ export default {
         </v-container>
         </Transition>
         <Transition name="pagination-bottom">
-        <v-pagination 
-            v-if="totalPages > 1 && showProducts" 
-            :length="totalPages"
-            :total-visible="5"
-            density="comfortable"
-            :disabled="!products"
-            prev-icon="mdi-menu-left"
-            next-icon="mdi-menu-right"
-            active-color="black"
-            variant="flat"
-            @update:modelValue="changePage"
-            v-model="page"
-            color="background"
-        ></v-pagination>
+            <pagination 
+                v-if="totalPages > 1 && showProducts" 
+                :length="totalPages"
+                @update:modelValue="changePage"
+                v-model="page"
+            />
         </Transition>
         <filter-modal 
             :isActive="filterModalActive"
@@ -333,10 +318,12 @@ export default {
     }
 
     .filter-panel-enter-from {
-        transform: translate(-50%, 100%);
+        opacity: 0;
+        top: 100vh;
     }
     .filter-panel-leave-to {
-        transform: translate(-50%, 100%);
+        opacity: 0;
+        top: 100vh;
     }
     @media (max-width: 3840px) {
         .products-container {

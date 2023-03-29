@@ -1,7 +1,6 @@
 <script>
 import Header from './components/Header.vue';
-import LoginModal from './components/LoginModal.vue';
-import RegistrationModal from './components/RegistrationModal.vue';
+import AuthModal from './components/AuthModal.vue';
 import AlertSnackbar from './components/AlertSnackbar.vue';
   export default {
     data() {
@@ -11,17 +10,10 @@ import AlertSnackbar from './components/AlertSnackbar.vue';
     },
     components: {
       Header,
-      LoginModal,
-      RegistrationModal,
-      AlertSnackbar
+      AlertSnackbar,
+      AuthModal
     },
     methods: {
-      closeLoginModal() {
-        this.$store.commit('toggleLoginModal', false);
-      },
-      closeRegModal() {
-        this.$store.commit('toggleRegModal', false);
-      },
       closeAlert() {
         this.$store.commit('alertOff');
       }
@@ -44,11 +36,8 @@ import AlertSnackbar from './components/AlertSnackbar.vue';
       }
     },
     computed: {
-      loginModalActive() {
-        return this.$store.state.loginModalActive;
-      },
-      regModalActive() {
-        return this.$store.state.regModalActive;
+      authModalActive() {
+        return this.$store.state.authModalActive;
       },
       isAlertVisible() {
         return this.$store.state.alertData;
@@ -57,10 +46,10 @@ import AlertSnackbar from './components/AlertSnackbar.vue';
         return this.$store.state.isFetching;
       },
       htmlOverflow() {
-        return this.loginModalActive || this.regModalActive || this.$store.state.filterModalActive ? 'hidden' : 'scroll';
+        return this.authModalActive || this.$store.state.filterModalActive ? 'hidden' : 'scroll';
       },
       appMarginRight() {
-        return this.loginModalActive || this.regModalActive || this.$store.state.filterModalActive ? '10px' : '0px';
+        return this.authModalActive || this.$store.state.filterModalActive ? '10px' : '0px';
       }
     }
   };
@@ -72,9 +61,12 @@ import AlertSnackbar from './components/AlertSnackbar.vue';
       <Header v-show="this.currentRoute !== '/'" />
     </Transition>
     <v-app class="app" :style="{marginRight: appMarginRight}" full-height>
-      <RouterView />
-      <login-modal :isActive="loginModalActive" @closeModal="closeLoginModal" />
-      <registration-modal :isActive="regModalActive" @closeModal="closeRegModal" />
+      <router-view v-slot="{ Component }">
+        <Transition name="test" mode="out-in">
+          <component :is="Component" />
+        </Transition>
+      </router-view>
+      <auth-modal :isActive="authModalActive" />
       <alert-snackbar :alertData="isAlertVisible" @closeAlert="closeAlert"/>
       <v-progress-linear class="progress-bar" location="bottom" :active="isFetching" color="surface" height="5" indeterminate></v-progress-linear>
     </v-app>
@@ -108,6 +100,13 @@ body,
 
 .header-enter-from, .header-leave-to {
     transform: translateY(-100px);
+}
+.test-leave-active {
+    transition: all 1s ease;
+}
+.test-leave-to {
+    transform: translateY(100%);
+    opacity: 0;
 }
 ::-webkit-scrollbar {
   width: 10px;

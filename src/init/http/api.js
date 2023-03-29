@@ -14,7 +14,6 @@ const api = {
         return instance.get('/auth/refresh');
     },
     getProducts({gender, category, currentPage, sort, brands, types, valueRange}) {
-        console.log(valueRange);
         return instance.get(`/product/get?gender=${gender}&category=${category}&currentPage=${currentPage}&sort=${sort ? sort : 'rating'}${brands ? `&brands=${brands}` : ''}${types ? `&types=${types}` : ''}${valueRange ? `&range=${valueRange}` : ''}`);
     },
     getFilters({gender, category, brands, types, sale, categoryFilters, valueRange}) {
@@ -22,6 +21,21 @@ const api = {
     },
     getSales({gender, category, currentPage, sort, brands, types, categoryFilters, valueRange}) {
         return instance.get(`/product/getsale?currentPage=${currentPage}${gender ? `&gender=${gender}` : ''}${category ? `&category=${category}` : ''}&sort=${sort ? sort : 'rating'}${brands ? `&brands=${brands}` : ''}${types ? `&types=${types}` : ''}${categoryFilters ? `&categoryFilters=${categoryFilters}` : ''}${valueRange ? `&range=${valueRange}` : ''}`)
+    },
+    getProductComments(gender, id, page, user, sort) {
+        return instance.get(`/product/comments?gender=${gender}&id=${id}&page=${page}&sort=${sort}${user ? `&user=${user}` : ''}`);
+    },
+    getProductById(gender, id) {
+        return instance.get(`/product/byid?gender=${gender}&id=${id}`);
+    },
+    rateProduct(gender, productId, email, comment, rating) {
+        return instance.post('/product/rate', {gender, productId, email, comment, rating});
+    },
+    deleteComment(gender, productId, email) {
+        return instance.post('/product/comment_delete', {gender, productId, email});
+    },
+    editComment(gender, productId, email, comment, rating) {
+        return instance.post('/product/comment_edit', {gender, productId, email, comment, rating});
     }
 }
 

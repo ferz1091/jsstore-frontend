@@ -11,7 +11,7 @@ import { mdiLogout } from '@mdi/js';
         },
         methods: {
             loginIconClick() {
-                this.$store.commit('toggleLoginModal', true);
+                this.$store.commit('toggleAuthModal', true);
             }
         },
         components: {

@@ -37,6 +37,17 @@ export const router = createRouter({
                 }
             }
         },
+        {
+            path: '/product/:gender/:itemId',
+            component: () => import('../pages/ProductItemPage.vue'),
+            beforeEnter: (to, from, next) => {
+                if (!to.params.gender || !['men', 'women'].some(key => key === to.params.gender)) {
+                    next({ path: '/' })
+                } else {
+                    next();
+                }
+            }
+        },
         {path: '/:pathMatch(.*)*', redirect: '/'}
     ],
     history: createWebHistory()

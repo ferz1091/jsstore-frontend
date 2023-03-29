@@ -9,7 +9,8 @@ export default {
     },
     methods: {
         cardClick() {
-            console.log('CARD CLICKED');
+            this.$store.commit('setCurrentProduct', this.product);
+            this.$router.push(`/product/${this.$route.params.gender}/${this.product._id}`);
         }
     },
     computed: {
@@ -86,6 +87,7 @@ export default {
                 density="compact"
                 color="rating"
                 size="small"
+                half-increments
             ></v-rating>
             <span class="text-caption">
                 ({{ product.rateAmount }})
@@ -110,6 +112,7 @@ export default {
         display: flex !important;
         flex-direction: column;
         justify-content: space-around;
+        margin: auto 0;
     }
     .product-img {
         opacity: 0;

@@ -255,7 +255,8 @@ export default {
     }
     .clearFilters-btn {
         position: absolute;
-        top: 85%;
+        top: calc(100% - (64px + 30 * (100vw / 1400) + 18px));
+        transform: translateY(-50%);
         width: 100%;
     }
     .filterModalContent-enter-active,
