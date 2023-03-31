@@ -83,9 +83,6 @@ export default {
                 this.isTitleBtnDisabled = !this.isTitleBtnDisabled;
             }, 250)
         },
-        closeModal() {
-            this.$store.commit('toggleAuthModal', false);
-        },
         setDisplayResolution() {
             this.displayWidth = window.innerWidth;
             this.displayHeight = window.innerHeight;
@@ -134,12 +131,20 @@ export default {
         }
     },
     computed: {
-        modalIsActive() {
-            return this.isActive;
+        modalIsActive: {
+            get() {
+                return this.isActive;
+            },
+            set() {
+                this.$emit('closeModal');
+            },
         },
         comparePassword() {
             return this.regPassword === this.confirmPassword;
         },
+        isFetching() {
+            return this.$store.state.isFetching;
+        }
     }
 }
 </script>
@@ -148,7 +153,6 @@ export default {
         transition="dialog-bottom-transition"
         width="auto"
         v-model="modalIsActive"
-        @click:outside="closeModal"
         scroll-strategy="none"
         elevation="24"
     >
@@ -269,6 +273,7 @@ export default {
                             color="surface"
                             type="submit"
                             :density="displayWidth < 600 || displayHeight < 700 ? 'compact' : 'default'"
+                            :disabled="isFetching"
                         >
                             Sign in
                         </v-btn>

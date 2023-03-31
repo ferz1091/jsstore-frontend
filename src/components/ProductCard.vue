@@ -11,6 +11,13 @@ export default {
         cardClick() {
             this.$store.commit('setCurrentProduct', this.product);
             this.$router.push(`/product/${this.$route.params.gender}/${this.product._id}`);
+        },
+        addToBasket() {
+            if (this.productInBasket) {
+                this.$store.commit('removeFromBasket', this.product._id);
+            } else {
+                this.$store.commit('addToBasket', {product: this.product});
+            }
         }
     },
     computed: {
@@ -27,26 +34,54 @@ export default {
         topPanelJustify() {
             if (this.product.markers.length || this.product.isSale.flag || this.product.amount.every(prod => prod.amount === 0)) return 'space-between';
             return 'flex-end';
+        },
+        productInBasket() {
+            return this.$store.state.basket.products.some(product => product.item._id === this.product._id);
         }
     }
 }
 </script>
 
 <template>
-    <v-card class="product-card rounded-lg" elevation="10" @click="cardClick" color="background">
+    <v-card 
+        class="product-card rounded-lg" 
+        elevation="10" 
+        @click="cardClick" 
+        color="background"
+    >
         <div class="top-panel" :style="{ justifyContent: topPanelJustify }">
             <div v-if="product.markers" class="markers">
-                <v-chip v-if="product.isSale.flag" class="my-1" color="error" variant="elevated">
+                <v-chip 
+                    v-if="product.isSale.flag" 
+                    class="my-1" 
+                    color="error" 
+                    variant="elevated"
+                >
                     Sale
                 </v-chip>
-                <v-chip class="my-1" v-for="marker in product.markers" color="error" variant="elevated">
+                <v-chip 
+                    class="my-1" 
+                    v-for="marker in product.markers" 
+                    color="error" 
+                    variant="elevated"
+                >
                     {{ marker }}
                 </v-chip>
-                <v-chip v-if="product.amount.every(prod => prod.amount === 0)" color="gray" variant="elevated" >
+                <v-chip 
+                    v-if="product.amount.every(prod => prod.amount === 0)" 
+                    color="gray" 
+                    variant="elevated"
+                >
                     Out
                 </v-chip>
             </div>
-            <v-btn class="fav-btn" icon="mdi-heart-outline" color="background" variant="flat" density="compact" @click.stop="">
+            <v-btn 
+                class="fav-btn" 
+                icon="mdi-heart-outline" 
+                color="background" 
+                variant="flat" 
+                density="compact" 
+                @click.stop="">
             </v-btn>
         </div>
         <v-img class="product-img" :src="imgPath">
@@ -64,15 +99,26 @@ export default {
         </v-img>
         <div class="price-block mx-7 py-2">
             <span class="value text-h5">
-                <b class="actual-price" :style="product.amount.every(prod => prod.amount === 0) ? 'color: gray;' : 'color: #C41E3A;'">
+                <b 
+                    class="actual-price" 
+                    :style="product.amount.every(prod => prod.amount === 0) ? 'color: gray;' : 'color: #C41E3A;'"
+                >
                     {{ product.value }}$
                 </b>
                 <s v-if="product.isSale.flag" class="old-price text-body-2">
                     {{ product.isSale.oldValue }}$
                 </s>
             </span>
-            <v-btn :disabled="product.amount.every(prod => prod.amount === 0)" @click.stop class="basket-btn" color="surface" variant="elevated" size="small" append-icon="mdi-basket-plus">
-                add to
+            <v-btn 
+                :disabled="product.amount.every(prod => prod.amount === 0)" 
+                @click.stop="addToBasket"
+                class="basket-btn" 
+                :color="productInBasket ? 'success' : 'surface'" 
+                variant="elevated" 
+                size="small" 
+                :append-icon="productInBasket ? 'mdi-check' : 'mdi-basket-plus'"
+            >
+                {{ productInBasket ? 'added' : 'add to' }}
             </v-btn>
         </div>
         <div class="product-title text-body-1 mx-3 mt-2 rounded-lg">

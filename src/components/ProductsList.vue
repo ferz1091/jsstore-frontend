@@ -149,8 +149,8 @@ export default {
         filterBtnColor() {
             return this.filterModalActive ? 'surface' : 'background';
         },
-        test() {
-            return this.$store.state.filterModalActive || this.$store.state.loginModalActive || this.$store.state.regModalActive;
+        panelTransform() {
+            return this.$store.state.filterModalActive || this.$store.state.authModalActive || this.$store.state.basketModalActive;
         }
     }
 }
@@ -177,7 +177,7 @@ export default {
                     v-if="filterPanelIsVisible" 
                     class="filter-panel rounded-lg" 
                     color="background"
-                    :style="test ? 'transform: translateX(calc(-50% - 5px));' : 'transform: translateX(-50%);'"
+                    :style="panelTransform ? 'transform: translateX(calc(-50% - 5px));' : 'transform: translateX(-50%);'"
                 >
                     <v-sheet v-if="genderSwitchVisible" class="gender-switch mr-5 h-24" color="transparent">
                         <v-switch

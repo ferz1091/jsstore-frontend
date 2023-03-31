@@ -2,6 +2,7 @@
 import Header from './components/Header.vue';
 import AuthModal from './components/AuthModal.vue';
 import AlertSnackbar from './components/AlertSnackbar.vue';
+import BasketModal from './components/BasketModal.vue';
   export default {
     data() {
       return {
@@ -11,11 +12,18 @@ import AlertSnackbar from './components/AlertSnackbar.vue';
     components: {
       Header,
       AlertSnackbar,
-      AuthModal
+      AuthModal,
+      BasketModal
     },
     methods: {
       closeAlert() {
         this.$store.commit('alertOff');
+      },
+      closeBasketModal() {
+        this.$store.commit('toggleBasketModal', false);
+      },
+      closeAuthModal() {
+        this.$store.commit('toggleAuthModal', false);
       }
     },
     mounted() {
@@ -39,6 +47,9 @@ import AlertSnackbar from './components/AlertSnackbar.vue';
       authModalActive() {
         return this.$store.state.authModalActive;
       },
+      basketModalActive() {
+        return this.$store.state.basketModalActive;
+      },
       isAlertVisible() {
         return this.$store.state.alertData;
       },
@@ -46,10 +57,10 @@ import AlertSnackbar from './components/AlertSnackbar.vue';
         return this.$store.state.isFetching;
       },
       htmlOverflow() {
-        return this.authModalActive || this.$store.state.filterModalActive ? 'hidden' : 'scroll';
+        return this.authModalActive || this.$store.state.filterModalActive || this.$store.state.basketModalActive ? 'hidden' : 'scroll';
       },
       appMarginRight() {
-        return this.authModalActive || this.$store.state.filterModalActive ? '10px' : '0px';
+        return this.authModalActive || this.$store.state.filterModalActive || this.$store.state.basketModalActive ? '10px' : '0px';
       }
     }
   };
@@ -66,8 +77,9 @@ import AlertSnackbar from './components/AlertSnackbar.vue';
           <component :is="Component" />
         </Transition>
       </router-view>
-      <auth-modal :isActive="authModalActive" />
+      <auth-modal :isActive="authModalActive" @closeModal="closeAuthModal"/>
       <alert-snackbar :alertData="isAlertVisible" @closeAlert="closeAlert"/>
+      <basket-modal :isActive="basketModalActive" @closeModal="closeBasketModal"/>
       <v-progress-linear class="progress-bar" location="bottom" :active="isFetching" color="surface" height="5" indeterminate></v-progress-linear>
     </v-app>
   </v-theme-provider>

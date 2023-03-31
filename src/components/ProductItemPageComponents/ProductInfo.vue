@@ -25,7 +25,11 @@ export default {
             this.$emit('changeAmount', 1);
         },
         addToCart() {
-            this.$emit('addToCart');
+            if (this.productInBasket) {
+                this.$emit('removeFromBasket');
+            } else {
+                this.$emit('addToCart');
+            }
         }
     },
     computed: {
@@ -38,7 +42,7 @@ export default {
             }).filter(item => item);
         },
         sizePanelIsVisible() {
-            return this.sizeSelectItems.length;
+            return this.sizeSelectItems.length && !this.productInBasket;
         },
         productColors() {
             const colorNames = this.currentProduct.color.value.split(',');
@@ -47,6 +51,9 @@ export default {
                 colorArray.push({ name: colorNames[i].trim(), rgb: this.currentProduct.color.rgb[i] })
             }
             return colorArray;
+        },
+        productInBasket() {
+            return this.$store.state.basket.products.some(product => product.item._id === this.currentProduct._id);
         }
     }
 }
@@ -67,12 +74,12 @@ export default {
                     <v-btn 
                         @click="addToCart" 
                         class="product-button mt-2 mr-4" 
-                        append-icon="mdi-basket-plus"
+                        :append-icon="productInBasket ? 'mdi-check' : 'mdi-basket-plus'"
                         :disabled="currentProduct.amount.every(size => !size.amount)"
-                        color="background"
+                        :color="productInBasket ? 'success' : 'background'"
                         elevation="9"
                     >
-                        Add to cart
+                        {{ productInBasket ? 'Added' : 'Add to cart' }}
                     </v-btn>
                 </div>
                 <div>
@@ -85,39 +92,41 @@ export default {
                         Add to favorites
                     </v-btn>
                 </div>
-                <v-sheet v-if="sizePanelIsVisible" class="product-selectors mr-4 mt-2" color="background">
-                    <v-select 
-                        class="size-selector"
-                        v-model="size"
-                        @update:modelValue="updateSizeSelect"
-                        :items="sizeSelectItems"
-                        label="select size" 
-                        variant="solo" 
-                        density="compact" 
-                        hide-details
-                    />
-                    <Transition name="amount-selector">
-                        <v-sheet class="amount-selector rounded mt-2" color="surface" v-if="sizeSelect">
-                            <v-btn 
-                                @click="decreaseAmount"
-                                icon="mdi-minus-box" 
-                                variant="text" 
-                                color="background" 
-                                size="small"
-                            />
-                            <span class="amount text-h6">
-                                {{ amountSelect }}
-                            </span>
-                            <v-btn 
-                                @click="increaseAmount"
-                                icon="mdi-plus-box" 
-                                variant="text" 
-                                color="background" 
-                                size="small"
-                            />
-                        </v-sheet>
-                    </Transition>
-                </v-sheet>
+                <Transition name="product-selectors">
+                    <v-sheet v-if="sizePanelIsVisible" class="product-selectors mr-4 mt-2" color="background">
+                        <v-select 
+                            class="size-selector"
+                            v-model="size"
+                            @update:modelValue="updateSizeSelect"
+                            :items="sizeSelectItems"
+                            label="select size" 
+                            variant="solo" 
+                            density="compact" 
+                            hide-details
+                        />
+                        <Transition name="amount-selector">
+                            <v-sheet class="amount-selector rounded mt-2" color="surface" v-if="sizeSelect">
+                                <v-btn 
+                                    @click="decreaseAmount"
+                                    icon="mdi-minus-box" 
+                                    variant="text" 
+                                    color="background" 
+                                    size="small"
+                                />
+                                <span class="amount text-h6">
+                                    {{ amountSelect }}
+                                </span>
+                                <v-btn 
+                                    @click="increaseAmount"
+                                    icon="mdi-plus-box" 
+                                    variant="text" 
+                                    color="background" 
+                                    size="small"
+                                />
+                            </v-sheet>
+                        </Transition>
+                    </v-sheet>
+                </Transition>
             </div>
         </v-sheet>
         <v-sheet class="product-description" color="background">
@@ -271,45 +280,45 @@ export default {
         justify-content: space-between;
     }
     .amount-selector-enter-active,
-    .amount-selector-leave-active {
+    .amount-selector-leave-active,
+    .product-selectors-enter-active,
+    .product-selectors-leave-active {
         transition: all 0.6s ease;
     }
 
-    .amount-selector-enter-from {
+    .amount-selector-enter-from,
+    .amount-selector-leave-to,
+    .product-selectors-enter-from,
+    .product-selectors-leave-to {
         opacity: 0;
-        transform: translateX(-100%);
-    }
-
-    .amount-selector-leave-to {
-        opacity: 0;
-        transform: translateX(100%);
+        transform: translateX(-200%);
     }
     @media (min-width: 1100px) {
-    .product-info {
-        grid-template-columns: 400px 1fr;
-    }
-}
-
-@media (min-width: 1920px) {
-    .product-info {
-        grid-template-columns: 400px 1520px;
-    }
-}
-
-@media (max-width: 750px) {
-    .product-info {
-        display: flex !important;
-        flex-direction: column;
+        .product-info {
+            grid-template-columns: 400px 1fr;
+        }
     }
 
-    .product-description {
-        padding-top: 15px;
+    @media (min-width: 1920px) {
+        .product-info {
+            grid-template-columns: 400px 1520px;
+        }
     }
-    .product-images,
-    .product-button,
-    .product-selectors {
-        margin-right: 0px !important;
-        width: 100%;
+
+    @media (max-width: 750px) {
+        .product-info {
+            display: flex !important;
+            flex-direction: column;
+        }
+
+        .product-description {
+            padding-top: 15px;
+        }
+        .product-images,
+        .product-button,
+        .product-selectors {
+            margin-right: 0px !important;
+            width: 100%;
+        }
     }
-}
 </style>

@@ -3,6 +3,7 @@ import api from '../http/api';
 import axios from 'axios';
 import { BASE_URL } from '../http';
 import products from './productsModule';
+import basket from './basketModule';
 import { router } from '@/router/router';
 
 const defaultState = {
@@ -17,6 +18,7 @@ const defaultState = {
     isAuth: false,
     authModalActive: false,
     filterModalActive: false,
+    basketModalActive: false,
     alertData: {
         isVisible: false,
         message: '',
@@ -40,6 +42,9 @@ export default createStore({
         },
         toggleFilterModal(state, isActive) {
             state.filterModalActive = isActive;
+        },
+        toggleBasketModal(state, isActive) {
+            state.basketModalActive = isActive;
         },
         alertOn(state, { message, status }) {
             state.alertData = {
@@ -248,6 +253,7 @@ export default createStore({
         }
     },
     modules: {
-        products
+        products,
+        basket
     }
 })

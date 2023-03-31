@@ -47,7 +47,10 @@ export default {
             this.rating = payload.rating;
         },
         addToCart() {
-            console.log(this.sizeSelect, this.amountSelect);
+            this.$store.commit('addToBasket', {product: this.currentProduct, size: this.sizeSelect, amount: this.amountSelect});
+        },
+        removeFromBasket() {
+            this.$store.commit('removeFromBasket', this.currentProduct._id);
         },
         closeEdit() {
             this.editCommentMode = false;
@@ -130,6 +133,7 @@ export default {
                     @updateSizeSelect="updateSizeSelect"
                     @changeAmount="changeAmount"
                     @addToCart="addToCart"
+                    @removeFromBasket="removeFromBasket"
                 />
                 <v-divider class="my-3 mx-16 border-opacity-25" color="surface" />
                 <ProductComments 

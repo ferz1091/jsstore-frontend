@@ -70,8 +70,13 @@ export default {
         }
     },
     computed: {
-        modalIsActive() {
-            return this.isActive;
+        modalIsActive: {
+            get() {
+                return this.isActive;
+            },
+            set() {
+                this.$emit('closeModal');
+            },
         },
         filters() {
             return this.$store.state.products.filters;
@@ -95,7 +100,6 @@ export default {
         color="background"
         class="filterModal"
         v-model="modalIsActive" 
-        @update:modelValue="closeModal"
         elevation="24"
         temporary
     >

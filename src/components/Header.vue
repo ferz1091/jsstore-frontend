@@ -12,6 +12,9 @@ import { mdiLogout } from '@mdi/js';
         methods: {
             loginIconClick() {
                 this.$store.commit('toggleAuthModal', true);
+            },
+            basketIconClick() {
+                this.$store.commit('toggleBasketModal', true);
             }
         },
         components: {
@@ -34,6 +37,9 @@ import { mdiLogout } from '@mdi/js';
                 } else {
                     return 'Login'
                 }
+            },
+            basketBadgeIsVisible() {
+                return this.$store.state.basket.products.length;
             }
         }
     }
@@ -71,14 +77,21 @@ import { mdiLogout } from '@mdi/js';
                     class="basket py-6"
                     variant="text"
                     color="background"
+                    @click="basketIconClick"
                 >
-                  <v-badge location="bottom end" :content="1" color="error" title="Basket">
-                    <svg-icon 
+                    <v-badge v-if="basketBadgeIsVisible" location="bottom end" :content="basketBadgeIsVisible" color="error" title="Basket">
+                        <svg-icon 
+                            type="mdi" 
+                            :path="icons.basket"
+                            title="Basket"
+                        ></svg-icon>
+                    </v-badge>
+                    <svg-icon
+                        v-else
                         type="mdi" 
                         :path="icons.basket"
                         title="Basket"
                     ></svg-icon>
-                    </v-badge>
                 </v-btn>
             </div>
         </v-app-bar>
