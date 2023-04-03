@@ -44,6 +44,7 @@ export default {
         location="right"
         color="background"
         temporary
+        style="height: calc(100vh - (64px + 30 * (100vw / 1400)))"
     >
     <v-sheet class="basket-body" color="background">
         <p class="basket-empty-title text-button" v-if="!products.length">Cart is empty</p>
@@ -70,6 +71,7 @@ export default {
 </template>
 <style>
 .basket-drawer {
+    margin-top: calc(64px + 30 * (100vw / 1400));
     min-width: 280px !important;
 }
 .basket-drawer .v-navigation-drawer__content {

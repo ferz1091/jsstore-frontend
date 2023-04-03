@@ -151,6 +151,9 @@ export default {
         },
         panelTransform() {
             return this.$store.state.filterModalActive || this.$store.state.authModalActive || this.$store.state.basketModalActive;
+        },
+        userDeviceIsMobile() {
+            return this.$store.state.userDeviceIsMobile;
         }
     }
 }
@@ -177,7 +180,7 @@ export default {
                     v-if="filterPanelIsVisible" 
                     class="filter-panel rounded-lg" 
                     color="background"
-                    :style="panelTransform ? 'transform: translateX(calc(-50% - 5px));' : 'transform: translateX(-50%);'"
+                    :style="panelTransform && !userDeviceIsMobile ? 'transform: translateX(calc(-50% - 5px));' : 'transform: translateX(-50%);'"
                 >
                     <v-sheet v-if="genderSwitchVisible" class="gender-switch mr-5 h-24" color="transparent">
                         <v-switch

@@ -25,7 +25,8 @@ const defaultState = {
         status: ''
     },
     currentProduct: null,
-    userCommentExists: false
+    userCommentExists: false,
+    userDeviceIsMobile: false
 }
 
 export default createStore({
@@ -74,6 +75,9 @@ export default createStore({
         },
         toggleUserCommentExists(state, flag) {
             state.userCommentExists = flag;
+        },
+        toggleUserDevice(state, flag) {
+            state.userDeviceIsMobile = flag;
         }
     },
     getters: {
@@ -116,14 +120,20 @@ export default createStore({
                 }, 2000);
             }
         },
-        async logoutUser({commit}) {
+        async logoutUser({commit, dispatch}) {
             try {
-                await api.logout();
+                commit('toggleIsFetching', true);
+                const response = await api.logout();
                 localStorage.removeItem('token');
                 commit('setUserData', defaultState.user);
                 commit('setIsAuth', false);
+                dispatch('activateAlert', { message: 'User successfully logged out', status: 'success' });
             } catch (e) {
-                console.log(e)
+                dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
+            } finally {
+                setTimeout(() => {
+                    commit('toggleIsFetching', false);
+                }, 2000);
             }
         },
         async checkAuth({commit, dispatch}) {
@@ -144,9 +154,10 @@ export default createStore({
             }
         },
         async activateAlert({commit, state}, { message, status }) {
+            const alertMessage = message;
             commit('alertOn', {message, status})
             setTimeout(() => {
-                if (state.alertData.isVisible) commit('alertOff');
+                if (state.alertData.isVisible && alertMessage === state.alertData.message) commit('alertOff');
             }, 6000)
         },
         async getProductComments({commit, state}, {gender, id, page, user, sort}) {

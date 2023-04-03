@@ -6,9 +6,10 @@ export default {
             cards: [
                 {link: 'http://localhost:5000/assets/41053be053887e7985d1e70dd93fd21a', title: 'For him', description: 'discover men\'s collection', isShow: false, isChosen: false, path: '/shop/entry/men'},
                 {link: 'http://localhost:5000/assets/a88ea5944c647f08eaff2b5b08ba3e72', title: 'For her', description: 'discover women\'s collection', isShow: false, isChosen: false, path: '/shop/entry/women'},
-                {link: 'http://localhost:5000/assets/00c1c2c1deb2c6f2bcddc49c4f56baad', title: 'Clearance sale', description: 'view all available items', isShow: false, isChosen: false, path: '/shop/sale/1'}
+                {link: 'http://localhost:5000/assets/00c1c2c1deb2c6f2bcddc49c4f56baad', title: 'Sale', description: 'view all available items', isShow: false, isChosen: false, path: '/shop/sale/1'}
 
-            ]
+            ],
+            displayWidth: null
         }
     },
     methods: {
@@ -46,6 +47,9 @@ export default {
         },
         redirect() {
             this.$router.push(this.cards.find(card => card.isChosen).path);
+        },
+        setDisplayWidth() {
+            this.displayWidth = window.innerWidth;
         }
     },
     components: {

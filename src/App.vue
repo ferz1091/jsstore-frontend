@@ -31,6 +31,9 @@ import BasketModal from './components/BasketModal.vue';
       if (localStorage.getItem('token')) {
         this.$store.dispatch('checkAuth');
       }
+      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        this.$store.commit('toggleUserDevice', true);
+      }
     },
     watch: {
       '$route.path': {
@@ -56,11 +59,17 @@ import BasketModal from './components/BasketModal.vue';
       isFetching() {
         return this.$store.state.isFetching;
       },
+      isMobile() {
+        return this.$store.state.userDeviceIsMobile;
+      },
       htmlOverflow() {
-        return this.authModalActive || this.$store.state.filterModalActive || this.$store.state.basketModalActive ? 'hidden' : 'scroll';
+        return this.authModalActive || this.$store.state.filterModalActive || this.basketModalActive ? 'hidden' : 'scroll';
       },
       appMarginRight() {
-        return this.authModalActive || this.$store.state.filterModalActive || this.$store.state.basketModalActive ? '10px' : '0px';
+        return this.authModalActive || this.$store.state.filterModalActive || this.basketModalActive ? this.userDeviceIsMobile ? '0px' : '10px' : '0px';
+      },
+      userDeviceIsMobile() {
+        return this.$store.state.userDeviceIsMobile;
       }
     }
   };
@@ -71,7 +80,7 @@ import BasketModal from './components/BasketModal.vue';
     <Transition name="header" appear>
       <Header v-show="this.currentRoute !== '/'" />
     </Transition>
-    <v-app class="app" :style="{marginRight: appMarginRight}" full-height>
+    <v-app class="app" v-bind:style="{marginRight: appMarginRight}" full-height>
       <router-view v-slot="{ Component }">
         <Transition name="test" mode="out-in">
           <component :is="Component" />
@@ -100,6 +109,7 @@ body,
 .page {
   margin-top: calc(64px + 30 * (100vw / 1400)) !important;
   min-height: calc(100% - calc(64px + 30 * (100vw / 1400)));
+  width: 100vw !important;
 }
 .progress-bar {
   position: fixed !important;

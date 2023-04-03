@@ -16,12 +16,6 @@ export default {
         index: {
             type: Number,
             required: true
-        },
-        test: {
-            type: Object,
-            default(rawProps) {
-                return {test: true}
-            }
         }
     },
     methods: {
@@ -166,6 +160,7 @@ export default {
     }
     .card-text {
         line-height: 45px !important;
+        text-align: center;
     }
     .chip {
         align-self: center;
@@ -221,5 +216,43 @@ export default {
     }
     .circle-leave-to {
         opacity: 0;
+    }
+    @media (max-width: 800px) {
+        .info-wrapper {
+            width: 90%;
+        }
+        .card-text {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px !important;
+            line-height: 2em !important;
+            height: 150px !important;
+        }
+    }
+    @media (max-width: 400px) {
+        .card-title {
+            font-size: 18px !important;
+        }
+        .card-text {
+            font-size: 14px !important;
+            line-height: 2em !important;
+            padding: 10px !important;
+        }
+    }
+    @media (max-width: 320px) {
+        .card-title {
+            font-size: 14px !important;
+        }
+    }
+    @media (max-height: 400px) {
+        .info-wrapper {
+            max-height: calc(100vh - 9%);
+        }
+        .card-text {
+            padding: 2px 10px !important;
+            font-size: 14px !important;
+            height: 120px !important;
+        }
     }
 </style>
