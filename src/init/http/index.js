@@ -1,7 +1,7 @@
 import axios from 'axios';
 import store from '../store';
 
-export const BASE_URL = 'http://localhost:5000';
+export const BASE_URL = 'https://jsstore-backend.vercel.app';
 
 const instance = axios.create({
     withCredentials: true,

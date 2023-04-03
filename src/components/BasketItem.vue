@@ -59,7 +59,7 @@ export default {
             <v-sheet class="basket-item-body mr-4" color="background">
                 <v-img 
                     class="basket-product-img" 
-                    :src="`http://localhost:5000/${product.item.images.find(image => image.title).path}`"
+                    :src="`https://jsstore-backend.vercel.app/${product.item.images.find(image => image.title).path}`"
                 />
                 <div class="basket-item-info ml-1">
                     <div class="basket-item-props">
