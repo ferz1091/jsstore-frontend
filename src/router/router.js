@@ -48,7 +48,7 @@ export const router = createRouter({
                 }
             }
         },
-        {path: '/:pathMatch(.*)*', redirect: '/'}
+        { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('../components/NotFound.vue') }
     ],
     history: createWebHistory()
 });
