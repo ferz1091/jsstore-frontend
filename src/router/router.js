@@ -1,33 +1,33 @@
 import { createRouter } from 'vue-router';
-import { createWebHistory } from 'vue-router';
+import { createWebHashHistory } from 'vue-router';
 
 export const router = createRouter({
     routes: [
-        {path: '/', component: () => import('../pages/Homepage.vue')},
+        { path: '/', component: () => import('../pages/Homepage.vue') },
         {
-            path: '/shop/entry/:gender?', 
+            path: '/shop/entry/:gender?',
             component: () => import('../pages/MainPage.vue'),
             beforeEnter: (to, from, next) => {
                 if (!to.params.gender || !['men', 'women'].some(key => key === to.params.gender)) {
-                    next({path: '/'})
+                    next({ path: '/' })
                 } else {
                     next();
                 }
             }
         },
         {
-            path: '/shop/:gender/:category/:page?', 
+            path: '/shop/:gender/:category/:page?',
             component: () => import('../pages/ProductsPage.vue'),
             beforeEnter: (to, from, next) => {
                 if (!to.params.page || to.params.page < 1 || !Number(to.params.page)) {
-                    next({path: `/shop/entry/${to.params.gender}`});
+                    next({ path: `/shop/entry/${to.params.gender}` });
                 } else {
                     next();
                 }
             },
         },
         {
-            path: '/shop/sale/:page?', 
+            path: '/shop/sale/:page?',
             component: () => import('../pages/Salepage.vue'),
             beforeEnter: (to, from, next) => {
                 if (!to.params.page || to.params.page < 1 || !Number(to.params.page)) {
@@ -48,7 +48,7 @@ export const router = createRouter({
                 }
             }
         },
-        {path: '/:pathMatch(.*)*', redirect: '/'}
+        { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('../components/NotFound.vue') }
     ],
-    history: createWebHistory()
+    history: createWebHashHistory()
 });

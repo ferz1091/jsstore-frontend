@@ -99,7 +99,7 @@ import { mdiShopping, mdiAccountCircle, mdiMenu } from '@mdi/js';
         >
             <v-img 
                 class="logo" 
-                :src="'http://localhost:5000/assets/8403518d375d97abbe6abc8227c6907b'"
+                :src="'https://jsstore-backend.vercel.app/assets/8403518d375d97abbe6abc8227c6907b'"
             ></v-img>
             <v-sheet class="header-btns-wrapper">
                 <header-button v-for="button in buttons" @click="$event => this.$router.push(button.link)">

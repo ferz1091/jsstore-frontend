@@ -64,7 +64,7 @@ export default {
                 <v-carousel show-arrows="hover" hide-delimiter-background delimiter-icon="mdi-square">
                     <v-carousel-item 
                         v-for="image in currentProduct.images"
-                        :src="`http://localhost:5000/${image.path}`"
+                        :src="`https://jsstore-backend.vercel.app/${image.path}`"
                     />
                 </v-carousel>
             </v-sheet>
