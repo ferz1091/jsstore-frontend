@@ -13,7 +13,6 @@ export default {
         sizeSelect: {type: String, default: null},
         amountSelect: {type: Number, required: true}
     },
-
     methods: {
         updateSizeSelect(newValue) {
             this.$emit('updateSizeSelect', newValue);
@@ -88,22 +87,32 @@ export default {
                         append-icon="mdi-heart-outline" 
                         color="background"
                         elevation="9"
+                        style="z-index: 2;"
                     >
                         Add to favorites
                     </v-btn>
                 </div>
                 <Transition name="product-selectors">
-                    <v-sheet v-if="sizePanelIsVisible" class="product-selectors mr-4 mt-2" color="background">
-                        <v-select 
-                            class="size-selector"
-                            v-model="size"
-                            @update:modelValue="updateSizeSelect"
-                            :items="sizeSelectItems"
-                            label="select size" 
-                            variant="solo" 
-                            density="compact" 
-                            hide-details
-                        />
+                    <v-sheet v-if="sizePanelIsVisible" class="product-selectors mr-4" color="background">
+                        <div class="size-selector-wrapper">
+                            <v-label class="text-caption" for="size-selector">Select size</v-label>
+                            <custom-select 
+                                v-model="size" 
+                                @update:modelValue="updateSizeSelect" 
+                                id="size-selector" 
+                                class="size-selector rounded elevation-9" 
+                                :items="sizeSelectItems" 
+                                ref="sizeSelector"
+                            />
+                            <v-icon 
+                                class="size-selector-down-icon" 
+                                icon="mdi-chevron-down" 
+                                variant="text"
+                                density="compact" 
+                                size="small"
+                                color="background"
+                            />
+                        </div>
                         <Transition name="amount-selector">
                             <v-sheet class="amount-selector rounded mt-2" color="surface" v-if="sizeSelect">
                                 <v-btn 
@@ -162,7 +171,9 @@ export default {
                 </span>
             </product-prop>
             <product-prop name="Brand">
-                <span class="product-brand text-body-2  pl-2">{{ currentProduct.brand }}</span>
+                <span class="product-brand text-body-2  pl-2">
+                    {{ currentProduct.brand }}
+                </span>
             </product-prop>
             <product-prop name="Category">
                 <span class="pl-2 text-caption">
@@ -278,6 +289,30 @@ export default {
         display: flex !important;
         align-items: center;
         justify-content: space-between;
+    }
+    .size-selector-wrapper {
+        position: relative;
+        background: rgba(0, 0, 0, 0);
+    }
+    .size-selector {
+        cursor: pointer;
+        position: relative;
+        background: black;
+        z-index: 1;
+        width: 100%;
+        height: 36px;
+        padding-left: 49%;
+    }
+    .size-selector:focus {
+        outline: none;
+    }
+    .size-selector-down-icon {
+        position: absolute !important;
+        cursor: pointer;
+        top: 70%;
+        right: 5px;
+        z-index: 2;
+        transform: translateY(-50%);
     }
     .amount-selector-enter-active,
     .amount-selector-leave-active,

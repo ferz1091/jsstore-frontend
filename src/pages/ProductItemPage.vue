@@ -48,6 +48,8 @@ export default {
         },
         addToCart() {
             this.$store.commit('addToBasket', {product: this.currentProduct, size: this.sizeSelect, amount: this.amountSelect});
+            this.sizeSelect = null;
+            this.amountSelect = 0;
         },
         removeFromBasket() {
             this.$store.commit('removeFromBasket', this.currentProduct._id);

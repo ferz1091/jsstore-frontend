@@ -6,7 +6,8 @@ import BasketModal from './components/BasketModal.vue';
   export default {
     data() {
       return {
-        currentRoute: null
+        currentRoute: null,
+        touchCount: 0
       };
     },
     components: {
@@ -24,15 +25,31 @@ import BasketModal from './components/BasketModal.vue';
       },
       closeAuthModal() {
         this.$store.commit('toggleAuthModal', false);
+      },
+      resizeDocumentHeight() {
+        this.touchCount +=1;
+        if (this.userDeviceIsMobile) {
+          if (document.documentElement.style.height !== window.innerHeight) {
+            document.documentElement.style.height = window.innerHeight + 'px';
+          }
+        }
+        if (this.touchCount > 5) {
+          window.removeEventListener('touchstart', this.resizeDocumentHeight);
+        }
       }
     },
     mounted() {
+      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        this.$store.commit('toggleUserDevice', true);
+        document.documentElement.style.height = window.innerHeight + 'px';
+        document.documentElement.style.setProperty('--inner-height', `${window.innerHeight}px`);
+        window.addEventListener('touchstart', this.resizeDocumentHeight);
+      } else {
+        document.documentElement.style.height = '100vh';
+      }
       document.documentElement.style.overflowY = this.htmlOverflow;
       if (localStorage.getItem('token')) {
         this.$store.dispatch('checkAuth');
-      }
-      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-        this.$store.commit('toggleUserDevice', true);
       }
     },
     watch: {
@@ -70,6 +87,9 @@ import BasketModal from './components/BasketModal.vue';
       },
       userDeviceIsMobile() {
         return this.$store.state.userDeviceIsMobile;
+      },
+      innerHeight() {
+        return window.innerHeight;
       }
     }
   };
@@ -89,7 +109,14 @@ import BasketModal from './components/BasketModal.vue';
       <auth-modal :isActive="authModalActive" @closeModal="closeAuthModal"/>
       <alert-snackbar :alertData="isAlertVisible" @closeAlert="closeAlert"/>
       <basket-modal :isActive="basketModalActive" @closeModal="closeBasketModal"/>
-      <v-progress-linear class="progress-bar" location="bottom" :active="isFetching" color="surface" height="5" indeterminate></v-progress-linear>
+      <v-progress-linear 
+        class="progress-bar" 
+        location="bottom" 
+        :active="isFetching" 
+        color="surface" 
+        height="5" 
+        indeterminate 
+      />
     </v-app>
   </v-theme-provider>
 </template>
@@ -100,16 +127,25 @@ import BasketModal from './components/BasketModal.vue';
   margin: 0;
   box-sizing: border-box !important;
 }
+.v-application__wrap {
+  min-height: auto !important;
+}
+.v-overlay {
+  height: var(--inner-height) !important;
+}
 body,
 #app {
   width: 100%;
   height: 100%;
   background: white;
 }
+.v-navigation-drawer__scrim {
+  position: fixed !important;
+}
 .page {
   margin-top: calc(64px + 30 * (100vw / 1400)) !important;
   min-height: calc(100% - calc(64px + 30 * (100vw / 1400)));
-  width: 100vw !important;
+  width: 100% !important;
 }
 .progress-bar {
   position: fixed !important;

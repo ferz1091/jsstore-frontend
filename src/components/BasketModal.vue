@@ -44,35 +44,41 @@ export default {
         location="right"
         color="background"
         temporary
-        style="height: calc(100vh - (64px + 30 * (100vw / 1400)))"
     >
-    <v-sheet class="basket-body" color="background">
-        <p class="basket-empty-title text-button" v-if="!products.length">Cart is empty</p>
-        <v-item-group v-else>
-            <BasketItem v-for="product in products" :product="product" :key="product.item._id" />
-        </v-item-group>
-    </v-sheet>
-    <v-sheet class="basket-control" color="background">
-        <v-divider class="border-opacity-25" />
-        <p class="basket-item-price px-2" @click="test">
-            <v-icon class="mr-2" icon="mdi-tag-outline" size="small"/>
-            <span class="text-h5">
-                {{ orderPrice }}
-                <span class="text-body-1">
-                    $
+        <v-sheet class="basket-body" color="background">
+            <p class="basket-empty-title text-button" v-if="!products.length">
+                Cart is empty
+            </p>
+            <v-item-group>
+                <BasketItem v-for="product in products" :key="product.item._id" :product="product" />
+            </v-item-group>
+        </v-sheet>
+        <v-sheet class="basket-control" color="background">
+            <v-divider class="border-opacity-25" />
+            <p class="basket-item-price px-2" @click="test">
+                <v-icon class="mr-2" icon="mdi-tag-outline" size="small" />
+                <span class="text-h5">
+                    {{ orderPrice }}
+                    <span class="text-body-1">
+                        $
+                    </span>
                 </span>
-            </span>
-        </p>
-        <v-divider class="border-opacity-25" />
-        <v-btn class="rounded-0 w-100" color="background" @click="clearBasket">clear basket</v-btn>
-        <v-btn class="rounded-0 w-100" color="surface">create order</v-btn>
-    </v-sheet>
+            </p>
+            <v-divider class="border-opacity-25" />
+            <v-btn class="rounded-0 w-100" color="background" @click="clearBasket">
+                clear basket
+            </v-btn>
+            <v-btn class="rounded-0 w-100" color="surface">
+                create order
+            </v-btn>
+        </v-sheet>
     </v-navigation-drawer>
 </template>
 <style>
 .basket-drawer {
     margin-top: calc(64px + 30 * (100vw / 1400));
     min-width: 280px !important;
+    max-height: calc(100% - calc(64px + 30 * (100vw / 1400))) !important;
 }
 .basket-drawer .v-navigation-drawer__content {
     overflow: hidden;

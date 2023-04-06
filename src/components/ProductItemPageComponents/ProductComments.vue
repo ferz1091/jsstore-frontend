@@ -306,10 +306,13 @@ export default {
 }
 @media (max-width: 600px) {
     .comments-sort-select {
-        top: 110%;
+        top: 85%;
+        right: auto;
+        left: 50%;
+        transform: translate(-50%, -75%);
     }
     .reviews-title {
-        padding-bottom: 22px !important;
+        padding-bottom: 42px !important;
     }
 }
 </style>

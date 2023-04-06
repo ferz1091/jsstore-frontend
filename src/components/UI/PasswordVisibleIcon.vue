@@ -43,8 +43,8 @@ export default {
     .passwordIcon {
         cursor: pointer;
         position: absolute;
-        top: 18px;
-        right: 10px;
+        top: 10px;
+        right: 17px;
         transition: all 0.3s ease;
     }
 

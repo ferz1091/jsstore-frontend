@@ -4,7 +4,7 @@ export default {
     },
     mutations: {
         addToBasket(state, {product, size, amount}) {
-            state.products = [...state.products, {item: product, size: size ? size : null, amount: amount ? amount : null}]
+            state.products = [...state.products, {item: product, size: size ? size : null, amount: amount ? amount : 0}]
         },
         removeFromBasket(state, id) {
             state.products = state.products.filter(product => product.item._id !== id);

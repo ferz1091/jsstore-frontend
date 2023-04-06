@@ -102,7 +102,6 @@ export default {
         v-model="modalIsActive" 
         elevation="24"
         temporary
-        style="height: calc(100vh - (64px + 30 * (100vw / 1400)))"
     >
         <Transition name="filterModalContent" mode="out-in">
             <v-sheet 
@@ -218,9 +217,10 @@ export default {
 <style>
     .filterModal {
         margin-top: calc(64px + 30 * (100vw / 1400));
+        max-height: calc(100% - calc(64px + 30 * (100vw / 1400))) !important;
     }
     .filterModalContent {
-        height: calc(100vh - (64px + 30 * (100vw / 1400) + 36px));
+        height: calc(100% - 36px);
         overflow: auto;
     }
     .closeModal-btn {
@@ -256,9 +256,6 @@ export default {
         justify-content: space-between;
     }
     .clearFilters-btn {
-        /* position: absolute; */
-        /* top: calc(100% - (64px + 30 * (100vw / 1400) + 18px)); */
-        /* transform: translateY(-50%); */
         width: 100%;
     }
     .filterModalContent-enter-active,

@@ -35,20 +35,40 @@ export default {
             },
             immediate: true
         }
+    },
+    computed: {
+        innerHeight() {
+            return window.innerHeight;
+        }
     }
 }
 </script>
 
 <template>
     <main class="Main page">
-        <Transition name="men-cards-container" appear @after-leave="() => onAfterLeave('men')" >
-            <v-container class="cards-container" v-if="currentCategory === 'men' && isVisible.men" key="men-cards-container" fluid>
-                <MainPageCard v-for="category in categories.find(category => category.path === 'men').categories" :category="category" />
+        <Transition name="men-cards-container" appear @after-leave="() => onAfterLeave('men')">
+            <v-container 
+                v-bind:style="{ }"
+                class="cards-container" 
+                v-if="currentCategory === 'men' && isVisible.men" key="men-cards-container" 
+                fluid
+            >
+                <MainPageCard 
+                    v-for="category in categories.find(category => category.path === 'men').categories" 
+                    :category="category" 
+                />
             </v-container>
         </Transition>
         <Transition name="women-cards-container" appear @after-leave="() => onAfterLeave('women')" >
-            <v-container class="cards-container" v-if="currentCategory === 'women' && isVisible.women" key="women-cards-container" fluid>
-                <MainPageCard v-for="category in categories.find(category => category.path === 'women').categories" :category="category" />
+            <v-container 
+                class="cards-container" 
+                v-if="currentCategory === 'women' && isVisible.women" key="women-cards-container"
+                fluid
+            >
+                <MainPageCard 
+                    v-for="category in categories.find(category => category.path === 'women').categories" 
+                    :category="category" 
+                />
             </v-container>
         </Transition>
     </main>
@@ -60,8 +80,7 @@ export default {
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(2, 1fr);
         grid-gap: calc(0px + 15 * (100vw / 1400));
-        min-height: calc(100vh - calc(64px + 30 * (100vw / 1400)));
-        max-height: calc(100vh - calc(64px + 30 * (100vw / 1400)));
+        height: 100%;
         padding: calc(0px + 50 * (100vw / 1400));
         padding-top: 20px;
         padding-bottom: 20px;

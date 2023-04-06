@@ -128,6 +128,18 @@ export default {
                     this.$store.dispatch('registration', { email: this.regEmail, password: this.regPassword});
                 }
             }
+        },
+        closeModal() {
+            this.$emit('closeModal');
+        },
+        showLoginPassword() {
+            this.passwordLoginType = this.passwordLoginType === 'text' ? 'password' : 'text';
+        },
+        showRegPassword() {
+            this.passwordRegType = this.passwordRegType === 'text' ? 'password' : 'text';
+        },
+        showConfirmPassword() {
+            this.passwordConfirmType = this.passwordConfirmType === 'text' ? 'password' : 'text';
         }
     },
     computed: {
@@ -144,6 +156,27 @@ export default {
         },
         isFetching() {
             return this.$store.state.isFetching;
+        },
+        loginPasswordIsVisible() {
+            if (this.passwordLoginType === 'text') {
+                return false;
+            } else {
+                return true;
+            }
+        },
+        regPasswordIsVisible() {
+            if (this.passwordRegType === 'text') {
+                return false;
+            } else {
+                return true;
+            }
+        },
+        confirmPasswordIsVisible() {
+            if (this.passwordConfirmType === 'text') {
+                return false;
+            } else {
+                return true;
+            }
         }
     }
 }
@@ -241,6 +274,7 @@ export default {
                         bg-color="transparent"
                         :rules="emailRules"
                         @blur="toggleEmailInput"
+                        clearable
                     />
                     <v-text-field 
                         class="password field" 
@@ -254,7 +288,13 @@ export default {
                         :rules="passwordRules"
                         :type="passwordLoginType"
                         @blur="togglePasswordInput"
-                    />
+                    >
+                        <password-icon 
+                            :isVisible="!!loginPassword.length" 
+                            :isPasswordVisible="loginPasswordIsVisible"
+                            @click="showLoginPassword"
+                        />
+                    </v-text-field>
                     <v-switch
                         class="switch"
                         label="Remember me"
@@ -324,6 +364,7 @@ export default {
                         bg-color="transparent"
                         :rules="emailRules"
                         @blur="toggleEmailInput"
+                        clearable
                     />
                     <v-text-field 
                         class="password field"
@@ -337,7 +378,13 @@ export default {
                         @blur="togglePasswordInput"
                         bg-color="transparent"
                         density="compact"
-                    ></v-text-field>
+                    >
+                        <password-icon 
+                            :isVisible="!!regPassword.length" 
+                            :isPasswordVisible="regPasswordIsVisible"
+                            @click="showRegPassword"
+                        />
+                    </v-text-field>
                     <v-text-field 
                         class="confirm-password field"
                         name="ConfirmPassword"
@@ -350,7 +397,13 @@ export default {
                         @blur="toggleConfirmPasswordInput"
                         bg-color="transparent"
                         density="compact"
-                    ></v-text-field>
+                    >
+                        <password-icon 
+                            :isVisible="!!confirmPassword.length" 
+                            :isPasswordVisible="confirmPasswordIsVisible"
+                            @click="showConfirmPassword"
+                        />
+                    </v-text-field>
                     <v-btn 
                         class="submitReg-btn rounded-xl px-10"
                         variant="outlined" 
@@ -363,6 +416,14 @@ export default {
                 </v-form>
             </v-sheet>
         </Transition>
+        <v-btn 
+            class="closeAuthModalMobileBtn" 
+            icon="mdi-close" 
+            variant="flat" 
+            color="background" 
+            size="small" 
+            @click="closeModal" 
+        />
     </v-container>
     </v-dialog>
 </template>
@@ -437,6 +498,13 @@ export default {
     max-height: 100px !important;
     max-width: 600px !important;
     margin: 0 auto;
+}
+.closeAuthModalMobileBtn {
+    display: none !important;
+    position: absolute !important;
+    top: 5px;
+    right: 5px;
+    z-index: 10;
 }
 form {
     position: relative;
@@ -515,6 +583,9 @@ form {
 @media (max-width: 750px) {
     .authModal {
         width: 95vw !important;
+    }
+    .closeAuthModalMobileBtn {
+        display: block !important;
     }
 }
 @media (max-width: 600px) {

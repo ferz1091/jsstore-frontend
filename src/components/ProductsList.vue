@@ -35,7 +35,7 @@ export default {
     },
     methods: {
         handleScroll() {
-            if (window.pageYOffset + window.innerHeight >= this.$el.clientHeight && window.pageYOffset) {
+            if (window.pageYOffset + window.innerHeight >= this.$refs.productsContainer.clientHeight && window.pageYOffset) {
                 this.filterPanelIsVisible = false;
             } else {
                 this.filterPanelIsVisible = true;
@@ -163,203 +163,209 @@ export default {
     <main :class="(genderSwitchVisible ? 'Sale' : 'Products') + ' page'" v-scroll="handleScroll">
         <Transition name="pagination-top">
             <pagination 
-                v-if="totalPages > 1"
-                :length="totalPages"
-                @update:modelValue="changePage"
-                v-model="page"
+                v-if="totalPages > 1" 
+                :length="totalPages" 
+                @update:modelValue="changePage" 
+                v-model="page" 
             />
         </Transition>
-        <Transition name="products-container" @after-enter="afterEnterPage" @before-leave="beforeLeavePage">
-        <v-container class="products-container" v-if="showProducts">
-            <product-card
-                v-for="product in thisPageProducts" 
-                :product="product"
-            />
-            <Transition name="filter-panel" appear>
-                <v-sheet 
-                    v-if="filterPanelIsVisible" 
-                    class="filter-panel rounded-lg" 
-                    color="background"
-                    :style="panelTransform && !userDeviceIsMobile ? 'transform: translateX(calc(-50% - 5px));' : 'transform: translateX(-50%);'"
-                >
-                    <v-sheet v-if="genderSwitchVisible" class="gender-switch mr-5 h-24" color="transparent">
-                        <v-switch
-                            v-model="gender"
-                            true-value="women"
-                            false-value="men"
-                            inset 
+        <Transition 
+            name="products-container" 
+            ref="productsContainer" 
+            @after-enter="afterEnterPage" 
+            @before-leave="beforeLeavePage"
+        >
+            <v-container class="products-container" v-if="showProducts">
+                <product-card v-for="product in thisPageProducts" :product="product" />
+                <Transition name="filter-panel" appear>
+                    <v-sheet 
+                        v-if="filterPanelIsVisible" 
+                        class="filter-panel rounded-lg" 
+                        color="background"
+                        :style="panelTransform && !userDeviceIsMobile ? 'transform: translateX(calc(-50% - 5px));' : 'transform: translateX(-50%);'"
+                    >
+                        <v-sheet v-if="genderSwitchVisible" class="gender-switch mr-5 h-24" color="transparent">
+                            <v-switch v-model="gender" true-value="women" false-value="men" inset density="compact"
+                                color="white" hide-details></v-switch>
+                            <label class="switch-value">
+                                {{ gender }}
+                            </label>
+                        </v-sheet>
+                        <v-select 
+                            v-model="select" 
+                            class="sort-select" 
+                            variant="solo" 
+                            bg-color="background" 
+                            label="Sort by:"
                             density="compact" 
-                            color="white"
-                            hide-details
-                        ></v-switch>
-                        <label class="switch-value">
-                            {{ gender }}
-                        </label>
-                    </v-sheet>
-                    <v-select
-                        v-model="select"
-                        class="sort-select" 
-                        variant="solo"
-                        bg-color="background" 
-                        label="Sort by:"
-                        density="compact"
-                        :items="sortSelectVariants"
-                        hide-details
-                    ></v-select>
+                            :items="sortSelectVariants" 
+                            hide-details 
+                        />
                         <v-btn 
                             class="filter-btn" 
                             :color="filterBtnColor" 
                             icon="mdi-filter" 
-                            size="small" 
-                            @click="openFilterModal"
-                        ></v-btn>
+                            size="small"
+                            @click="openFilterModal" 
+                        />
                     </v-sheet>
                 </Transition>
-        </v-container>
+            </v-container>
         </Transition>
         <Transition name="pagination-bottom">
-            <pagination 
-                v-if="totalPages > 1 && showProducts" 
-                :length="totalPages"
-                @update:modelValue="changePage"
-                v-model="page"
-            />
+            <pagination v-if="totalPages > 1 && showProducts" :length="totalPages" @update:modelValue="changePage"
+                v-model="page" />
         </Transition>
-        <filter-modal 
-            :isActive="filterModalActive"
-            :gender="gender"
-            :categoryIsVisible="genderSwitchVisible"
-            @closeModal="closeFilterModal"
-            @filtersChanged="filtersChanged"
-        />
+        <filter-modal :isActive="filterModalActive" :gender="gender" :categoryIsVisible="genderSwitchVisible"
+            @closeModal="closeFilterModal" @filtersChanged="filtersChanged" />
     </main>
 </template>
 
 <style>
+.products-container {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: calc(0px + 16 * (100vw / 1400));
+    min-height: calc(100vh - calc(64px + 30 * (100vw / 1400)) - 45.6px);
+    background: white;
+}
+
+.filter-panel {
+    display: flex !important;
+    align-items: center;
+    position: fixed;
+    z-index: 1;
+    top: calc(100% - 60px);
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px;
+    background: rgba(0, 0, 0, 0.8) !important;
+}
+
+.sort-select {
+    width: 200px;
+}
+
+.filter-btn {
+    margin-left: 20px;
+}
+
+.gender-switch {
+    position: relative;
+    max-height: 42px;
+}
+
+.switch-value {
+    position: absolute;
+    top: 27px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 11px;
+}
+
+.gender-switch .v-switch__thumb {
+    color: white;
+}
+
+.products-container-enter-active,
+.products-container-leave-active {
+    transition: all 0.8s ease;
+}
+
+.products-container-enter-from {
+    opacity: 0;
+    transform: translateY(100%);
+}
+
+.products-container-leave-to {
+    opacity: 0;
+    transform: translateY(100%);
+}
+
+.pagination-top-enter-active,
+.pagination-top-leave-active {
+    transition: all 0.8s ease;
+}
+
+.pagination-top-enter-from {
+    opacity: 0;
+    transform: translateY(-100%);
+}
+
+.pagination-top-leave-to {
+    opacity: 0;
+    transform: translateY(-100%);
+}
+
+.pagination-bottom-enter-active,
+.pagination-bottom-leave-active {
+    transition: all 0.8s ease;
+}
+
+.pagination-bottom-enter-from {
+    opacity: 0;
+    transform: translateY(100%);
+}
+
+.pagination-bottom-leave-to {
+    opacity: 0;
+    transform: translateY(100%);
+}
+
+.filter-panel-enter-active,
+.filter-panel-leave-active {
+    transition: all 0.5s ease;
+}
+
+.filter-panel-enter-from {
+    opacity: 0;
+    top: 100vh;
+}
+
+.filter-panel-leave-to {
+    opacity: 0;
+    top: 100vh;
+}
+
+@media (max-width: 3840px) {
     .products-container {
-        display: grid;
-        width: 100%;
-        grid-template-columns: repeat(4, 1fr);
-        grid-gap: calc(0px + 16 * (100vw / 1400));
-        min-height: calc(100vh - calc(64px + 30 * (100vw / 1400)) - 45.6px);
-        background: white;
+        width: 60%;
     }
-    .filter-panel {
-        display: flex !important;
-        align-items: center;
-        position: fixed;
-        z-index: 1;
-        top: calc(100vh - 60px);
-        left: 50%;
-        transform: translateX(-50%);
-        padding: 5px;
-        background: rgba(0, 0, 0, 0.8) !important;
-    }
-    .sort-select {
-        width: 200px;
-    }
-    .filter-btn {
-        margin-left: 20px;
-    }
-    .gender-switch {
-        position: relative;
-        max-height: 42px;
-    }
-    .switch-value {
-        position: absolute;
-        top: 27px;
-        left: 50%;
-        transform: translateX(-50%);
-        color: white;
-        font-size: 11px;
-    }
-    .gender-switch .v-switch__thumb {
-        color: white;
-    }
-    .products-container-enter-active,
-    .products-container-leave-active {
-        transition: all 0.8s ease;
-    }
+}
 
-    .products-container-enter-from {
-        opacity: 0;
-        transform: translateY(100%);
+@media (max-width: 2048px) {
+    .products-container {
+        width: 80%;
     }
-    .products-container-leave-to {
-        opacity: 0;
-        transform: translateY(100%);
-    }
-    .pagination-top-enter-active,
-    .pagination-top-leave-active {
-        transition: all 0.8s ease;
-    }
+}
 
-    .pagination-top-enter-from {
-        opacity: 0;
-        transform: translateY(-100%);
+@media (max-width: 1400px) {
+    .products-container {
+        width: 95%;
+        grid-gap: 16px;
     }
-    .pagination-top-leave-to {
-        opacity: 0;
-        transform: translateY(-100%);
-    }
-    .pagination-bottom-enter-active,
-    .pagination-bottom-leave-active {
-        transition: all 0.8s ease;
-    }
+}
 
-    .pagination-bottom-enter-from {
-        opacity: 0;
-        transform: translateY(100%);
+@media (max-width: 950px) {
+    .products-container {
+        width: 95%;
+        grid-template-columns: repeat(3, 1fr);
     }
-    .pagination-bottom-leave-to {
-        opacity: 0;
-        transform: translateY(100%);
-    }
-    .filter-panel-enter-active,
-    .filter-panel-leave-active {
-        transition: all 0.5s ease;
-    }
+}
 
-    .filter-panel-enter-from {
-        opacity: 0;
-        top: 100vh;
+@media (max-width: 725px) {
+    .products-container {
+        width: 90%;
+        grid-template-columns: repeat(2, 1fr);
     }
-    .filter-panel-leave-to {
-        opacity: 0;
-        top: 100vh;
+}
+
+@media (max-width: 480px) {
+    .products-container {
+        width: 90%;
+        grid-template-columns: repeat(1, 1fr);
     }
-    @media (max-width: 3840px) {
-        .products-container {
-            width: 60%;
-        }
-    }
-    @media (max-width: 2048px) {
-        .products-container {
-            width: 80%;
-        }
-    }
-    @media (max-width: 1400px) {
-        .products-container {
-            width: 95%;
-            grid-gap: 16px;
-        }
-    }
-    @media (max-width: 950px) {
-        .products-container {
-            width: 95%;
-            grid-template-columns: repeat(3, 1fr);
-        }
-    }
-    @media (max-width: 725px) {
-        .products-container {
-            width: 90%;
-            grid-template-columns: repeat(2, 1fr);
-        }
-    }
-    @media (max-width: 480px) {
-        .products-container {
-            width: 90%;
-            grid-template-columns: repeat(1, 1fr);
-        }
-    }
+}
 </style>

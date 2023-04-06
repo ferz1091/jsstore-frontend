@@ -57,6 +57,14 @@ export default {
     },
     mounted() {
         this.showCards(0, this.cards.length)
+    },
+    computed: {
+        innerWidth() {
+            return window.innerWidth;
+        },
+        userDeviseIsMobile() {
+            return this.$store.state.userDeviseIsMobile;
+        }
     }
 }
 </script>
@@ -70,13 +78,14 @@ export default {
             :key="card.title"
             @cardClick="cardClick"
             @redirect="redirect"
+            v-bind:style="{height: userDeviseIsMobile ? `3000px` : '100vh'}"
         />
     </main>
 </template>
 
 <style>
     .Homepage {
-        height: 100vh;
+        height: 100%;
         display: flex;
     }
 </style>
