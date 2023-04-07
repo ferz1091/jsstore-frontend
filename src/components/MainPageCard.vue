@@ -20,7 +20,9 @@ export default {
             this.isHover = false;
         },
         cardClick() {
-            this.$router.push(`/shop/${this.$route.params.gender}/${this.category.name}/1`);
+            if (!this.category.disabled) {
+                this.$router.push(`/shop/${this.$route.params.gender}/${this.category.name}/1`);
+            }
         }
     }
 }
