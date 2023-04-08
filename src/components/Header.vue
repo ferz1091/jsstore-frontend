@@ -188,6 +188,7 @@ import { mdiShopping, mdiAccountCircle, mdiMenu } from '@mdi/js';
         justify-content: center !important;
         height: calc(64px + 30 * (100vw / 1400)) !important;
         width: 100% !important;
+        max-width: 100vw !important;
     }
     header.v-toolbar {
         overflow: visible !important;
