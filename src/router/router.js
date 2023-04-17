@@ -48,6 +48,7 @@ export const router = createRouter({
                 }
             }
         },
+        {path: '/account/profile', component: () => import('../pages/AccountPages/UserProfile.vue')},
         {path: '/:pathMatch(.*)*', redirect: '/'}
     ],
     history: createWebHistory()

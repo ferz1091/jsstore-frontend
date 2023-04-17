@@ -6,6 +6,9 @@ export default {
     methods: {
         logoutUser() {
             this.$store.dispatch('logoutUser');
+        },
+        toProfile() {
+            this.$router.push('/account/profile');
         }
     },
     computed: {
@@ -27,9 +30,10 @@ export default {
                 class="user-menu-item text-caption px-3" 
                 variant="elevated"
                 color="surface"
+                @click="toProfile"
             >
                 <v-icon class="mr-1" icon="mdi-home-account" color="background" />
-                Account details
+                My profile
             </v-list-item>
             <v-list-item 
                 class="user-menu-item text-caption px-3" 

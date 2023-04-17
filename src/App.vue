@@ -102,7 +102,7 @@ import BasketModal from './components/BasketModal.vue';
     </Transition>
     <v-app class="app" v-bind:style="{marginRight: appMarginRight}" full-height>
       <router-view v-slot="{ Component }">
-        <Transition name="test" mode="out-in">
+        <Transition name="router-view" mode="out-in">
           <component :is="Component" />
         </Transition>
       </router-view>
@@ -116,7 +116,9 @@ import BasketModal from './components/BasketModal.vue';
         color="surface" 
         height="5" 
         indeterminate 
-      />
+      >
+    </v-progress-linear>
+    <v-sheet v-if="isFetching" class="progress-bar-scrim" color="transparent" />
     </v-app>
   </v-theme-provider>
 </template>
@@ -149,7 +151,16 @@ body,
 }
 .progress-bar {
   position: fixed !important;
-  z-index: 1000;
+  z-index: 9999;
+}
+.progress-bar-scrim {
+  position: fixed !important;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 .header-enter-active,
 .header-leave-active {
@@ -159,10 +170,10 @@ body,
 .header-enter-from, .header-leave-to {
     transform: translateY(-100px);
 }
-.test-leave-active {
+.router-view-leave-active {
     transition: all 1s ease;
 }
-.test-leave-to {
+.router-view-leave-to {
     transform: translateY(100%);
     opacity: 0;
 }

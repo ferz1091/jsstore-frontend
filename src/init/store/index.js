@@ -12,13 +12,16 @@ const defaultState = {
         email: null,
         isActivated: false,
         roles: [],
-        phone: null
+        phone: null,
+        name: null,
+        surname: null
     },
     isFetching: false,
     isAuth: false,
     authModalActive: false,
     filterModalActive: false,
     basketModalActive: false,
+    emailConfirmationModalActive: false,
     alertData: {
         isVisible: false,
         message: '',
@@ -46,6 +49,9 @@ export default createStore({
         },
         toggleBasketModal(state, isActive) {
             state.basketModalActive = isActive;
+        },
+        emailConfirmationModal(state, isActive) {
+            state.emailConfirmationModalActive = isActive;
         },
         alertOn(state, { message, status }) {
             state.alertData = {
@@ -125,7 +131,14 @@ export default createStore({
                 commit('toggleIsFetching', true);
                 const response = await api.logout();
                 localStorage.removeItem('token');
-                commit('setUserData', defaultState.user);
+                localStorage.removeItem('sendMailLinkExpiresIn');
+                commit('setUserData', {
+                    id: null,
+                    email: null,
+                    isActivated: false,
+                    roles: [],
+                    phone: null
+                });
                 commit('setIsAuth', false);
                 dispatch('activateAlert', { message: 'User successfully logged out', status: 'success' });
             } catch (e) {
@@ -155,7 +168,7 @@ export default createStore({
         },
         async activateAlert({commit, state}, { message, status }) {
             const alertMessage = message;
-            commit('alertOn', {message, status})
+            commit('alertOn', {message: message ? message : 'Something goes wrong, try again later.', status})
             setTimeout(() => {
                 if (state.alertData.isVisible && alertMessage === state.alertData.message) commit('alertOff');
             }, 6000)
@@ -256,6 +269,78 @@ export default createStore({
                 dispatch('getProductComments', { gender, id: productId, page: 1, user: email, sort: 'latest' });
             } catch (error) {
                 dispatch('activateAlert', {message: error.response.data.error, status: 'error'});
+            } finally {
+                setTimeout(() => {
+                    commit('toggleIsFetching', false);
+                }, 2000);
+            }
+        },
+        async getUserInfo({commit}, {id}) {
+            try {
+                commit('toggleIsFetching', true);
+                const response = await api.getUserInfo(id);
+                return response.data;
+            } catch (error) {
+                dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
+            } finally {
+                setTimeout(() => {
+                    commit('toggleIsFetching', false);
+                }, 2000);
+            }
+        },
+        async getEmailChangeConfirmationCode({commit, dispatch}, {id, email}) {
+            try {
+                commit('toggleIsFetching', true);
+                const response = await api.getEmailChangeConfirmationCode(id, email);
+                dispatch('activateAlert', { message: 'The code has been sent. Check your email!', status: 'info' });
+                commit('emailConfirmationModal', true);
+            } catch (error) {
+                console.log(error);
+                dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
+            } finally {
+                setTimeout(() => {
+                    commit('toggleIsFetching', false);
+                }, 2000);
+            }
+        },
+        async editUserInfo({commit, dispatch}, {id, info, code}) {
+            try {
+                commit('toggleIsFetching', true);
+                const response = await api.editUserInfo(id, info, code ? code : null);
+                if (code) {
+                    this.commit('emailConfirmationModal', false);
+                }
+                const user = await dispatch('getUserInfo', {id});
+                this.commit('setUserData', user);
+                dispatch('activateAlert', { message: 'Profile updated!', status: 'success' });
+            } catch (error) {
+                dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
+                if (code) {
+                    this.commit('emailConfirmationModal', false);
+                }
+            } finally {
+                setTimeout(() => {
+                    commit('toggleIsFetching', false);
+                }, 2000);
+            }
+        },
+        async sendActivationLink({commit, dispatch}, id) {
+            try {
+                commit('toggleIsFetching', true);
+                const sendMailLinkExpiresIn = localStorage.getItem('sendMailLinkExpiresIn');
+                if (sendMailLinkExpiresIn && new Date().getTime() < Number(sendMailLinkExpiresIn)) {
+                    const ms = Number(sendMailLinkExpiresIn) - new Date().getTime();
+                    const minutes = Math.floor((ms / 1000) / 60);
+                    const seconds = (ms / 1000) & 60;
+                    dispatch('activateAlert', { message: `Try again in ${minutes}:${seconds} mins.`, status: 'error' });
+                } else {
+                    await api.sendActivationEmail(id);
+                    localStorage.setItem('sendMailLinkExpiresIn', new Date().getTime() + 300000);
+                    dispatch('activateAlert', { message: 'Activation link has been sent. Check your email.', status: 'success' });
+                    localStorage.removeItem('sendMailLinkExpiresIn');
+                }
+            } catch(error) {
+                dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
             } finally {
                 setTimeout(() => {
                     commit('toggleIsFetching', false);

@@ -36,6 +36,21 @@ const api = {
     },
     editComment(gender, productId, email, comment, rating) {
         return instance.post('/product/comment_edit', {gender, productId, email, comment, rating});
+    },
+    getUserInfo(id) {
+        return instance.get(`/users/info?id=${id}`);
+    },
+    checkEmail(email) {
+        return instance.get(`/users/email_check?email=${email}`);
+    },
+    getEmailChangeConfirmationCode(id, email) {
+        return instance.get(`/users/email_change?id=${id}&email=${email}`);
+    },
+    editUserInfo(id, info, code) {
+        return instance.put('/users/edit', {id, info, code});
+    },
+    sendActivationEmail(id) {
+        return instance.post('/users/email_send', {id});
     }
 }
 
