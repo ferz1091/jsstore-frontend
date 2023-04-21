@@ -20,7 +20,12 @@ export default {
             this.isHover = false;
         },
         cardClick() {
-            this.$router.push(`/shop/${this.$route.params.gender}/${this.category.name}/1`);
+            if (this.$route.params.gender === 'men' && this.category.name === 'outerwear') {
+                this.$router.push(`/shop/${this.$route.params.gender}/${this.category.name}/1`);
+            }
+            if (this.$route.params.gender === 'women' && ['outerwear', 'tops'].some(item => item === this.category.name)) {
+                this.$router.push(`/shop/${this.$route.params.gender}/${this.category.name}/1`);
+            }
         }
     }
 }

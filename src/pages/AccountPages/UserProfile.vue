@@ -174,12 +174,12 @@ export default {
     width: calc(100% - 40px);
 }
 .profile-page-wrapper-enter-active {
-        transition: all 0.75s ease;
-    }
+    transition: all 0.75s ease;
+}
 .profile-page-wrapper-enter-from {
-        opacity: 0;
-        transform: translateY(100%);
-    }
+    opacity: 0;
+    transform: translateY(100%);
+}
 @media (min-height: 1500px) {
     .my-profile-wrapper {
         margin-top: 250px !important;

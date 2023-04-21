@@ -29,6 +29,13 @@ export default {
             } else {
                 this.$emit('addToCart');
             }
+        },
+        addToFavorites() {
+            if (!this.isProductInFavorites) {
+                this.$store.dispatch('addToFavorites', { id: this.userId, gender: this.genderPath, productId: this.currentProduct._id });
+            } else {
+                this.$store.dispatch('removeFromFavorites', { id: this.userId, gender: this.genderPath, productId: this.currentProduct._id });
+            }
         }
     },
     computed: {
@@ -53,6 +60,18 @@ export default {
         },
         productInBasket() {
             return this.$store.state.basket.products.some(product => product.item._id === this.currentProduct._id);
+        },
+        isAuth() {
+            return this.$store.state.isAuth;
+        },
+        genderPath() {
+            return this.$route.params.gender;
+        },
+        isProductInFavorites() {
+            return this.$store.state.user.favorites[this.genderPath].some(product => product === this.currentProduct._id);
+        },
+        userId() {
+            return this.$store.state.user.id;
         }
     }
 }
@@ -82,14 +101,16 @@ export default {
                     </v-btn>
                 </div>
                 <div>
-                    <v-btn 
+                    <v-btn
+                        v-if="isAuth"
                         class="product-button mt-2 mr-4" 
-                        append-icon="mdi-heart-outline" 
-                        color="background"
+                        :append-icon="isProductInFavorites ? 'mdi-heart' : 'mdi-heart-outline'" 
+                        :color="isProductInFavorites ? 'surface' : 'background'"
                         elevation="9"
                         style="z-index: 2;"
+                        @click="addToFavorites"
                     >
-                        Add to favorites
+                        {{ isProductInFavorites ? 'In favorites' : 'Add to favorites' }}
                     </v-btn>
                 </div>
                 <Transition name="product-selectors">
@@ -201,7 +222,8 @@ export default {
                     v-for="material in currentProduct.materials" 
                     class="ml-2" 
                     density="compact"
-                    variant="elevated" color="gray" 
+                    variant="elevated" 
+                    color="gray" 
                     draggable
                 >
                     {{ material }}

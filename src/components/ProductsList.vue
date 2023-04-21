@@ -154,6 +154,9 @@ export default {
         },
         userDeviceIsMobile() {
             return this.$store.state.userDeviceIsMobile;
+        },
+        isSalePageGender() {
+            return this.genderSwitchVisible ? this.gender : null;
         }
     }
 }
@@ -176,7 +179,7 @@ export default {
             @before-leave="beforeLeavePage"
         >
             <v-container class="products-container" v-if="showProducts">
-                <product-card v-for="product in thisPageProducts" :product="product" />
+                <product-card v-for="product in thisPageProducts" :product="product" :gender="isSalePageGender"/>
                 <Transition name="filter-panel" appear>
                     <v-sheet 
                         v-if="filterPanelIsVisible" 

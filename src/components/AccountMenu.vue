@@ -9,6 +9,9 @@ export default {
         },
         toProfile() {
             this.$router.push('/account/profile');
+        },
+        toFavorites() {
+            this.$router.push('/account/favorites');
         }
     },
     computed: {
@@ -46,7 +49,8 @@ export default {
             <v-list-item 
                 class="user-menu-item text-caption px-3" 
                 variant="elevated"
-                    color="surface"
+                color="surface"
+                @click="toFavorites"
             >
                 <v-icon class="mr-1" icon="mdi-heart" color="background" />
                 My favorites

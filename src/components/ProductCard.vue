@@ -5,18 +5,29 @@ export default {
         product: {
             type: Object,
             required: true
+        },
+        gender: {
+            type: String,
+            default: null
         }
     },
     methods: {
         cardClick() {
             this.$store.commit('setCurrentProduct', this.product);
-            this.$router.push(`/product/${this.$route.params.gender}/${this.product._id}`);
+            this.$router.push(`/product/${this.genderPath}/${this.product._id}`);
         },
         addToBasket() {
             if (this.productInBasket) {
                 this.$store.commit('removeFromBasket', this.product._id);
             } else {
                 this.$store.commit('addToBasket', {product: this.product});
+            }
+        },
+        addToFavorites() {
+            if (!this.isProductInFavorites) {
+                this.$store.dispatch('addToFavorites', {id: this.userId, gender: this.genderPath, productId: this.product._id});
+            } else {
+                this.$store.dispatch('removeFromFavorites', {id: this.userId, gender: this.genderPath, productId: this.product._id});
             }
         }
     },
@@ -37,6 +48,21 @@ export default {
         },
         productInBasket() {
             return this.$store.state.basket.products.some(product => product.item._id === this.product._id);
+        },
+        isAuth() {
+            return this.$store.state.isAuth;
+        },
+        userId() {
+            return this.$store.state.user.id;
+        },
+        genderPath() {
+            return this.gender ? this.gender : this.$route.params.gender;
+        },
+        isProductInFavorites() {
+            return this.$store.state.user.favorites[this.genderPath].some(product => product === this.product._id);
+        },
+        fabBtnIcon() {
+            return this.isProductInFavorites ? 'mdi-heart' : 'mdi-heart-outline';
         }
     }
 }
@@ -50,7 +76,7 @@ export default {
         color="background"
     >
         <div class="top-panel" :style="{ justifyContent: topPanelJustify }">
-            <div v-if="product.markers" class="markers">
+            <div v-if="product.markers.length || product.isSale.flag || product.amount.every(prod => prod.amount === 0)" class="markers">
                 <v-chip 
                     v-if="product.isSale.flag" 
                     class="my-1" 
@@ -60,8 +86,9 @@ export default {
                     Sale
                 </v-chip>
                 <v-chip 
-                    class="my-1" 
-                    v-for="marker in product.markers" 
+                    class="my-1"
+                    v-if="product.markers.length"
+                    v-for="marker in product.markers.slice(0, 7)" 
                     color="error" 
                     variant="elevated"
                 >
@@ -75,13 +102,14 @@ export default {
                     Out
                 </v-chip>
             </div>
-            <v-btn 
+            <v-btn
+                v-if="isAuth"
                 class="fav-btn" 
-                icon="mdi-heart-outline" 
+                :icon="fabBtnIcon" 
                 color="background" 
                 variant="flat" 
                 density="compact" 
-                @click.stop="">
+                @click.stop="addToFavorites">
             </v-btn>
         </div>
         <v-img class="product-img" :src="imgPath">

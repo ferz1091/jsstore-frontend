@@ -51,6 +51,15 @@ const api = {
     },
     sendActivationEmail(id) {
         return instance.post('/users/email_send', {id});
+    },
+    addToFavorites(id, gender, productId) {
+        return instance.put('/product/addtofav', {id, gender, productId});
+    },
+    removeFromFavorites(id, gender, productId) {
+        return instance.put('/product/removefromfav', {id, gender, productId});
+    },
+    getUserFavorites(id) {
+        return instance.get(`/product/getfavorites?id=${id}`);
     }
 }
 

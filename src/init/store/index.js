@@ -29,7 +29,8 @@ const defaultState = {
     },
     currentProduct: null,
     userCommentExists: false,
-    userDeviceIsMobile: false
+    userDeviceIsMobile: false,
+    userFavorites: null
 }
 
 export default createStore({
@@ -84,6 +85,12 @@ export default createStore({
         },
         toggleUserDevice(state, flag) {
             state.userDeviceIsMobile = flag;
+        },
+        setFavorites(state, products) {
+            state.userFavorites = products;
+        },
+        clearFavorites(state) {
+            state.userFavorites = null;
         }
     },
     getters: {
@@ -340,6 +347,50 @@ export default createStore({
                     localStorage.removeItem('sendMailLinkExpiresIn');
                 }
             } catch(error) {
+                dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
+            } finally {
+                setTimeout(() => {
+                    commit('toggleIsFetching', false);
+                }, 2000);
+            }
+        },
+        async addToFavorites({commit, dispatch}, {id, gender, productId}) {
+            try {
+                commit('toggleIsFetching', true);
+                const response = await api.addToFavorites(id, gender, productId);
+                commit('setUserData', response.data.user);
+                dispatch('activateAlert', { message: response.data.message, status: 'success' });
+            } catch (error) {
+                dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
+            } finally {
+                setTimeout(() => {
+                    commit('toggleIsFetching', false);
+                }, 2000);
+            }
+        },
+        async removeFromFavorites({commit, dispatch, state}, {id, gender, productId}) {
+            try {
+                commit('toggleIsFetching', true);
+                const response = await api.removeFromFavorites(id, gender, productId);
+                commit('setUserData', response.data.user);
+                if (state.userFavorites) {
+                    state.userFavorites[gender] = state.userFavorites[gender].filter(product => product._id !== productId);
+                }
+                dispatch('activateAlert', { message: response.data.message, status: 'success' });
+            } catch (error) {
+                dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
+            } finally {
+                setTimeout(() => {
+                    commit('toggleIsFetching', false);
+                }, 2000);
+            }
+        },
+        async getUserFavorites({commit, dispatch}, {id}) {
+            try {
+                commit('toggleIsFetching', true);
+                const response = await api.getUserFavorites(id);
+                commit('setFavorites', response.data);
+            } catch (error) {
                 dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
             } finally {
                 setTimeout(() => {
