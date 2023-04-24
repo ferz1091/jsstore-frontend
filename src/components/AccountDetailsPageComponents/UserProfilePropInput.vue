@@ -94,13 +94,11 @@ export default {
         hide-details
         @blur="hideInput"
     >
-        <v-btn
+        <button-ui 
             class="submit-input-btn"
-            icon="mdi-check" 
-            density="compact"
-            variant="text"
-            @click="submitInput"
+            :set="['t', 0, '2', 'mdi-check', 0]"
             :disabled="!inputIsValid"
+            @click="submitInput"
         />
     </v-text-field>
 </template>

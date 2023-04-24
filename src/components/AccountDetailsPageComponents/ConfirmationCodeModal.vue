@@ -48,22 +48,15 @@ export default {
                 density="compact"
                 type="number"
             />
-            <v-btn 
-                class="w-100 mt-3 elevation-4" 
-                color="surface" 
-                density="comfortable"
+            <button-ui 
+                class="w-100 mt-3 elevation-4"
+                :set="[0, 's', '1', 0, 0, 'Send']"
                 @click="submitConfirmationCode"
                 :disabled="confirmationCodeBtnIsDisabled"
-            >
-                Send
-            </v-btn>
-            <v-btn 
-                class="emailConfirmation-close-modal-btn" 
-                icon="mdi-close" 
-                color="surface" 
-                density="compact" 
-                size="small"
-                variant="text"
+            />
+            <button-ui 
+                class="emailConfirmation-close-modal-btn"
+                :set="['t', 's', '2', 'mdi-close', 's']"
                 @click="closeConfirmationCodeModal"
             />
         </v-sheet>

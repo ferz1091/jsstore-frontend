@@ -27,14 +27,11 @@
         elevation="24"
     >
         {{ alertData.message }}
-        <v-btn 
+        <button-ui 
             class="alert-close-btn ml-5" 
-            icon="mdi-close" 
-            size="x-small" 
-            :color="alertData.status" 
-            variant="flat"
+            :set="['f', alertData.status, 0, 'mdi-close', 'xs']" 
             @click="closeAlert"
-        ></v-btn>
+        />
     </v-snackbar>
 </template>
 

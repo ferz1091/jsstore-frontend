@@ -93,22 +93,16 @@ export default {
                                 color="surface"
                             >
                                 Amount:
-                                <v-btn 
-                                    icon="mdi-minus" 
-                                    density="comfortable" 
-                                    size="small" 
-                                    variant="text"
-                                    @click="decreaseAmount" 
+                                <button-ui 
+                                    :set="['t', 0, '1', 'mdi-minus', 's']"
+                                    @click="decreaseAmount"
                                     :disabled="!(this.amount > 0)" 
                                 />
                                 <span class="size-amount px-2">
                                     {{ this.amount }}
                                 </span>
-                                <v-btn 
-                                    icon="mdi-plus" 
-                                    density="comfortable" 
-                                    size="small" 
-                                    variant="text" 
+                                <button-ui 
+                                    :set="['t', 0, '1', 'mdi-plus', 's']"
                                     @click="increaseAmount"
                                     :disabled="!(this.product.item.amount.find(size => size.size === this.size).amount > this.amount)" 
                                 />
@@ -127,13 +121,10 @@ export default {
                         </span>
                     </div>
                 </div>
-                <v-btn 
-                    @click="itemDelete" 
-                    class="basket-item-delete-btn" 
-                    icon="mdi-close" 
-                    variant="text" 
-                    size="small"
-                    density="comfortable" 
+                <button-ui 
+                    class="basket-item-delete-btn"
+                    :set="['t', 0, '1', 'mdi-close', 's']"
+                    @click="itemDelete"
                 />
             </v-sheet>
         </v-sheet>

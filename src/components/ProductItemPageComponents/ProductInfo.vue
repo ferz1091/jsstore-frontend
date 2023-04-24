@@ -83,35 +83,29 @@ export default {
                 <v-carousel show-arrows="hover" hide-delimiter-background delimiter-icon="mdi-square">
                     <v-carousel-item 
                         v-for="image in currentProduct.images"
-                        :src="`http://localhost:5000/${image.path}`"
+                        :src="`http://192.168.0.105:5000/${image.path}`"
                     />
                 </v-carousel>
             </v-sheet>
             <div class="product-button-panel">
                 <div>
-                    <v-btn 
-                        @click="addToCart" 
-                        class="product-button mt-2 mr-4" 
+                    <button-ui
+                        class="product-button mt-2 mr-4 elevation-9"
+                        :set="[0, productInBasket ? 'sc' : 'b', 0, 0, 0, productInBasket ? 'Added' : 'Add to cart']"
                         :append-icon="productInBasket ? 'mdi-check' : 'mdi-basket-plus'"
                         :disabled="currentProduct.amount.every(size => !size.amount)"
-                        :color="productInBasket ? 'success' : 'background'"
-                        elevation="9"
-                    >
-                        {{ productInBasket ? 'Added' : 'Add to cart' }}
-                    </v-btn>
+                        @click="addToCart" 
+                    />
                 </div>
                 <div>
-                    <v-btn
+                    <button-ui 
                         v-if="isAuth"
-                        class="product-button mt-2 mr-4" 
-                        :append-icon="isProductInFavorites ? 'mdi-heart' : 'mdi-heart-outline'" 
-                        :color="isProductInFavorites ? 'surface' : 'background'"
-                        elevation="9"
-                        style="z-index: 2;"
+                        class="product-button mt-2 mr-4 elevation-9"
+                        :set="[0, isProductInFavorites ? 's' : 'b', 0, 0, 0, isProductInFavorites ? 'In favorites' : 'Add to favorites']"
+                        :append-icon="isProductInFavorites ? 'mdi-heart' : 'mdi-heart-outline'"
+                        style="z-index: 2;" 
                         @click="addToFavorites"
-                    >
-                        {{ isProductInFavorites ? 'In favorites' : 'Add to favorites' }}
-                    </v-btn>
+                    />
                 </div>
                 <Transition name="product-selectors">
                     <v-sheet v-if="sizePanelIsVisible" class="product-selectors mr-4" color="background">
@@ -136,22 +130,16 @@ export default {
                         </div>
                         <Transition name="amount-selector">
                             <v-sheet class="amount-selector rounded mt-2" color="surface" v-if="sizeSelect">
-                                <v-btn 
+                                <button-ui 
+                                    :set="['t', 'b', 0, 'mdi-minus-box', 's']"
                                     @click="decreaseAmount"
-                                    icon="mdi-minus-box" 
-                                    variant="text" 
-                                    color="background" 
-                                    size="small"
                                 />
                                 <span class="amount text-h6">
                                     {{ amountSelect }}
                                 </span>
-                                <v-btn 
+                                <button-ui 
+                                    :set="['t', 'b', 0, 'mdi-plus-box', 's']"
                                     @click="increaseAmount"
-                                    icon="mdi-plus-box" 
-                                    variant="text" 
-                                    color="background" 
-                                    size="small"
                                 />
                             </v-sheet>
                         </Transition>

@@ -203,16 +203,12 @@ export default {
             <p class="text-caption py-2 mt-4" style="font-size: 14px !important">
                 To continue shopping, please login with your personal information.
             </p>
-            <v-btn 
-                class="submit-btn rounded-xl px-10 mt-6" 
-                variant="outlined" 
-                color="background" 
-                @click="toggleMode" 
+            <button-ui 
+                class="submit-btn rounded-xl px-10 mt-6"
+                :set="['o', 'b', displayWidth < 600 || displayHeight < 700 ? '2' : 0, 0, 0, 'Sign in']"
                 :disabled="isTitleBtnDisabled" 
-                :density="displayWidth < 600 || displayHeight < 700 ? 'compact' : 'default'"
-            >
-                Sign in
-            </v-btn>
+                @click="toggleMode" 
+            />
         </v-sheet>
         <v-sheet class="registration-title px-5 py-2" color="transparent">
             <p class="text-button py-2 font-weight-black" style="font-size: 28px !important">
@@ -221,15 +217,12 @@ export default {
             <p class="text-caption py-2 mt-4" style="font-size: 14px !important">
                 Sign up and get access to the hottest fashion trends.
             </p>
-            <v-btn  
-                class="submit-btn rounded-xl px-10 mt-6" 
-                variant="outlined" 
-                color="background" 
+            <button-ui 
+                class="submit-btn rounded-xl px-10 mt-6"
+                :set="['o', 'b', displayWidth < 600 || displayHeight < 700 ? '2' : 0, 0, 0, 'Sign Up']"
+                :disabled="!isTitleBtnDisabled"
                 @click="toggleMode"
-                :disabled="!isTitleBtnDisabled" :density="displayWidth < 600 || displayHeight < 700 ? 'compact' : 'default'"
-            >
-                Sign up
-            </v-btn>
+            />
         </v-sheet>
         <Transition name="login-form">
             <v-sheet class="login-form" color="transparent" v-if="loginMode">
@@ -241,26 +234,17 @@ export default {
                         Sign in
                     </p>
                     <div class="authIcons">
-                        <v-btn 
-                            class="mx-3" 
-                            icon="mdi-google" 
-                            color="surface" 
-                            :variant="displayHeight < 700 || displayWidth < 600 ? 'text' : 'outlined'" 
-                            :density="displayHeight > 700 ? 'comfortable' : 'compact'" 
+                        <button-ui 
+                            class="mx-3"
+                            :set="[displayHeight < 700 || displayWidth < 600 ? 't' : 'o', 's', displayHeight > 700 ? '1' : '2', 'mdi-google', 0]"
                         />
-                        <v-btn 
-                            class="mx-3" 
-                            icon="mdi-apple" 
-                            color="surface" 
-                            :variant="displayHeight < 700 || displayWidth < 600 ? 'text' : 'outlined'" 
-                            :density="displayHeight > 700 ? 'comfortable' : 'compact'" 
+                        <button-ui 
+                            class="mx-3"
+                            :set="[displayHeight < 700 || displayWidth < 600 ? 't' : 'o', 's', displayHeight > 700 ? '1' : '2', 'mdi-apple', 0]"
                         />
-                        <v-btn 
-                            class="mx-3" 
-                            icon="mdi-facebook" 
-                            color="surface" 
-                            :variant="displayHeight < 700 || displayWidth < 600 ? 'text' : 'outlined'" 
-                            :density="displayHeight > 700 ? 'comfortable' : 'compact'" 
+                        <button-ui 
+                            class="mx-3"
+                            :set="[displayHeight < 700 || displayWidth < 600 ? 't' : 'o', 's', displayHeight > 700 ? '1' : '2', 'mdi-facebook', 0]"
                         />
                     </div>
                     <v-text-field
@@ -307,16 +291,12 @@ export default {
                         trueIcon="mdi-check"
                     />
                     <div>
-                        <v-btn 
+                        <button-ui 
                             class="submitLogin-btn rounded-xl px-10"
-                            variant="outlined" 
-                            color="surface"
+                            :set="['o', 's', displayWidth < 600 || displayHeight < 700 ? '2' : 0, 0, 0, 'Sign in']"
                             type="submit"
-                            :density="displayWidth < 600 || displayHeight < 700 ? 'compact' : 'default'"
                             :disabled="isFetching"
-                        >
-                            Sign in
-                        </v-btn>
+                        />
                     </div>
                 </v-form>
             </v-sheet>
@@ -331,26 +311,17 @@ export default {
                         Sign up
                     </p>
                     <div class="authIcons">
-                        <v-btn 
-                            class="mx-3" 
-                            icon="mdi-google" 
-                            color="surface" 
-                            :variant="displayHeight < 700 || displayWidth < 600 ? 'text' : 'outlined'" 
-                            :density="displayHeight < 700 || displayWidth < 600 ? 'compact' : 'comfortable'" 
+                        <button-ui 
+                            class="mx-3"
+                            :set="[displayHeight < 700 || displayWidth < 600 ? 't' : 'o', 's', displayHeight > 700 ? '1' : '2', 'mdi-google', 0]"
                         />
-                        <v-btn 
-                            class="mx-3" 
-                            icon="mdi-apple" 
-                            color="surface" 
-                            :variant="displayHeight < 700 || displayWidth < 600 ? 'text' : 'outlined'" 
-                            :density="displayHeight < 700 || displayWidth < 600 ? 'compact' : 'comfortable'" 
+                        <button-ui 
+                            class="mx-3"
+                            :set="[displayHeight < 700 || displayWidth < 600 ? 't' : 'o', 's', displayHeight > 700 ? '1' : '2', 'mdi-apple', 0]"
                         />
-                        <v-btn 
-                            class="mx-3" 
-                            icon="mdi-facebook" 
-                            color="surface" 
-                            :variant="displayHeight < 700 || displayWidth < 600 ? 'text' : 'outlined'" 
-                            :density="displayHeight < 700 || displayWidth < 600 ? 'compact' : 'comfortable'" 
+                        <button-ui 
+                            class="mx-3"
+                            :set="[displayHeight < 700 || displayWidth < 600 ? 't' : 'o', 's', displayHeight > 700 ? '1' : '2', 'mdi-facebook', 0]"
                         />
                     </div>
                     <v-text-field
@@ -404,25 +375,19 @@ export default {
                             @click="showConfirmPassword"
                         />
                     </v-text-field>
-                    <v-btn 
+                    <button-ui 
                         class="submitReg-btn rounded-xl px-10"
-                        variant="outlined" 
-                        color="surface"
+                        :set="['o', 's', displayWidth < 600 || displayHeight < 700 ? '2' : 0, 0, 0, 'Sign up']"
                         type="submit"
-                        :density="displayWidth < 600 || displayHeight < 700 ? 'compact' : 'default'"
-                    >
-                        Sign up
-                    </v-btn>
+                        :disabled="isFetching"
+                    />
                 </v-form>
             </v-sheet>
         </Transition>
-        <v-btn 
-            class="closeAuthModalMobileBtn" 
-            icon="mdi-close" 
-            variant="flat" 
-            color="background" 
-            size="small" 
-            @click="closeModal" 
+        <button-ui 
+            class="closeAuthModalMobileBtn"
+            :set="['f', 'b', 0, 'mdi-close', 's']"
+            @click="closeModal"
         />
     </v-container>
     </v-dialog>

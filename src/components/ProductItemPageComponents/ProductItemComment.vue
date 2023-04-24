@@ -23,10 +23,10 @@ export default {
     },
     computed: {
         editBtnColor() {
-            return this.editMode ? 'background' : 'surface';
+            return this.editMode ? 'b' : 's';
         },
         editBtnVariant() {
-            return this.editMode ? 'elevated' : 'text';
+            return this.editMode ? 0 : 't';
         }
     }
 }
@@ -55,30 +55,20 @@ export default {
                 size="small"
             />
         </div>
-        <v-divider class="my-3 border-opacity-25" color="surface" />
         <p v-if="comment.comment" class="comment-text text-caption font-italic rounded-lg my-2 pa-2 elevation-2">
             {{ comment.comment }}
         </p>
         <div class="comment-btns">
-            <v-btn 
+            <button-ui 
                 v-if="user"
-                class="comment-edit-btn mr-1" 
-                icon="mdi-pencil" 
-                density="comfortable" 
-                size="small" 
-                :variant="editBtnVariant" 
-                :color="editBtnColor"
+                class="comment-edit-btn mr-1"
+                :set="[editBtnVariant, editBtnColor, '1', 'mdi-pencil', 's']"
                 @click="editComment"
             />
-            <v-btn
+            <button-ui
                 v-if="user"
-                class="comment-delete-btn" 
-                icon="mdi-delete" 
-                density="comfortable" 
-                size="small" 
-                variant="text" 
-                color="surface"
-                title="Delete my review"
+                class="comment-delete-btn"
+                :set="['t', 's', '1', 'mdi-delete', 's']"
                 @click="deleteUserComment"
             />
         </div>

@@ -1,11 +1,8 @@
 <script>
-import SvgIcon from '@jamescoyle/vue-icon';
-import { mdiEye } from '@mdi/js';
 export default {
     name: 'password-icon',
     data() {
         return {
-            path: mdiEye
         }
     },
     props: {
@@ -19,7 +16,6 @@ export default {
         }
     },
     components: {
-        SvgIcon
     },
     computed: {
         iconColor() {
@@ -35,7 +31,8 @@ export default {
 
 <template>
     <Transition name="passwordIcon" appear>
-        <svg-icon v-if="isVisible" :style="iconColor" class="passwordIcon" type="mdi" :path="path"></svg-icon>
+        <v-icon v-if="isVisible" :style="iconColor" class="passwordIcon" icon="mdi-eye" />
+        <!-- <svg-icon v-if="isVisible" :style="iconColor" class="passwordIcon" type="mdi" :path="path"></svg-icon> -->
     </Transition>
 </template>
 

@@ -1,7 +1,5 @@
 <script>
 import AccountMenu from './AccountMenu.vue';
-import SvgIcon from '@jamescoyle/vue-icon';
-import { mdiShopping, mdiAccountCircle, mdiMenu } from '@mdi/js';
     export default {
         data() {
             return {
@@ -40,19 +38,11 @@ import { mdiShopping, mdiAccountCircle, mdiMenu } from '@mdi/js';
             }
         },
         components: {
-            SvgIcon,
             AccountMenu
         },
         computed: {
             authenticated() {
                 return this.$store.state.isAuth;
-            },
-            icons() {
-                return {
-                    basket: mdiShopping,
-                    userIcon: mdiAccountCircle,
-                    menuIcon: mdiMenu
-                };
             },
             login_caption() {
                 if (this.authenticated) {
@@ -99,31 +89,25 @@ import { mdiShopping, mdiAccountCircle, mdiMenu } from '@mdi/js';
         >
             <v-img 
                 class="logo" 
-                :src="'http://localhost:5000/assets/8403518d375d97abbe6abc8227c6907b'"
+                :src="'http://192.168.0.105:5000/assets/8403518d375d97abbe6abc8227c6907b'"
             ></v-img>
             <v-sheet class="header-btns-wrapper">
-                <header-button v-for="button in buttons" @click="$event => this.$router.push(button.link)">
-                    {{ button.title }}
-                </header-button>
+                <router-link v-for="button in buttons" :to="button.link" style="text-decoration: none;">
+                    <header-button>
+                        {{ button.title }}
+                    </header-button>
+                </router-link>
             </v-sheet>
             <div 
                 class="right-panel"
                 v-bind:style="{left: rightPanelLeft}"
                 >
-                <v-btn
-                    class="menuIcon py-6"
-                    variant="text"
-                    color="background"
-                    title="Menu"
-                    @click="menuIconClick"
-                    ref="menuIcon"
-                >
-                    <svg-icon 
-                        type="mdi" 
-                        :path="icons.menuIcon"
-                    ></svg-icon>
-                    
-                </v-btn>
+                <button-ui 
+                  class="menuIcon py-6"
+                  :set="['t', 'b', 0, 'mdi-menu', 0]"
+                  @click="menuIconClick"
+                  ref="menuIcon"  
+                />
                 <v-btn
                     class="userIcon py-6"
                     variant="text"
@@ -131,10 +115,7 @@ import { mdiShopping, mdiAccountCircle, mdiMenu } from '@mdi/js';
                     @click="loginIconClick"
                     ref="userIcon"
                 >
-                    <svg-icon 
-                        type="mdi" 
-                        :path="icons.userIcon"
-                    ></svg-icon>
+                    <v-icon icon="mdi-account-circle" size="large"/>
                     <p class="login-caption text-caption">{{ login_caption }}</p>
                 </v-btn>
                 <v-btn
@@ -143,19 +124,16 @@ import { mdiShopping, mdiAccountCircle, mdiMenu } from '@mdi/js';
                     color="background"
                     @click="basketIconClick"
                 >
-                    <v-badge v-if="basketBadgeIsVisible" location="bottom end" :content="basketBadgeIsVisible" color="error" title="Basket">
-                        <svg-icon 
-                            type="mdi" 
-                            :path="icons.basket"
-                            title="Basket"
-                        ></svg-icon>
-                    </v-badge>
-                    <svg-icon
-                        v-else
-                        type="mdi" 
-                        :path="icons.basket"
+                    <v-badge 
+                        v-if="basketBadgeIsVisible" 
+                        location="bottom end" 
+                        :content="basketBadgeIsVisible" 
+                        color="error" 
                         title="Basket"
-                    ></svg-icon>
+                    >
+                        <v-icon icon="mdi-shopping" size="large" />
+                    </v-badge>
+                    <v-icon v-else icon="mdi-shopping" size="large" />
                 </v-btn>
             </div>
             <v-menu 

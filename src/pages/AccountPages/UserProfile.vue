@@ -126,20 +126,18 @@ export default {
                         @submitInput="submitInput"
                     />
                     <v-sheet class="my-profile-btn-panel" color="background">
-                        <v-btn 
-                            class="my-profile-erase-btn rounded" 
-                            icon="mdi-eraser" 
-                            density="comfortable" 
+                        <button-ui 
+                            class="my-profile-erase-btn rounded"
+                            :set="[0, 0, '1', 'mdi-eraser', 0]"
+                            :disabled="submitButtonIsDisabled"
                             @click="initPage" 
-                            :disabled="submitButtonIsDisabled"
                         />
-                        <v-btn 
-                            class="my-profile-save-btn ml-1" 
-                            @click="submitForm" 
+                        <button-ui 
+                            class="my-profile-save-btn ml-1"
+                            :set="[0, 0, 0, 0, 0, 'Save']"
                             :disabled="submitButtonIsDisabled"
-                        >
-                            Save
-                        </v-btn>
+                            @click="submitForm" 
+                        />
                     </v-sheet>
                 </v-sheet>
                 <ConfirmationCodeModal 

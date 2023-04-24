@@ -110,12 +110,9 @@ export default {
                 key="filters"
                 color="background"
             >
-                <v-btn 
-                    class="closeModal-btn" 
-                    icon="mdi-close" 
-                    variant="flat" 
-                    size="small"
-                    color="transparent"
+                <button-ui 
+                    class="closeModal-btn"
+                    :set="['f', 'tr', 0, 'mdi-close', 's']"
                     @click="closeModal"
                 />
                 <v-sheet class="px-5 pt-2" color="background">
@@ -132,25 +129,24 @@ export default {
                         strict
                     ></v-range-slider>
                     <div class="slider-btns-wrapper">
-                        <v-btn 
-                            class="submitValue-btn" 
-                            variant="elevated" 
+                        <button-ui 
+                            class="submitValue-btn"
+                            :set="[0, 0, 0, 0, 0, 'Search']"
                             @click="valueRangeSubmit"
                             :disabled="submitValueRangeButtonDisabled"
-                        >
-                            Search
-                        </v-btn>
-                        <v-btn
+                        />
+                        <button-ui 
                             class="clearValue-btn ml-1 rounded"
-                            icon="mdi-filter-off" 
-                            size="small"
+                            :set="[0, 0, 0, 'mdi-filter-off', 's']"
                             @click="resetValueRange"
                             :disabled="clearValueRangeButtonDisabled || !isSubmitted"
-                        ></v-btn>
+                        />
                     </div>
                 </v-sheet>
                 <v-sheet class="px-5" color="background" v-if="categoryIsVisible">
-                    <p class="text-overline brand-caption pt-2">Category</p>
+                    <p class="text-overline brand-caption pt-2">
+                        Category
+                    </p>
                     <v-checkbox
                         class="filter-checkbox"
                         v-for="category in filters.categoryStats" 
@@ -203,13 +199,12 @@ export default {
             </v-sheet>
         </Transition>
         <Transition name="filterModalClearBtn" mode="out-in">
-            <v-btn 
-                class="clearFilters-btn rounded-0" 
+            <button-ui 
                 v-if="filterSheetIsVisible"
+                class="clearFilters-btn rounded-0"
+                :set="[0, 0, 0, 0, 0, 'Clear']"
                 @click="clearFilters"
-            >
-                Clear
-            </v-btn>
+            />
         </Transition>
     </v-navigation-drawer>
 </template>

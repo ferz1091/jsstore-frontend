@@ -45,6 +45,7 @@ export default {
         },
         resetRatingInput() {
             this.$emit('updateRatingInput', null);
+            this.rating = null;
         },
         deleteUserComment() {
             this.comment = null;
@@ -156,23 +157,19 @@ export default {
                         clearable 
                     />
                     <Transition name="reset-rating-btn">
-                        <v-btn 
-                            v-if="rating" 
+                        <button-ui 
+                            v-if="rating"
+                            class="reset-rating-btn"
+                            :set="[0, 0, '1', 0, 0, 'reset']"
                             @click="resetRatingInput"
-                            class="reset-rating-btn" 
-                            density="comfortable"
-                        >
-                            reset
-                        </v-btn>
+                        />
                     </Transition>
                     <Transition name="send-comment-btn">
-                        <v-btn 
+                        <button-ui 
                             v-if="sendCommentBtnVisible" 
-                            class="send-comment-btn" 
-                            icon="mdi-send"
-                            size="small" 
-                            density="comfortable"
-                            type="submit" 
+                            class="send-comment-btn"
+                            :set="[0, 0, '1', 'mdi-send', 's']"
+                            type="submit"
                         />
                     </Transition>
                 </v-form>

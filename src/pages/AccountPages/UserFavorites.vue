@@ -186,15 +186,11 @@ export default {
                 <p class="text-body-1">
                     You don't have favorites
                 </p>
-                <v-btn 
-                    class="mt-2" 
-                    variant="elevated" 
-                    color="surface" 
-                    density="comfortable" 
+                <button-ui 
+                    class="mt-2"
+                    :set="[0, 's', '1', 0, 0, 'back']"
                     @click="() => $router.back()"
-                >
-                    back
-                </v-btn>
+                />
             </v-sheet>
         </Transition>
     </main>

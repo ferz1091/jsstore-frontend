@@ -33,7 +33,7 @@ export default {
     },
     computed: {
         imgPath() {
-            return `http://localhost:5000/${this.product.images.find(img => img.title).path}`;
+            return `http://192.168.0.105:5000/${this.product.images.find(img => img.title).path}`;
         },
         productName() {
             if (window.innerWidth < 1999) {
@@ -61,7 +61,7 @@ export default {
         isProductInFavorites() {
             return this.$store.state.user.favorites[this.genderPath].some(product => product === this.product._id);
         },
-        fabBtnIcon() {
+        favBtnIcon() {
             return this.isProductInFavorites ? 'mdi-heart' : 'mdi-heart-outline';
         }
     }
@@ -102,15 +102,12 @@ export default {
                     Out
                 </v-chip>
             </div>
-            <v-btn
+            <button-ui
                 v-if="isAuth"
-                class="fav-btn" 
-                :icon="fabBtnIcon" 
-                color="background" 
-                variant="flat" 
-                density="compact" 
-                @click.stop="addToFavorites">
-            </v-btn>
+                class="fav-btn"
+                :set="['f', 'b', '2', favBtnIcon, 0]"
+                @click.stop="addToFavorites"
+            />
         </div>
         <v-img class="product-img" :src="imgPath">
             <div class="product-sizes">
@@ -137,17 +134,13 @@ export default {
                     {{ product.isSale.oldValue }}$
                 </s>
             </span>
-            <v-btn 
+            <button-ui 
+                class="basket-btn"
+                :set="[0, productInBasket ? 'success' : 'surface', 0, 0, 's', productInBasket ? 'added' : 'add to']"
+                :append-icon="productInBasket ? 'mdi-check' : 'mdi-basket-plus'"
                 :disabled="product.amount.every(prod => prod.amount === 0)" 
                 @click.stop="addToBasket"
-                class="basket-btn" 
-                :color="productInBasket ? 'success' : 'surface'" 
-                variant="elevated" 
-                size="small" 
-                :append-icon="productInBasket ? 'mdi-check' : 'mdi-basket-plus'"
-            >
-                {{ productInBasket ? 'added' : 'add to' }}
-            </v-btn>
+            />
         </div>
         <div class="product-title text-body-1 mx-3 mt-2 rounded-lg">
             <v-card-title class="name-chip text-body-2 font-weight-bold">

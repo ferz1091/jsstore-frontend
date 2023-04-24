@@ -58,7 +58,7 @@ export default {
             return this.product.article.slice(3, 4) === '1' ? 'men' : 'women';
         },
         imgPath() {
-            return `http://localhost:5000/${this.product.images.find(img => img.title).path}`;
+            return `http://192.168.0.105:5000/${this.product.images.find(img => img.title).path}`;
         },
         productColors() {
             const colorNames = this.product.color.value.split(',');
@@ -174,38 +174,26 @@ export default {
                 </product-prop>
             </v-sheet>
         </Transition>
-        <v-sheet class="my-favorites-item-panel py-1 rounded-lg" color="background">
-            <v-btn 
-                class="my-favorites-item-panel-btn-open rounded-0 px-2" 
-                icon="mdi-eye" 
-                density="comfortable" 
-                size="small" 
-                color="background"
+        <v-sheet class="my-favorites-item-panel mx-2 py-1 rounded-lg" color="background">
+            <button-ui 
+                class="my-favorites-item-panel-btn-open rounded-0 px-2"
+                :set="[0, 'b', '1', 'mdi-eye', 's']"
                 @click="toProductPage"
             />
-            <v-btn 
-                class="my-favorites-item-panel-btn-info rounded-0 px-2" 
-                icon="mdi-information" 
-                density="comfortable" 
-                size="small" 
-                :color="isVisible.desc ? 'info' : 'background'"
+            <button-ui 
+                class="my-favorites-item-panel-btn-info rounded-0 px-2"
+                :set="[0, isVisible.desc ? 'info' : 'background', '1', 'mdi-information', 's']"
                 @click="infoBtnHandler"
             />
-            <v-btn 
-                class="my-favorites-item-panel-btn-cart rounded-0 px-2" 
-                :icon="productInBasket ? 'mdi-cart-off' : 'mdi-cart'" 
-                density="comfortable" 
-                size="small" 
-                :color="productInBasket ? 'success' : 'background'"
+            <button-ui 
+                class="my-favorites-item-panel-btn-cart rounded-0 px-2"
+                :set="[0, productInBasket ? 'success' : 'background', '1', productInBasket ? 'mdi-cart-off' : 'mdi-cart', 's']"
+                :disabled="product.amount.every(prod => prod.amount === 0)"
                 @click="addToBasket"
-                :disabled="product.amount.every(prod => prod.amount === 0)" 
             />
-            <v-btn 
-                class="my-favorites-item-panel-btn-remove rounded-0 px-2" 
-                icon="mdi-heart-off" 
-                density="comfortable" 
-                size="small" 
-                color="background"
+            <button-ui 
+                class="my-favorites-item-panel-btn-remove rounded-0 px-2"
+                :set="[0, 'b', '1', 'mdi-heart-off', 's']"
                 @click="removeFromFavorites"
             />
         </v-sheet>

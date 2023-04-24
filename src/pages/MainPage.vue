@@ -48,7 +48,6 @@ export default {
     <main class="Main page">
         <Transition name="men-cards-container" appear @after-leave="() => onAfterLeave('men')">
             <v-container 
-                v-bind:style="{ }"
                 class="cards-container" 
                 v-if="currentCategory === 'men' && isVisible.men" key="men-cards-container" 
                 fluid

@@ -65,12 +65,15 @@ export default {
                 </span>
             </p>
             <v-divider class="border-opacity-25" />
-            <v-btn class="rounded-0 w-100" color="background" @click="clearBasket">
-                clear basket
-            </v-btn>
-            <v-btn class="rounded-0 w-100" color="surface">
-                create order
-            </v-btn>
+            <button-ui 
+                class="rounded-0 w-100"
+                :set="[0, 'b', 0, 0, 0, 'clear basket']"
+                @click="clearBasket"
+            />
+            <button-ui 
+                class="rounded-0 w-100"
+                :set="[0, 's', 0, 0, 0, 'create order']"
+            />
         </v-sheet>
     </v-navigation-drawer>
 </template>

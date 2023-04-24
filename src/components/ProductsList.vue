@@ -204,11 +204,9 @@ export default {
                             :items="sortSelectVariants" 
                             hide-details 
                         />
-                        <v-btn 
-                            class="filter-btn" 
-                            :color="filterBtnColor" 
-                            icon="mdi-filter" 
-                            size="small"
+                        <button-ui 
+                            class="filter-btn"
+                            :set="[0, filterBtnColor, 0, 'mdi-filter', 's']"
                             @click="openFilterModal" 
                         />
                     </v-sheet>
