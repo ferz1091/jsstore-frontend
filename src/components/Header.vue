@@ -89,7 +89,7 @@ import AccountMenu from './AccountMenu.vue';
         >
             <v-img 
                 class="logo" 
-                :src="'http://192.168.0.105:5000/assets/8403518d375d97abbe6abc8227c6907b'"
+                :src="'http://localhost:5000/assets/8403518d375d97abbe6abc8227c6907b'"
             ></v-img>
             <v-sheet class="header-btns-wrapper">
                 <router-link v-for="button in buttons" :to="button.link" style="text-decoration: none;">

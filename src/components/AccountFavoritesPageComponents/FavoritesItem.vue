@@ -58,7 +58,7 @@ export default {
             return this.product.article.slice(3, 4) === '1' ? 'men' : 'women';
         },
         imgPath() {
-            return `http://192.168.0.105:5000/${this.product.images.find(img => img.title).path}`;
+            return `http://localhost:5000/${this.product.images.find(img => img.title).path}`;
         },
         productColors() {
             const colorNames = this.product.color.value.split(',');

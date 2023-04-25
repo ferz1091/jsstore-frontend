@@ -33,7 +33,7 @@ export default {
     },
     computed: {
         imgPath() {
-            return `http://192.168.0.105:5000/${this.product.images.find(img => img.title).path}`;
+            return `http://localhost:5000/${this.product.images.find(img => img.title).path}`;
         },
         productName() {
             if (window.innerWidth < 1999) {
