@@ -20,9 +20,9 @@ export default {
     computed: {
         iconColor() {
             if (this.isPasswordVisible) {
-                return "color: rgb(200, 200, 200);"
-            } else {
                 return "color: rgb(120, 120, 120);"
+            } else {
+                return "color: rgb(200, 200, 200);"
             }
         }
     }

@@ -50,6 +50,7 @@ export const router = createRouter({
         },
         {path: '/account/profile', component: () => import('../pages/AccountPages/UserProfile.vue')},
         {path: '/account/favorites', component: () => import('../pages/AccountPages/UserFavorites.vue')},
+        {path: '/account/security', component: () => import('../pages/AccountPages/UserSecurity.vue')},
         {path: '/:pathMatch(.*)*', redirect: '/'}
     ],
     history: createWebHistory()

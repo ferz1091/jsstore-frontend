@@ -60,6 +60,15 @@ const api = {
     },
     getUserFavorites(id) {
         return instance.get(`/product/getfavorites?id=${id}`);
+    },
+    changePassword(id, password, newPassword) {
+        return instance.put('/users/change_password', {id, password, newPassword});
+    },
+    getUserSessions(id) {
+        return instance.get(`/users/sessions?id=${id}`);
+    },
+    closeSession(sessionId, userId) {
+        return instance.put('/users/close_session', {sessionId, userId});
     }
 }
 

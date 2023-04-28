@@ -45,6 +45,10 @@ export default {
                     return 'You must enter a password.'
                 },
                 value => {
+                    if (!value.includes(' ')) return true;
+                    return 'Password must not contain spaces.'
+                },
+                value => {
                     if (value.length > 6) return true;
                     if (this.loginMode ? this.dirtyInputs.passwordLoginInputIsDirty : this.dirtyInputs.passwordRegInputIsDirty) return 'Password must be longer than 6.';
                     return true;

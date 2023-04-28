@@ -12,6 +12,9 @@ export default {
         },
         toFavorites() {
             this.$router.push('/account/favorites');
+        },
+        toSecurity() {
+            this.$router.push('/account/security');
         }
     },
     computed: {
@@ -58,7 +61,8 @@ export default {
             <v-list-item 
                 class="user-menu-item text-caption px-3" 
                 variant="elevated"
-                    color="surface"
+                color="surface"
+                @click="toSecurity"
             >
                 <v-icon class="mr-1" icon="mdi-shield" color="background" />
                 Security

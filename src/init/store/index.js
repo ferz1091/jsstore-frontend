@@ -30,7 +30,8 @@ const defaultState = {
     currentProduct: null,
     userCommentExists: false,
     userDeviceIsMobile: false,
-    userFavorites: null
+    userFavorites: null,
+    userSessions: null
 }
 
 export default createStore({
@@ -91,6 +92,12 @@ export default createStore({
         },
         clearFavorites(state) {
             state.userFavorites = null;
+        },
+        setSessions(state, sessions) {
+            state.userSessions = sessions;
+        },
+        clearSessions(state) {
+            state.userSessions = null;
         }
     },
     getters: {
@@ -390,6 +397,48 @@ export default createStore({
                 commit('toggleIsFetching', true);
                 const response = await api.getUserFavorites(id);
                 commit('setFavorites', response.data);
+            } catch (error) {
+                dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
+            } finally {
+                setTimeout(() => {
+                    commit('toggleIsFetching', false);
+                }, 2000);
+            }
+        },
+        async changePassword({commit, dispatch}, {id, password, newPassword}) {
+            try {
+                commit('toggleIsFetching', true);
+                const response = await api.changePassword(id, password, newPassword);
+                dispatch('activateAlert', { message: response.data.message, status: 'success' });
+                return true;
+            } catch (error) {
+                dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
+                return false;
+            } finally {
+                setTimeout(() => {
+                    commit('toggleIsFetching', false);
+                }, 2000);
+            }
+        },
+        async getUserSessions({commit, dispatch}, {id}) {
+            try {
+                commit('toggleIsFetching', true);
+                const response = await api.getUserSessions(id);
+                commit('setSessions', response.data);
+            } catch (error) {
+                dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
+            } finally {
+                setTimeout(() => {
+                    commit('toggleIsFetching', false);
+                }, 2000);
+            }
+        },
+        async closeSession({commit, dispatch}, {sessionId, userId}) {
+            try {
+                commit('toggleIsFetching', true);
+                const response = await api.closeSession(sessionId, userId);
+                commit('setSessions', response.data);
+                dispatch('activateAlert', { message: 'Session successfully closed.', status: 'success' });
             } catch (error) {
                 dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
             } finally {
