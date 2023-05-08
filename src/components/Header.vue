@@ -25,7 +25,9 @@ import AccountMenu from './AccountMenu.vue';
                 }
             },
             basketIconClick() {
-                this.$store.commit('toggleBasketModal', true);
+                if (this.$route.path !== '/order') {
+                    this.$store.commit('toggleBasketModal', true);
+                }
             },
             closeMenu() {
                 this.accountMenuIsVisible = false;

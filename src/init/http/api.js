@@ -69,6 +69,9 @@ const api = {
     },
     closeSession(sessionId, userId) {
         return instance.put('/users/close_session', {sessionId, userId});
+    },
+    createOrder(order) {
+        return instance.post('/order/create', {...order});
     }
 }
 

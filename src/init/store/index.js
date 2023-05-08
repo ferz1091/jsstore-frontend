@@ -4,6 +4,7 @@ import axios from 'axios';
 import { BASE_URL } from '../http';
 import products from './productsModule';
 import basket from './basketModule';
+import order from './orderModule';
 import { router } from '@/router/router';
 
 const defaultState = {
@@ -450,6 +451,7 @@ export default createStore({
     },
     modules: {
         products,
-        basket
+        basket,
+        order
     }
 })

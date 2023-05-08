@@ -74,7 +74,7 @@ export default {
                                 class="sizeSelect" 
                                 :items="sizeSelectItems" 
                                 @sizeChanged="changeSize" 
-                                :currentSize="product.size" 
+                                :currentSize="size" 
                             />
                             <v-icon 
                                 class="basket-item-select-down-icon" 
@@ -99,7 +99,7 @@ export default {
                                     :disabled="!(this.amount > 0)" 
                                 />
                                 <span class="size-amount px-2">
-                                    {{ this.amount }}
+                                    {{ amount }}
                                 </span>
                                 <button-ui 
                                     :set="['t', 0, '1', 'mdi-plus', 's']"

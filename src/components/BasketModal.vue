@@ -11,6 +11,9 @@ export default {
     methods: {
         clearBasket() {
             this.$store.commit('clearBasket');
+        },
+        toOrderPage() {
+            this.$router.push('/order');
         }
     },
     computed: {
@@ -33,6 +36,15 @@ export default {
                     return 0;
                 }
             }).reduce((acc, item) => acc + item, 0);
+        },
+        createOrderBtnDisabled() {
+            if (this.products.length) {
+                if (this.products.some(product => !product.size) || this.products.some(product => !product.amount)) {
+                    return true;
+                }
+                return false;
+            }
+            return true;
         }
     }
 }
@@ -73,6 +85,8 @@ export default {
             <button-ui 
                 class="rounded-0 w-100"
                 :set="[0, 's', 0, 0, 0, 'create order']"
+                :disabled="createOrderBtnDisabled"
+                @click="toOrderPage"
             />
         </v-sheet>
     </v-navigation-drawer>

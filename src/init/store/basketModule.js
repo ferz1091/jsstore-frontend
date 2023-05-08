@@ -33,8 +33,16 @@ export default {
                 }
             })
         },
+        setBasket(state, products) {
+            state.products = products;
+        },
         clearBasket(state) {
             state.products = [];
+        },
+        removeBasketErrors(state) {
+            state.products = state.products.map(product => {
+                return {item: product.item, size: product.size, amount: product.amount}
+            })
         }
     },
     getters: {
