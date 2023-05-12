@@ -178,6 +178,11 @@ export default {
     opacity: 0;
     transform: translateY(100%);
 }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 @media (min-height: 1500px) {
     .my-profile-wrapper {
         margin-top: 250px !important;

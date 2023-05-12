@@ -1,11 +1,7 @@
 <script>
 import api from '@/init/http/api.js';
-import MazPhoneNumberInput from 'maz-ui/components/MazPhoneNumberInput';
 export default {
     name: 'profile-prop-input',
-    components: {
-        MazPhoneNumberInput
-    },
     props: {
         name: {type: String, required: true},
         value: {type: [String, Boolean], default: null}
