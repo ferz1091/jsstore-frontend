@@ -72,6 +72,15 @@ const api = {
     },
     createOrder(order) {
         return instance.post('/order/create', {...order});
+    },
+    getUserOrders(userId) {
+        return instance.get(`/order/user_orders?id=${userId}`);
+    },
+    getOrderProducts(orderId) {
+        return instance.get(`/order/products?orderId=${orderId}`);
+    },
+    cancelOrder(id) {
+        return instance.put('/order/cancel', {id});
     }
 }
 

@@ -26,6 +26,13 @@ export default {
             if (this.$route.params.gender === 'women' && ['outerwear', 'tops'].some(item => item === this.category.name)) {
                 this.$router.push(`/shop/${this.$route.params.gender}/${this.category.name}/1`);
             }
+        },
+        cardImgFilter() {
+            if (this.$route.params.gender === 'men') {
+                return this.category.name === 'outerwear' ? 'initial' : 'grayscale(100%)'
+            } else {
+                return ['outerwear', 'tops'].some(item => item === this.category.name) ? 'initial' : 'grayscale(100%)'
+            }
         }
     }
 }
@@ -37,7 +44,12 @@ export default {
             {{ category.name }}
             <v-divider class="border-opacity-75"></v-divider>
         </v-card-title>
-        <v-img class="category-img" :src="category.link" cover />
+        <v-img 
+            class="category-img" 
+            :src="category.link" 
+            cover 
+            v-bind:style="{filter: cardImgFilter()}"
+        />
         <Transition name="card-text">
             <v-card-text v-if="isHover" class="category-text text-overline">
                 {{ category.desc }}

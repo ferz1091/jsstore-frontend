@@ -13,10 +13,18 @@ export default {
             this.$store.commit('clearBasket');
         },
         toOrderPage() {
-            this.$router.push('/order');
+            if (this.isAuth) {
+                this.$router.push('/order');
+            } else {
+                this.$store.commit('toggleBasketModal', false);
+                this.$store.commit('toggleAuthModal', true);
+            }
         }
     },
     computed: {
+        isAuth() {
+            return this.$store.state.isAuth;
+        },
         modalIsActive: {
             get() {
                 return this.isActive;

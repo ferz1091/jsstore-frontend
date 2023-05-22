@@ -15,6 +15,9 @@ export default {
         },
         toSecurity() {
             this.$router.push('/account/security');
+        },
+        toOrders() {
+            this.$router.push('/account/orders');
         }
     },
     computed: {
@@ -44,7 +47,8 @@ export default {
             <v-list-item 
                 class="user-menu-item text-caption px-3" 
                 variant="elevated"
-                    color="surface"
+                color="surface"
+                @click="toOrders"
             >
                 <v-icon class="mr-1" icon="mdi-basket" color="background" />
                 My orders

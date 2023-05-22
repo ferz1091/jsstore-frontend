@@ -45,7 +45,7 @@ export default {
         sizeSelectItems() {
             return this.product.item.amount.map(size => {
                 return size.amount ? size.size : null;
-            }).filter(item => item)
+            }).filter(item => item);
         }
     }
 }

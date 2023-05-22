@@ -89,14 +89,25 @@ export default {
                     apartment: this.deliveryMethod === 'courier' ? this.apartment : null
                 },
                 value: this.orderPrice,
-                userId: this.userId
+                userId: this.userId,
+                paymentMethod: this.paymentMethod
             });
         },
         continueShopping() {
             this.$router.push('/shop/entry/men');
         }
     },
+    watch: {
+        isAuth() {
+            if (!this.isAuth) {
+                this.$router.push('/');
+            }
+        }
+    },
     computed: {
+        isAuth() {
+            return this.$store.state.isAuth;
+        },
         products() {
             return this.$store.state.basket.products;
         },

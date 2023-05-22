@@ -32,7 +32,8 @@ const defaultState = {
     userCommentExists: false,
     userDeviceIsMobile: false,
     userFavorites: null,
-    userSessions: null
+    userSessions: null,
+    userOrders: null
 }
 
 export default createStore({
@@ -99,6 +100,33 @@ export default createStore({
         },
         clearSessions(state) {
             state.userSessions = null;
+        },
+        setOrders(state, orders) {
+            state.userOrders = orders;
+        },
+        updateOrder(state, updatedOrder) {
+            state.userOrders = state.userOrders.map(order => {
+                if (order._id === updatedOrder._id) {
+                    return updatedOrder;
+                } else {
+                    return order;
+                }
+            })
+        },
+        clearOrders(state) {
+            state.userOrders = null;
+        },
+        updateOrderProduct(state, {orderId, updatedProducts}) {
+            state.userOrders = state.userOrders.map(order => {
+                if (order._id === orderId) {
+                    return {
+                        ...order,
+                        products: updatedProducts
+                    }
+                } else {
+                    return order;
+                }
+            })
         }
     },
     getters: {
@@ -440,6 +468,50 @@ export default createStore({
                 const response = await api.closeSession(sessionId, userId);
                 commit('setSessions', response.data);
                 dispatch('activateAlert', { message: 'Session successfully closed.', status: 'success' });
+            } catch (error) {
+                dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
+            } finally {
+                setTimeout(() => {
+                    commit('toggleIsFetching', false);
+                }, 2000);
+            }
+        },
+        async getUserOrders({commit, dispatch}, {userId}) {
+            try {
+                commit('toggleIsFetching', true);
+                const response = await api.getUserOrders(userId);
+                commit('setOrders', response.data);
+                return true;
+            } catch (error) {
+                dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
+            } finally {
+                setTimeout(() => {
+                    commit('toggleIsFetching', false);
+                }, 2000);
+            }
+        },
+        async getOrderProducts({commit, dispatch}, {orderId}) {
+            try {
+                commit('toggleIsFetching', true);
+                const response = await api.getOrderProducts(orderId);
+                commit('updateOrderProduct', {orderId, updatedProducts: response.data});
+                return true;
+            } catch (error) {
+                dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
+                return false;
+            } finally {
+                setTimeout(() => {
+                    commit('toggleIsFetching', false);
+                }, 2000);
+            }
+        },
+        async cancelOrder({commit, dispatch}, {id}) {
+            try {
+                commit('toggleIsFetching', true);
+                const response = await api.cancelOrder(id);
+                console.log(response);
+                commit('updateOrder', response.data);
+                dispatch('activateAlert', { message: 'Order has been canceled', status: 'success' });
             } catch (error) {
                 dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
             } finally {

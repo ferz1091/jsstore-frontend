@@ -70,6 +70,7 @@ export default {
     },
     watch: {
         isAuth() {
+            console.log(this.isAuth);
             if (!this.isAuth) {
                 this.$router.push('/');
             }

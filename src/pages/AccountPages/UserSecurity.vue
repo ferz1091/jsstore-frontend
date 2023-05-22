@@ -16,6 +16,13 @@ export default {
             this.$router.push('/shop/entry/men');
         }
     },
+    watch: {
+        isAuth() {
+            if (!this.isAuth) {
+                this.$router.push('/');
+            }
+        }
+    },
     computed: {
         isAuth() {
             return this.$store.state.isAuth;
