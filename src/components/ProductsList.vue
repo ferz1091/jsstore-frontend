@@ -194,7 +194,16 @@ export default {
                                 {{ gender }}
                             </label>
                         </v-sheet>
-                        <v-select 
+                        <select 
+                            class="sort-select text-body-1 text-center" 
+                            name="sort" 
+                            v-model="select"
+                        >
+                            <option v-for="variant in sortSelectVariants" :value="variant">
+                                {{ variant }}
+                            </option>
+                        </select>
+                        <!-- <v-select 
                             v-model="select" 
                             class="sort-select" 
                             variant="solo" 
@@ -203,7 +212,7 @@ export default {
                             density="compact" 
                             :items="sortSelectVariants" 
                             hide-details 
-                        />
+                        /> -->
                         <button-ui 
                             class="filter-btn"
                             :set="[0, filterBtnColor, 0, 'mdi-filter', 's']"
@@ -245,9 +254,15 @@ export default {
 }
 
 .sort-select {
+    cursor: pointer;
     width: 200px;
+    height: 40px;
+    background-color: white;
+    color: black;
+    outline: 0px;
+    border-radius: 5px;
+    text-align-last: center !important;
 }
-
 .filter-btn {
     margin-left: 20px;
 }
