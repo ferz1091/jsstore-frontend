@@ -58,7 +58,7 @@ export default {
             return this.product.article.slice(3, 4) === '1' ? 'men' : 'women';
         },
         imgPath() {
-            return `http://localhost:5000/${this.product.images.find(img => img.title).path}`;
+            return `https://jsstore-backend.vercel.app/${this.product.images.find(img => img.title).path}`;
         },
         productColors() {
             const colorNames = this.product.color.value.split(',');

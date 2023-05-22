@@ -33,7 +33,7 @@ export default {
     },
     computed: {
         imgPath() {
-            return `http://localhost:5000/${this.product.images.find(img => img.title).path}`;
+            return `https://jsstore-backend.vercel.app/${this.product.images.find(img => img.title).path}`;
         },
         productName() {
             if (window.innerWidth < 1999) {
