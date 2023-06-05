@@ -81,6 +81,9 @@ const api = {
     },
     cancelOrder(id) {
         return instance.put('/order/cancel', {id});
+    },
+    addProduct(data) {
+        return instance.post('/product/add', data);
     }
 }
 

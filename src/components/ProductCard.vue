@@ -86,7 +86,7 @@ export default {
                     Sale
                 </v-chip>
                 <v-chip 
-                    class="my-1"
+                    class="product-card-marker my-1"
                     v-if="product.markers.length"
                     v-for="marker in product.markers.slice(0, 7)" 
                     color="error" 
@@ -249,6 +249,10 @@ export default {
         display: flex;
         justify-content: center;
         margin-top: 2px;
+    }
+    .product-card-marker {
+        display: flex;
+        justify-content: center;
     }
     @media (max-width: 3840px) {
         .product-img {

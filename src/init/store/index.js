@@ -519,6 +519,24 @@ export default createStore({
                     commit('toggleIsFetching', false);
                 }, 2000);
             }
+        },
+        async addProduct({commit, dispatch}, payload) {
+            try {
+                commit('toggleIsFetching', true);
+                console.log(payload);
+                const formData = new FormData();
+                formData.append('product', JSON.stringify({prod: payload.product, type: payload.type, title: payload.title}));
+                Object.values(payload.images).forEach(image => formData.append('files', image));
+                const response = await api.addProduct(formData);
+                dispatch('activateAlert', { message: response.data.message, status: 'success' });
+                return response.data.link;
+            } catch (error) {
+                dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
+            } finally {
+                setTimeout(() => {
+                    commit('toggleIsFetching', false);
+                }, 2000);
+            }
         }
     },
     modules: {

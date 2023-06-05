@@ -20,7 +20,7 @@ export default {
             this.isHover = false;
         },
         cardClick() {
-            if (this.$route.params.gender === 'men' && this.category.name === 'outerwear') {
+            if (this.$route.params.gender === 'men' && ['outerwear', 'tops'].some(item => item === this.category.name)) {
                 this.$router.push(`/shop/${this.$route.params.gender}/${this.category.name}/1`);
             }
             if (this.$route.params.gender === 'women' && ['outerwear', 'tops'].some(item => item === this.category.name)) {
@@ -29,7 +29,7 @@ export default {
         },
         cardImgFilter() {
             if (this.$route.params.gender === 'men') {
-                return this.category.name === 'outerwear' ? 'initial' : 'grayscale(100%)'
+                return ['outerwear', 'tops'].some(item => item === this.category.name) ? 'initial' : 'grayscale(100%)'
             } else {
                 return ['outerwear', 'tops'].some(item => item === this.category.name) ? 'initial' : 'grayscale(100%)'
             }

@@ -77,6 +77,9 @@ import AccountMenu from './AccountMenu.vue';
                 } else {
                     return 'calc(100vw - 178px)';
                 }
+            },
+            userRoles() {
+                return this.$store.state.user.roles;
             }
         }
     }
@@ -210,6 +213,9 @@ import AccountMenu from './AccountMenu.vue';
         position: relative !important;
         top: calc(((64px + 30 * (100vw / 1400)) / 2) + 26px);
         right: 25%;
+    }
+    .user-menu {
+        overflow: visible !important;
     }
     .user-menu-item, .burger-menu-item {
         display: flex !important;
