@@ -110,6 +110,11 @@ export default {
             }
         }
     },
+    mounted() {
+        if (!this.userIsAdmin) {
+            this.$router.push('/shop/entry/men');
+        }
+    },
     methods: {
         addProp() {
             this.product.properties.push('');
@@ -209,6 +214,11 @@ export default {
             } else if (this.gender ==='women' && this.product.category === 'hats') {
                 this.product.category = null;
             }
+        },
+        userIsAdmin(value) {
+            if (!value) {
+                this.$router.push('/');
+            }
         }
     },
     computed: {
@@ -223,12 +233,15 @@ export default {
         },
         imgArrayLength() {
             return this.images ? Array.from(this.images).length : 0;
+        },
+        userIsAdmin() {
+            return this.$store.state.user.roles.some(role => role === 'ADMIN');
         }
     }
 }
 </script>
 <template>
-    <main class="addProduct page">
+    <main class="addProduct page" v-if="userIsAdmin">
         <v-container class="addProduct-wrapper elevation-4 rounded-lg " fluid>
             <p class="addProduct-title text-button text-center pt-4">
                 Add new product
@@ -529,7 +542,14 @@ export default {
                             />
                         </v-sheet>
                     </v-sheet>
-                    <v-btn type="submit">submit</v-btn>
+                    <p class="upload-error text-caption text-center pb-1">
+                        <span class="upload-error-content" v-if="uploadedImages && uploadedImages.length > 10">
+                            Image limit - 10
+                        </span>
+                    </p>
+                    <v-btn type="submit" :disabled="uploadedImages && uploadedImages.length > 10">
+                        create
+                    </v-btn>
                 </v-form>
             </v-sheet>
         </v-container>
@@ -635,6 +655,11 @@ input[type=file] {
 .checkboxes-input-wrapper .v-input--error .v-icon,
 .categories-input-wrapper .v-input--error .v-icon {
     color: #B00020;
+}
+.upload-error {
+    color: #B00020;
+    text-align: center !important;
+    min-height: 24px !important;
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
