@@ -144,6 +144,10 @@ export default {
         },
         showConfirmPassword() {
             this.passwordConfirmType = this.passwordConfirmType === 'text' ? 'password' : 'text';
+        },
+        toPasswordRecovery() {
+            this.$store.commit('toggleAuthModal', false);
+            this.$router.push('/account/recovery');
         }
     },
     computed: {
@@ -294,6 +298,9 @@ export default {
                         falseIcon="mdi-close"
                         trueIcon="mdi-check"
                     />
+                    <p class="forgotPass-label text-center text-caption" @click="toPasswordRecovery">
+                        Forgot password?
+                    </p>
                     <div>
                         <button-ui 
                             class="submitLogin-btn rounded-xl px-10"
@@ -507,6 +514,15 @@ form {
 }
 .authIcons {
     padding: calc(0px + 8 * (100vh / 1400)) 0;
+}
+.forgotPass-label {
+    position: relative;
+    bottom: 20px;
+    cursor: pointer;
+    color: #2196F3;
+}
+.forgotPass-label:hover {
+    color: black;
 }
 .login-form-enter-active {
     transition: all 0.55s ease;

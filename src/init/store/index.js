@@ -523,7 +523,6 @@ export default createStore({
         async addProduct({commit, dispatch}, payload) {
             try {
                 commit('toggleIsFetching', true);
-                console.log(payload);
                 const formData = new FormData();
                 formData.append('product', JSON.stringify({prod: payload.product, type: payload.type, title: payload.title}));
                 Object.values(payload.images).forEach(image => formData.append('files', image));
@@ -532,6 +531,50 @@ export default createStore({
                 return response.data.link;
             } catch (error) {
                 dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
+            } finally {
+                setTimeout(() => {
+                    commit('toggleIsFetching', false);
+                }, 2000);
+            }
+        },
+        async getRecoveryCode({commit, dispatch}, email) {
+            try {
+                commit('toggleIsFetching', true);
+                const response = await api.getRecoveryCode(email);
+                dispatch('activateAlert', { message: response.data.message, status: 'success' });
+                return true;
+            } catch (error) {
+                dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
+                return false;
+            } finally {
+                setTimeout(() => {
+                    commit('toggleIsFetching', false);
+                }, 2000);
+            }
+        },
+        async validateRecoveryCode({commit, dispatch}, {email, code}) {
+            try {
+                commit('toggleIsFetching', true);
+                const response = await api.validateRecoveryCode(email, code);
+                return true;
+            } catch (error) {
+                dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
+                return false;
+            } finally {
+                setTimeout(() => {
+                    commit('toggleIsFetching', false);
+                }, 2000);
+            }
+        },
+        async changePasswordByCode({commit, dispatch}, {email, code, password}) {
+            try {
+                commit('toggleIsFetching', true);
+                const response = await api.changePasswordByCode(email, code, password);
+                dispatch('activateAlert', { message: response.data.message, status: 'success' });
+                return true;
+            } catch (error) {
+                dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
+                return false;
             } finally {
                 setTimeout(() => {
                     commit('toggleIsFetching', false);

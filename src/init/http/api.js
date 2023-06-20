@@ -84,6 +84,15 @@ const api = {
     },
     addProduct(data) {
         return instance.post('/product/add', data);
+    },
+    getRecoveryCode(email) {
+        return instance.get(`/users/recovery_code?email=${email}`);
+    },
+    validateRecoveryCode(email, code) {
+        return instance.get(`/users/recovery_validate?email=${email}&code=${code}`);
+    },
+    changePasswordByCode(email, code, password) {
+        return instance.put('/users/change_password_code', {email, code, password});
     }
 }
 

@@ -52,6 +52,7 @@ export const router = createRouter({
         {path: '/account/favorites', component: () => import('../pages/AccountPages/UserFavorites.vue')},
         {path: '/account/security', component: () => import('../pages/AccountPages/UserSecurity.vue')},
         {path: '/account/orders', component: () => import('../pages/AccountPages/UserOrders.vue')},
+        {path: '/account/recovery', component: () => import('../pages/AccountPages/UserPasswordRecovery.vue')},
         {path: '/order', component: () => import('../pages/OrderPage.vue')},
         {path: '/panel/add', component: () => import('../pages/AdminPages/AddProductPage.vue')},
         {path: '/:pathMatch(.*)*', redirect: '/'}

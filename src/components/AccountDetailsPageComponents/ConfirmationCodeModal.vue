@@ -39,9 +39,8 @@ export default {
             color="background"
         >
             <v-text-field
-                class="elevation-4"
                 v-model="confirmationCode" 
-                bg-color="surface" 
+                bg-color="background" 
                 variant="solo" 
                 label="Enter code" 
                 hide-details 
