@@ -29,6 +29,9 @@ export default {
         },
         formIsDisabled() {
             return !this.$store.state.user.isActivated;
+        },
+        authMethodIsEmail() {
+            return this.$store.state.user.authMethod === 'email';
         }
     }
 }
@@ -55,7 +58,7 @@ export default {
                 </v-tabs>
                 <v-window class="w-100" v-model="tab">
                     <v-window-item value="one">
-                        <ChangePasswordForm />
+                        <ChangePasswordForm :authMethodIsEmail="authMethodIsEmail"/>
                     </v-window-item>
                     <v-window-item value="two">
                         <UserSessions />
@@ -63,13 +66,22 @@ export default {
                 </v-window>
                 <Transition name="my-security-email-warning">
                     <p 
-                        v-if="formIsDisabled && tab === 'one'" 
+                        v-if="formIsDisabled && tab === 'one' && authMethodIsEmail" 
                         class="my-security-email-warning text-caption font-weight-bold pa-2 text-center rounded-lg elevation-5" 
                         color="info"
                     >
                         To change your password, you must 
                         <router-link class="verify-link" to="/account/profile">verify</router-link> 
                         your email
+                    </p>
+                </Transition>
+                <Transition name="my-security-email-warning">
+                    <p 
+                        v-if="!authMethodIsEmail && tab === 'one'"
+                        class="my-security-email-warning text-caption font-weight-bold pa-2 text-center rounded-lg elevation-5" 
+                        color="info"
+                    >
+                        You can't change your password because you're signed in with Google
                     </p>
                 </Transition>
             </v-container>

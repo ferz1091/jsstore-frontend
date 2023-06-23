@@ -68,6 +68,9 @@ export default {
         },
         userId() {
             return this.$store.state.user.id;
+        },
+        authMethodIsEmail() {
+            return this.$store.state.user.authMethod === 'email';
         }
     }
 }
@@ -88,11 +91,11 @@ export default {
             {{ myProfileProp }}
         </span>
         <v-divider />
-        <span class="my-profile-edit-prop" v-if="myProfileEditPropIcon && name !== 'Email' || name === 'Email' && emailIsVerified" @click="openInput">
+        <span class="my-profile-edit-prop" v-if="myProfileEditPropIcon && name !== 'Email' || name === 'Email' && emailIsVerified && authMethodIsEmail" @click="openInput">
             {{ myProfileEditProp }}
             <v-icon class="my-profile-edit-prop-icon" :icon="myProfileEditPropIcon" size="x-small" />
         </span>
-        <span v-if="name === 'Email' && !emailIsVerified" v-bind:style="{fontSize: '12px', color: 'gray'}">
+        <span v-if="name === 'Email' && !emailIsVerified && authMethodIsEmail" v-bind:style="{fontSize: '12px', color: 'gray'}">
             Verify current email for change this email
         </span>
         <Transition name="profile-prop-input">

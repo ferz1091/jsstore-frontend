@@ -148,6 +148,23 @@ export default {
         toPasswordRecovery() {
             this.$store.commit('toggleAuthModal', false);
             this.$router.push('/account/recovery');
+        },
+        googleAuth() {
+                const rootUrl = `https://accounts.google.com/o/oauth2/v2/auth`;
+                const options = {
+                    redirect_uri: 'http://localhost:5173/authback',
+                    client_id: '874600186480-fi546clggocci41u6tth5eirirg50gpc.apps.googleusercontent.com',
+                    access_type: 'offline',
+                    response_type: 'code',
+                    prompt: 'consent',
+                    scope: [
+                        'https://www.googleapis.com/auth/userinfo.profile',
+                        'https://www.googleapis.com/auth/userinfo.email',
+                    ].join(' ')
+                };
+
+                const qs = new URLSearchParams(options);
+                window.location.assign(`${rootUrl}?${qs.toString()}`);
         }
     },
     computed: {
@@ -244,15 +261,16 @@ export default {
                     <div class="authIcons">
                         <button-ui 
                             class="mx-3"
-                            :set="[displayHeight < 700 || displayWidth < 600 ? 't' : 'o', 's', displayHeight > 700 ? '1' : '2', 'mdi-google', 0]"
+                            :set="['t', 's', displayHeight > 700 ? '1' : '2', 'mdi-google', 0]"
+                            @click="googleAuth"
+                        />
+                        <button-ui 
+                            class="mx-3 appleIcon"
+                            :set="['t', 's', displayHeight > 700 ? '1' : '2', 'mdi-apple', 0]"
                         />
                         <button-ui 
                             class="mx-3"
-                            :set="[displayHeight < 700 || displayWidth < 600 ? 't' : 'o', 's', displayHeight > 700 ? '1' : '2', 'mdi-apple', 0]"
-                        />
-                        <button-ui 
-                            class="mx-3"
-                            :set="[displayHeight < 700 || displayWidth < 600 ? 't' : 'o', 's', displayHeight > 700 ? '1' : '2', 'mdi-facebook', 0]"
+                            :set="['t', 's', displayHeight > 700 ? '1' : '2', 'mdi-facebook', 0]"
                         />
                     </div>
                     <v-text-field
@@ -324,15 +342,16 @@ export default {
                     <div class="authIcons">
                         <button-ui 
                             class="mx-3"
-                            :set="[displayHeight < 700 || displayWidth < 600 ? 't' : 'o', 's', displayHeight > 700 ? '1' : '2', 'mdi-google', 0]"
+                            :set="['t', 's', displayHeight > 700 ? '1' : '2', 'mdi-google', 0]"
+                            @click="googleAuth"
+                        />
+                        <button-ui 
+                            class="mx-3 appleIcon"
+                            :set="['t', 's', displayHeight > 700 ? '1' : '2', 'mdi-apple', 0]"
                         />
                         <button-ui 
                             class="mx-3"
-                            :set="[displayHeight < 700 || displayWidth < 600 ? 't' : 'o', 's', displayHeight > 700 ? '1' : '2', 'mdi-apple', 0]"
-                        />
-                        <button-ui 
-                            class="mx-3"
-                            :set="[displayHeight < 700 || displayWidth < 600 ? 't' : 'o', 's', displayHeight > 700 ? '1' : '2', 'mdi-facebook', 0]"
+                            :set="['t', 's', displayHeight > 700 ? '1' : '2', 'mdi-facebook', 0]"
                         />
                     </div>
                     <v-text-field
@@ -386,12 +405,14 @@ export default {
                             @click="showConfirmPassword"
                         />
                     </v-text-field>
-                    <button-ui 
-                        class="submitReg-btn rounded-xl px-10"
-                        :set="['o', 's', displayWidth < 600 || displayHeight < 700 ? '2' : 0, 0, 0, 'Sign up']"
-                        type="submit"
-                        :disabled="isFetching"
-                    />
+                    <div class="submitReg-wrapper">
+                        <button-ui 
+                            class="submitReg-btn rounded-xl px-10"
+                            :set="['o', 's', displayWidth < 600 || displayHeight < 700 ? '2' : 0, 0, 0, 'Sign up']"
+                            type="submit"
+                            :disabled="isFetching"
+                        />
+                    </div>
                 </v-form>
             </v-sheet>
         </Transition>
@@ -475,6 +496,9 @@ export default {
     max-width: 600px !important;
     margin: 0 auto;
 }
+.login-form .v-input__details, .registration-form .v-input__details {
+    align-items: flex-start !important;
+}
 .closeAuthModalMobileBtn {
     display: none !important;
     position: absolute !important;
@@ -513,6 +537,7 @@ form {
     transform: translateX(-50%);
 }
 .authIcons {
+    margin-bottom: 5px;
     padding: calc(0px + 8 * (100vh / 1400)) 0;
 }
 .forgotPass-label {
@@ -523,6 +548,13 @@ form {
 }
 .forgotPass-label:hover {
     color: black;
+}
+.submitReg-wrapper {
+    height: 30px;
+}
+.appleIcon {
+    position: relative;
+    bottom: 2px;
 }
 .login-form-enter-active {
     transition: all 0.55s ease;

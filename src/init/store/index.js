@@ -5,6 +5,7 @@ import { BASE_URL } from '../http';
 import products from './productsModule';
 import basket from './basketModule';
 import order from './orderModule';
+import authBack from './authBackModule';
 import { router } from '@/router/router';
 
 const defaultState = {
@@ -585,6 +586,7 @@ export default createStore({
     modules: {
         products,
         basket,
-        order
+        order,
+        authBack
     }
 })

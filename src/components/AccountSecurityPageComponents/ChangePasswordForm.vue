@@ -1,5 +1,8 @@
 <script>
 export default {
+    props: {
+        authMethodIsEmail: Boolean
+    },
     data() {
         return {
             formIsValid: false,
@@ -127,7 +130,7 @@ export default {
 <template>
     <Transition name="my-security-password">
         <v-sheet 
-            class="my-security-password px-6 pt-10 pb-14 mt-4 elevation-4 rounded-lg" 
+            class="my-security-password px-6 pt-10 pb-14 mt-4" 
             color="background"
         >
             <p class="my-security-password-title text-button text-center mb-4">
@@ -150,6 +153,7 @@ export default {
                         :rules="rules.currentPassword"
                         @blur="toggleCurrentPassword"
                         v-model="currentPassword"
+                        :disabled="!authMethodIsEmail"
                     >
                         <password-icon 
                             :isVisible="!!currentPassword.length" 
@@ -168,6 +172,7 @@ export default {
                         :rules="rules.newPasswordRules"
                         @blur="toggleNewPassword"
                         v-model="newPassword"
+                        :disabled="!authMethodIsEmail"
                     >
                         <password-icon 
                             :isVisible="!!newPassword.length" 
@@ -186,6 +191,7 @@ export default {
                         :rules="rules.confirmNewPasswordRules"
                         @blur="toggleConfirmNewPassword"
                         v-model="confirmNewPassword"
+                        :disabled="!authMethodIsEmail"
                     >
                         <password-icon 
                             :isVisible="!!confirmNewPassword.length" 
@@ -197,7 +203,7 @@ export default {
                         class="my-security-password-submit-btn mb-5"
                         :set="[0, 's', 0, 0, 0, 'change']"
                         type="submit"
-                        :disabled="formIsDisabled"
+                        :disabled="formIsDisabled || !authMethodIsEmail"
                     />
             </v-form>
         </v-sheet>

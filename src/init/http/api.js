@@ -93,6 +93,9 @@ const api = {
     },
     changePasswordByCode(email, code, password) {
         return instance.put('/users/change_password_code', {email, code, password});
+    },
+    googleAuth(code) {
+        return instance.post('/auth/google', {code});
     }
 }
 
