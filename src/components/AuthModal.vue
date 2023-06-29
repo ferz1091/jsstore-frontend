@@ -258,20 +258,15 @@ export default {
                     >
                         Sign in
                     </p>
-                    <div class="authIcons">
-                        <button-ui 
-                            class="mx-3"
-                            :set="['t', 's', displayHeight > 700 ? '1' : '2', 'mdi-google', 0]"
-                            @click="googleAuth"
-                        />
-                        <button-ui 
-                            class="mx-3 appleIcon"
-                            :set="['t', 's', displayHeight > 700 ? '1' : '2', 'mdi-apple', 0]"
-                        />
-                        <button-ui 
-                            class="mx-3"
-                            :set="['t', 's', displayHeight > 700 ? '1' : '2', 'mdi-facebook', 0]"
-                        />
+                    <div class="googleAuth-wrapper mb-2">
+                        <span class="google-btn" @click="googleAuth">
+                            <span class="google-icon-wrapper">
+                                <span class="google-icon" />
+                            </span>
+                            <span class="btn-text">
+                                Sign In with Google
+                            </span>
+                        </span>
                     </div>
                     <v-text-field
                         v-model="loginEmail"
@@ -339,20 +334,15 @@ export default {
                     >
                         Sign up
                     </p>
-                    <div class="authIcons">
-                        <button-ui 
-                            class="mx-3"
-                            :set="['t', 's', displayHeight > 700 ? '1' : '2', 'mdi-google', 0]"
-                            @click="googleAuth"
-                        />
-                        <button-ui 
-                            class="mx-3 appleIcon"
-                            :set="['t', 's', displayHeight > 700 ? '1' : '2', 'mdi-apple', 0]"
-                        />
-                        <button-ui 
-                            class="mx-3"
-                            :set="['t', 's', displayHeight > 700 ? '1' : '2', 'mdi-facebook', 0]"
-                        />
+                    <div class="googleAuth-wrapper mb-2">
+                        <span class="google-btn" @click="googleAuth">
+                            <span class="google-icon-wrapper">
+                                <span class="google-icon" />
+                            </span>
+                            <span class="btn-text">
+                                Sign Up with Google
+                            </span>
+                        </span>
                     </div>
                     <v-text-field
                         v-model="regEmail"
@@ -536,7 +526,7 @@ form {
     left: 50%;
     transform: translateX(-50%);
 }
-.authIcons {
+.googleAuth-wrapper {
     margin-bottom: 5px;
     padding: calc(0px + 8 * (100vh / 1400)) 0;
 }
@@ -551,10 +541,6 @@ form {
 }
 .submitReg-wrapper {
     height: 30px;
-}
-.appleIcon {
-    position: relative;
-    bottom: 2px;
 }
 .login-form-enter-active {
     transition: all 0.55s ease;
@@ -583,6 +569,22 @@ form {
     max-width: 50%;
     opacity: 0;
 }
+.registration-form-enter-active .google-btn {
+    transition: all 0.35s ease;
+    transition-delay: 0.5s;
+}
+.login-form-enter-active .google-btn {
+    transition: 0.35s ease;
+    transition-delay: 0.3s;
+}
+.registration-form-leave-active .google-btn,
+.login-form-leave-active .google-btn {
+    transition: all 0.2s ease;
+}
+.registration-form-enter-from .google-btn, .login-form-enter-from .google-btn,
+.registration-form-leave-to .google-btn, .login-form-leave-to .google-btn {
+    scale: 0;
+}
 .registration-form-leave-to {
     transform: translateX(-45%);
     max-width: 50%;
@@ -591,6 +593,43 @@ form {
 .switch .v-icon {
     color: black !important;
     font-size: 16px !important;
+}
+.google-btn {
+    cursor: pointer;
+    display: inline-block;
+    background-color: #4285F4;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 4px;
+    padding: 12px 24px;
+    text-decoration: none;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.google-btn:hover {
+    background-color: #327FDB;
+}
+
+.google-btn:active {
+    background-color: #2468C2;
+}
+
+.google-icon-wrapper {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+.google-icon {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg');
+    background-size: cover;
+}
+.btn-text {
+    display: inline-block;
+    vertical-align: middle;
 }
 @media (max-width: 1000px) {
     .authModal {
@@ -646,6 +685,10 @@ form {
     .submit-btn, .submitLogin-btn, .submitReg-btn {
         bottom: 5px;
     }
+    .google-btn {
+        font-size: 14px;
+        padding: 4px 16px;
+    }
     .login-form-enter-active {
         transition: all 0.55s ease;
     }
@@ -678,9 +721,23 @@ form {
         opacity: 0;
     }
 }
+@media (max-height: 730px) {
+    .forgotPass-label {
+        bottom: 30px;
+    }
+}
+@media (max-height: 550px) {
+        .forgotPass-label {
+        bottom: 30px;
+    }
+}
 @media (max-height: 700px) {
    .submit-btn, .submitLogin-btn, .submitReg-btn {
         bottom: 5px;
+    }
+    .google-btn {
+        font-size: 14px;
+        padding: 4px 16px;
     }
 }
 @media (max-width: 300px) {
@@ -704,6 +761,14 @@ form {
     .submit-btn, .submitLogin-btn, .submitReg-btn {
         max-height: 20px !important;
         bottom: 3px;
+    }
+        .forgotPass-label {
+        bottom: 0px;
+    }
+}
+@media (max-height: 375px) {
+        .forgotPass-label {
+        bottom: 20px;
     }
 }
 </style>
