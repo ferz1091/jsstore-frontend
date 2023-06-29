@@ -147,9 +147,7 @@ export default createStore({
             } catch (error) {
                 dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
             } finally {
-                setTimeout(() => {
-                    commit('toggleIsFetching', false);
-                }, 2000);
+                commit('toggleIsFetching', false);
             }
         },
         async loginUser({commit, dispatch}, {email, password, isRemember}) {
@@ -165,9 +163,7 @@ export default createStore({
             } catch (error) {
                 dispatch('activateAlert', {message: error.response.data.error, status: 'error'});
             } finally {
-                setTimeout(() => {
-                    commit('toggleIsFetching', false);
-                }, 2000);
+                commit('toggleIsFetching', false);
             }
         },
         async logoutUser({commit, dispatch}) {
@@ -188,9 +184,7 @@ export default createStore({
             } catch (e) {
                 dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
             } finally {
-                setTimeout(() => {
-                    commit('toggleIsFetching', false);
-                }, 2000);
+                commit('toggleIsFetching', false);
             }
         },
         async checkAuth({commit, dispatch}) {
@@ -205,9 +199,7 @@ export default createStore({
                 console.log(e);
                 await dispatch('logoutUser');
             } finally {
-                setTimeout(() => {
-                    commit('toggleIsFetching', false);
-                }, 2000);
+                commit('toggleIsFetching', false);
             }
         },
         async activateAlert({commit, state}, { message, status }) {
@@ -241,9 +233,7 @@ export default createStore({
             } catch (error) {
                 dispatch('activateAlert', {message: error.response.data.error, status: 'error'});
             } finally {
-                setTimeout(() => {
-                    commit('toggleIsFetching', false);
-                }, 2000);
+                commit('toggleIsFetching', false);
             }
         },
         async getProduct({commit}, {gender, id, page, user, sort}) {
@@ -269,9 +259,7 @@ export default createStore({
             } catch (error) {
                 dispatch('activateAlert', {message: error.response.data.error, status: 'error'});
             } finally {
-                setTimeout(() => {
-                    commit('toggleIsFetching', false);
-                }, 2000);
+                commit('toggleIsFetching', false);
             }
         },
         async rateProduct({commit, dispatch}, {gender, productId, email, comment, rating}) {
@@ -284,9 +272,7 @@ export default createStore({
             } catch (error) {
                 dispatch('activateAlert', {message: error.response.data.error, status: 'error'});
             } finally {
-                setTimeout(() => {
-                    commit('toggleIsFetching', false);
-                }, 2000);
+                commit('toggleIsFetching', false);
             }
         },
         async deleteUserComment({commit, dispatch}, {gender, productId, email}) {
@@ -299,9 +285,7 @@ export default createStore({
             } catch (error) {
                 dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
             } finally {
-                setTimeout(() => {
-                    commit('toggleIsFetching', false);
-                }, 2000);
+                commit('toggleIsFetching', false);
             }
         },
         async editUserComment({commit, dispatch}, {gender, productId, email, comment, rating}) {
@@ -314,9 +298,7 @@ export default createStore({
             } catch (error) {
                 dispatch('activateAlert', {message: error.response.data.error, status: 'error'});
             } finally {
-                setTimeout(() => {
-                    commit('toggleIsFetching', false);
-                }, 2000);
+                commit('toggleIsFetching', false);
             }
         },
         async getUserInfo({commit}, {id}) {
@@ -327,9 +309,7 @@ export default createStore({
             } catch (error) {
                 dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
             } finally {
-                setTimeout(() => {
-                    commit('toggleIsFetching', false);
-                }, 2000);
+                commit('toggleIsFetching', false);
             }
         },
         async getEmailChangeConfirmationCode({commit, dispatch}, {id, email}) {
@@ -342,9 +322,7 @@ export default createStore({
                 console.log(error);
                 dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
             } finally {
-                setTimeout(() => {
-                    commit('toggleIsFetching', false);
-                }, 2000);
+                commit('toggleIsFetching', false);
             }
         },
         async editUserInfo({commit, dispatch}, {id, info, code}) {
@@ -363,9 +341,7 @@ export default createStore({
                     this.commit('emailConfirmationModal', false);
                 }
             } finally {
-                setTimeout(() => {
-                    commit('toggleIsFetching', false);
-                }, 2000);
+                commit('toggleIsFetching', false);
             }
         },
         async sendActivationLink({commit, dispatch}, id) {
@@ -386,9 +362,7 @@ export default createStore({
             } catch(error) {
                 dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
             } finally {
-                setTimeout(() => {
-                    commit('toggleIsFetching', false);
-                }, 2000);
+                commit('toggleIsFetching', false);
             }
         },
         async addToFavorites({commit, dispatch}, {id, gender, productId}) {
@@ -400,9 +374,7 @@ export default createStore({
             } catch (error) {
                 dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
             } finally {
-                setTimeout(() => {
-                    commit('toggleIsFetching', false);
-                }, 2000);
+                commit('toggleIsFetching', false);
             }
         },
         async removeFromFavorites({commit, dispatch, state}, {id, gender, productId}) {
@@ -417,9 +389,7 @@ export default createStore({
             } catch (error) {
                 dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
             } finally {
-                setTimeout(() => {
-                    commit('toggleIsFetching', false);
-                }, 2000);
+                commit('toggleIsFetching', false);
             }
         },
         async getUserFavorites({commit, dispatch}, {id}) {
@@ -430,9 +400,7 @@ export default createStore({
             } catch (error) {
                 dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
             } finally {
-                setTimeout(() => {
-                    commit('toggleIsFetching', false);
-                }, 2000);
+                commit('toggleIsFetching', false);
             }
         },
         async changePassword({commit, dispatch}, {id, password, newPassword}) {
@@ -445,9 +413,7 @@ export default createStore({
                 dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
                 return false;
             } finally {
-                setTimeout(() => {
-                    commit('toggleIsFetching', false);
-                }, 2000);
+                commit('toggleIsFetching', false);
             }
         },
         async getUserSessions({commit, dispatch}, {id}) {
@@ -458,9 +424,7 @@ export default createStore({
             } catch (error) {
                 dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
             } finally {
-                setTimeout(() => {
-                    commit('toggleIsFetching', false);
-                }, 2000);
+                commit('toggleIsFetching', false);
             }
         },
         async closeSession({commit, dispatch}, {sessionId, userId}) {
@@ -472,9 +436,7 @@ export default createStore({
             } catch (error) {
                 dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
             } finally {
-                setTimeout(() => {
-                    commit('toggleIsFetching', false);
-                }, 2000);
+                commit('toggleIsFetching', false);
             }
         },
         async getUserOrders({commit, dispatch}, {userId}) {
@@ -486,9 +448,7 @@ export default createStore({
             } catch (error) {
                 dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
             } finally {
-                setTimeout(() => {
-                    commit('toggleIsFetching', false);
-                }, 2000);
+                commit('toggleIsFetching', false);
             }
         },
         async getOrderProducts({commit, dispatch}, {orderId}) {
@@ -501,9 +461,7 @@ export default createStore({
                 dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
                 return false;
             } finally {
-                setTimeout(() => {
-                    commit('toggleIsFetching', false);
-                }, 2000);
+                commit('toggleIsFetching', false);
             }
         },
         async cancelOrder({commit, dispatch}, {id}) {
@@ -516,9 +474,7 @@ export default createStore({
             } catch (error) {
                 dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
             } finally {
-                setTimeout(() => {
-                    commit('toggleIsFetching', false);
-                }, 2000);
+                commit('toggleIsFetching', false);
             }
         },
         async addProduct({commit, dispatch}, payload) {
@@ -533,9 +489,7 @@ export default createStore({
             } catch (error) {
                 dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
             } finally {
-                setTimeout(() => {
-                    commit('toggleIsFetching', false);
-                }, 2000);
+                commit('toggleIsFetching', false);
             }
         },
         async getRecoveryCode({commit, dispatch}, email) {
@@ -548,9 +502,7 @@ export default createStore({
                 dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
                 return false;
             } finally {
-                setTimeout(() => {
-                    commit('toggleIsFetching', false);
-                }, 2000);
+                commit('toggleIsFetching', false);
             }
         },
         async validateRecoveryCode({commit, dispatch}, {email, code}) {
@@ -562,9 +514,7 @@ export default createStore({
                 dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
                 return false;
             } finally {
-                setTimeout(() => {
-                    commit('toggleIsFetching', false);
-                }, 2000);
+                commit('toggleIsFetching', false);
             }
         },
         async changePasswordByCode({commit, dispatch}, {email, code, password}) {
@@ -577,9 +527,7 @@ export default createStore({
                 dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
                 return false;
             } finally {
-                setTimeout(() => {
-                    commit('toggleIsFetching', false);
-                }, 2000);
+                commit('toggleIsFetching', false);
             }
         }
     },
