@@ -152,7 +152,7 @@ export default {
         googleAuth() {
                 const rootUrl = `https://accounts.google.com/o/oauth2/v2/auth`;
                 const options = {
-                    redirect_uri: 'http://localhost:5173/authback',
+                    redirect_uri: 'https://jsstore-frontend.vercel.app/authback',
                     client_id: '874600186480-fi546clggocci41u6tth5eirirg50gpc.apps.googleusercontent.com',
                     access_type: 'offline',
                     response_type: 'code',
