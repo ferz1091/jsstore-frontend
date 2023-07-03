@@ -25,7 +25,7 @@ export default {
     },
     computed: {
         isAuth() {
-            return this.$store.state.isAuth;
+            return this.$store.getters.isAuth;
         },
         formIsDisabled() {
             return !this.$store.state.user.isActivated;
@@ -71,7 +71,9 @@ export default {
                         color="info"
                     >
                         To change your password, you must 
-                        <router-link class="verify-link" to="/account/profile">verify</router-link> 
+                        <router-link class="verify-link" to="/account/profile">
+                            verify
+                        </router-link> 
                         your email
                     </p>
                 </Transition>

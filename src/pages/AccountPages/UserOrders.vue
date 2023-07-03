@@ -40,17 +40,10 @@ export default {
     },
     computed: {
         isAuth() {
-            return this.$store.state.isAuth;
+            return this.$store.getters.isAuth;
         },
         orders() {
-            const orders = this.$store.state.userOrders;
-            return orders && orders.length ? orders.sort((orderA, orderB) => {
-                if (new Date(orderA.order_date) < new Date(orderB.order_date)) {
-                    return 1;
-                } else {
-                    return -1;
-                }
-            }) : [];
+            return this.$store.getters.userOrders;
         }
     }
 }
@@ -58,7 +51,11 @@ export default {
 <template>
     <main class="my-orders page">
         <Transition name="my-orders-wrapper">
-            <v-container v-if="orders.length" class="my-orders-wrapper rounded-lg elevation-14" fluid>
+            <v-container 
+                v-if="orders.length" 
+                class="my-orders-wrapper rounded-lg elevation-14" 
+                fluid
+            >
                 <p class="my-orders-title text-button text-center mb-4">
                     My orders
                 </p>
@@ -68,10 +65,13 @@ export default {
             </v-container>
         </Transition>
         <Transition name="my-orders-warning">
-            <p class="my-orders-empty-warning text-center text-button" v-if="!orders.length && ordersFetched">
+            <p 
+                v-if="!orders.length && ordersFetched"
+                class="my-orders-empty-warning text-center text-button" 
+            >
                 Your order history is empty
                 <br/>
-                <button-ui :set="[0, 0, '1', 0, 0, 'to shopping']" @click="toShopping"/>
+                <button-ui :set="[0, 0, '1', 0, 0, 'to shopping']" @click="toShopping" />
             </p>
         </Transition>
     </main>

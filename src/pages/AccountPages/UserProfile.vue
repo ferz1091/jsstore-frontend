@@ -95,7 +95,7 @@ export default {
     },
     computed: {
         isAuth() {
-            return this.$store.state.isAuth;
+            return this.$store.getters.isAuth;
         },
         userData() {
             return this.$store.state.user;

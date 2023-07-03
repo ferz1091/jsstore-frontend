@@ -52,7 +52,7 @@ export default {
             return this.product.name;
         },
         productInBasket() {
-            return this.$store.state.basket.products.some(product => product.item._id === this.product._id);
+            return this.$store.getters.basket.some(product => product.item._id === this.product._id);
         },
         genderPath() {
             return this.product.article.slice(3, 4) === '1' ? 'men' : 'women';

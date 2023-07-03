@@ -57,12 +57,11 @@ export default {
         :icon="icon"
         :size="size"
     >
-        <v-icon v-if="icon" :icon="icon"></v-icon>
+        <v-icon v-if="icon" :icon="icon" />
         <span v-else>
             {{ this.set[5] }}
         </span>
     </v-btn>
 </template>
 <style>
-
 </style>

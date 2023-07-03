@@ -117,7 +117,7 @@ export default {
             return this.$store.state.currentProduct && this.$store.state.currentProduct.comments ? this.$store.state.currentProduct.comments.pages.find(page => page.page === this.commentPage) : null;
         },
         userEmail() {
-            return this.$store.state.user.email;
+            return this.$store.getters.userEmail;
         },
         currentSizeAmount() {
             return this.sizeSelect ? this.$store.state.currentProduct.amount.find(size => size.size === this.sizeSelect).amount : 0;

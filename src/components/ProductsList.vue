@@ -161,7 +161,6 @@ export default {
     }
 }
 </script>
-
 <template>
     <main :class="(genderSwitchVisible ? 'Sale' : 'Products') + ' page'" v-scroll="handleScroll">
         <Transition name="pagination-top">
@@ -179,7 +178,11 @@ export default {
             @before-leave="beforeLeavePage"
         >
             <v-container class="products-container" v-if="showProducts">
-                <product-card v-for="product in thisPageProducts" :product="product" :gender="isSalePageGender"/>
+                <product-card 
+                    v-for="product in thisPageProducts" 
+                    :product="product" 
+                    :gender="isSalePageGender"
+                />
                 <Transition name="filter-panel" appear>
                     <v-sheet 
                         v-if="filterPanelIsVisible" 
@@ -188,8 +191,15 @@ export default {
                         :style="panelTransform && !userDeviceIsMobile ? 'transform: translateX(calc(-50% - 5px));' : 'transform: translateX(-50%);'"
                     >
                         <v-sheet v-if="genderSwitchVisible" class="gender-switch mr-5 h-24" color="transparent">
-                            <v-switch v-model="gender" true-value="women" false-value="men" inset density="compact"
-                                color="white" hide-details></v-switch>
+                            <v-switch 
+                                v-model="gender" 
+                                true-value="women" 
+                                false-value="men" 
+                                inset 
+                                density="compact"
+                                color="white" 
+                                hide-details
+                            />
                             <label class="switch-value">
                                 {{ gender }}
                             </label>
@@ -203,16 +213,6 @@ export default {
                                 {{ variant }}
                             </option>
                         </select>
-                        <!-- <v-select 
-                            v-model="select" 
-                            class="sort-select" 
-                            variant="solo" 
-                            bg-color="background" 
-                            label="Sort by:"
-                            density="compact" 
-                            :items="sortSelectVariants" 
-                            hide-details 
-                        /> -->
                         <button-ui 
                             class="filter-btn"
                             :set="[0, filterBtnColor, 0, 'mdi-filter', 's']"
@@ -223,14 +223,22 @@ export default {
             </v-container>
         </Transition>
         <Transition name="pagination-bottom">
-            <pagination v-if="totalPages > 1 && showProducts" :length="totalPages" @update:modelValue="changePage"
-                v-model="page" />
+            <pagination 
+                v-if="totalPages > 1 && showProducts" 
+                :length="totalPages" 
+                @update:modelValue="changePage"
+                v-model="page" 
+            />
         </Transition>
-        <filter-modal :isActive="filterModalActive" :gender="gender" :categoryIsVisible="genderSwitchVisible"
-            @closeModal="closeFilterModal" @filtersChanged="filtersChanged" />
+        <filter-modal 
+            :isActive="filterModalActive" 
+            :gender="gender" 
+            :categoryIsVisible="genderSwitchVisible"
+            @closeModal="closeFilterModal" 
+            @filtersChanged="filtersChanged" 
+        />
     </main>
 </template>
-
 <style>
 .products-container {
     display: grid;

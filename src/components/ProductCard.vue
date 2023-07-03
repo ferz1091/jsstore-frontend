@@ -50,10 +50,10 @@ export default {
             return this.$store.state.basket.products.some(product => product.item._id === this.product._id);
         },
         isAuth() {
-            return this.$store.state.isAuth;
+            return this.$store.getters.isAuth;
         },
         userId() {
-            return this.$store.state.user.id;
+            return this.$store.getters.userId;
         },
         genderPath() {
             return this.gender ? this.gender : this.$route.params.gender;
@@ -67,7 +67,6 @@ export default {
     }
 }
 </script>
-
 <template>
     <v-card 
         class="product-card rounded-lg" 
@@ -76,7 +75,10 @@ export default {
         color="background"
     >
         <div class="top-panel" :style="{ justifyContent: topPanelJustify }">
-            <div v-if="product.markers.length || product.isSale.flag || product.amount.every(prod => prod.amount === 0)" class="markers">
+            <div 
+                v-if="product.markers.length || product.isSale.flag || product.amount.every(prod => prod.amount === 0)" 
+                class="markers"
+            >
                 <v-chip 
                     v-if="product.isSale.flag" 
                     class="my-1" 
@@ -162,7 +164,6 @@ export default {
         </div>
     </v-card>
 </template>
-
 <style>
     @keyframes imageIn {
         0% {

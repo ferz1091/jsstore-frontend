@@ -43,7 +43,7 @@ export default {
             return this.$store.state.currentProduct;
         },
         sizeSelectItems() {
-            return this.$store.state.currentProduct.amount.map(size => {
+            return this.currentProduct.amount.map(size => {
                 return size.amount ? size.size : null;
             }).filter(item => item);
         },
@@ -59,10 +59,10 @@ export default {
             return colorArray;
         },
         productInBasket() {
-            return this.$store.state.basket.products.some(product => product.item._id === this.currentProduct._id);
+            return this.$store.getters.basket.some(product => product.item._id === this.currentProduct._id);
         },
         isAuth() {
-            return this.$store.state.isAuth;
+            return this.$store.getters.isAuth;
         },
         genderPath() {
             return this.$route.params.gender;
@@ -71,7 +71,7 @@ export default {
             return this.$store.state.user.favorites[this.genderPath].some(product => product === this.currentProduct._id);
         },
         userId() {
-            return this.$store.state.user.id;
+            return this.$store.getters.userId;
         }
     }
 }
@@ -79,8 +79,16 @@ export default {
 <template>
     <v-sheet class="product-info py-6" color="background">
         <v-sheet color="background">
-            <v-sheet class="product-images rounded-lg mr-4" color="background" elevation="3">
-                <v-carousel show-arrows="hover" hide-delimiter-background delimiter-icon="mdi-square">
+            <v-sheet 
+                class="product-images rounded-lg mr-4" 
+                color="background" 
+                elevation="3"
+            >
+                <v-carousel 
+                    show-arrows="hover" 
+                    hide-delimiter-background 
+                    delimiter-icon="mdi-square"
+                >
                     <v-carousel-item 
                         v-for="image in currentProduct.images"
                         :src="`http://localhost:5000/${image.path}`"
@@ -129,7 +137,11 @@ export default {
                             />
                         </div>
                         <Transition name="amount-selector">
-                            <v-sheet class="amount-selector rounded mt-2" color="surface" v-if="sizeSelect">
+                            <v-sheet 
+                                v-if="sizeSelect"
+                                class="amount-selector rounded mt-2" 
+                                color="surface" 
+                            >
                                 <button-ui 
                                     :set="['t', 'b', 0, 'mdi-minus-box', 's']"
                                     @click="decreaseAmount"

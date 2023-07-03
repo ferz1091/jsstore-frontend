@@ -95,7 +95,7 @@ export default {
     },
     computed: {
         isAuth() {
-            return this.$store.state.isAuth;
+            return this.$store.getters.isAuth;
         },
         emailIsValidate() {
             const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -150,7 +150,11 @@ export default {
                             />
                         </v-sheet>
                         <Transition name="recovery-form-code">
-                            <v-sheet v-if="confirmationCodeSent" class="recovery-form-code" color=background>
+                            <v-sheet 
+                                v-if="confirmationCodeSent" 
+                                class="recovery-form-code" 
+                                color=background
+                            >
                                 <v-text-field
                                     v-model="code"
                                     class="mb-2"

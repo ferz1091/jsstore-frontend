@@ -18,7 +18,7 @@ export default {
     },
     computed: {
         userId() {
-            return this.$store.state.user.id;
+            return this.$store.getters.userId;
         },
         sessions() {
             return this.$store.state.userSessions;
@@ -41,10 +41,24 @@ export default {
                     v-for="session in sessions" 
                     class="my-security-session text-caption elevation-3 py-3 pl-6 pr-8 my-2 mx-1 rounded-lg"
                 >
-                <v-badge v-if="session.current" location="top start" content="now" color="success">
-                    <v-icon class="mr-2" :icon="deviceIcon(session.device)" size="large" />
+                <v-badge 
+                    v-if="session.current" 
+                    location="top start" 
+                    content="now" 
+                    color="success"
+                >
+                    <v-icon 
+                        class="mr-2" 
+                        :icon="deviceIcon(session.device)" 
+                        size="large" 
+                    />
                 </v-badge>
-                <v-icon v-else class="mr-2" :icon="deviceIcon(session.device)" size="large"/>
+                <v-icon 
+                    v-else 
+                    class="mr-2" 
+                    :icon="deviceIcon(session.device)" 
+                    size="large"
+                />
                     {{ session.device }}
                     <button-ui
                         v-if="!session.current"

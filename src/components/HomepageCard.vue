@@ -10,7 +10,7 @@ export default {
             type: Object,
             required: true,
             default(rawProps) {
-                return { link: '', description: '', title: '', isShow: false, isChosen: false}
+                return { link: '', description: '', title: '', isShow: false, isChosen: false, img: null}
             }
         },
         index: {
@@ -87,7 +87,7 @@ export default {
                 </Transition>
             </v-chip>
             </div>
-            <v-img :src="card.link" cover />
+            <v-img :src="card.img" cover />
         </section>
     </Transition>
 </template>

@@ -35,7 +35,9 @@ export default {
         }
     },
     getters: {
-
+        filters(state) {
+            return state.filters;
+        }
     },
     actions: {
         async getProducts({commit, dispatch, state}, {gender, category, page, fetchFilters, sort, brands, types, valueRange}) {

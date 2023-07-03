@@ -66,10 +66,10 @@ export default {
             return this.$store.state.currentProduct;
         },
         currentPageComments() {
-            return this.$store.state.currentProduct && this.$store.state.currentProduct.comments ? this.$store.state.currentProduct.comments.pages.find(page => page.page === this.commentPage) : null;
+            return this.currentProduct && this.currentProduct.comments ? this.currentProduct.comments.pages.find(page => page.page === this.commentPage) : null;
         },
         userEmail() {
-            return this.$store.state.user.email;
+            return this.$store.getters.userEmail;
         },
         sendCommentBtnVisible() {
             if (!this.editCommentMode) {

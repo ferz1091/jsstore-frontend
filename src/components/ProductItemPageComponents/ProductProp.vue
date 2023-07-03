@@ -11,7 +11,9 @@ export default {
 </script>
 <template>
     <div class="py-2">
-        <span class="text-body-2 font-weight-bold">{{ name }}:</span>
+        <span class="text-body-2 font-weight-bold">
+            {{ name }}:
+        </span>
         <slot></slot>
     </div>
 </template>

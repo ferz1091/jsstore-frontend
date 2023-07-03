@@ -18,7 +18,7 @@ import AccountMenu from './AccountMenu.vue';
         },
         methods: {
             loginIconClick() {
-                if (!this.authenticated) {
+                if (!this.isAuth) {
                     this.$store.commit('toggleAuthModal', true);
                 } else {
                     this.accountMenuIsVisible = true;
@@ -43,11 +43,11 @@ import AccountMenu from './AccountMenu.vue';
             AccountMenu
         },
         computed: {
-            authenticated() {
-                return this.$store.state.isAuth;
+            isAuth() {
+                return this.$store.getters.isAuth;
             },
             login_caption() {
-                if (this.authenticated) {
+                if (this.isAuth) {
                     const email = this.$store.state.user.email;
                     return email.slice(0, email.indexOf('@')).slice(0, 10);
                 } else {
@@ -55,7 +55,7 @@ import AccountMenu from './AccountMenu.vue';
                 }
             },
             basketBadgeIsVisible() {
-                return this.$store.state.basket.products.length;
+                return this.$store.getters.basketSize;
             },
             userDeviceIsMobile() {
                 return this.$store.state.userDeviceIsMobile;
@@ -79,7 +79,7 @@ import AccountMenu from './AccountMenu.vue';
                 }
             },
             userRoles() {
-                return this.$store.state.user.roles;
+                return this.$store.getters.userRoles;
             }
         }
     }
@@ -97,7 +97,11 @@ import AccountMenu from './AccountMenu.vue';
                 :src="'http://localhost:5000/assets/8403518d375d97abbe6abc8227c6907b'"
             ></v-img>
             <v-sheet class="header-btns-wrapper">
-                <router-link v-for="button in buttons" :to="button.link" style="text-decoration: none;">
+                <router-link 
+                    v-for="button in buttons" 
+                    :to="button.link" 
+                    style="text-decoration: none;"
+                >
                     <header-button>
                         {{ button.title }}
                     </header-button>
@@ -121,7 +125,9 @@ import AccountMenu from './AccountMenu.vue';
                     ref="userIcon"
                 >
                     <v-icon icon="mdi-account-circle" size="large"/>
-                    <p class="login-caption text-caption">{{ login_caption }}</p>
+                    <p class="login-caption text-caption">
+                        {{ login_caption }}
+                    </p>
                 </v-btn>
                 <v-btn
                     class="basketIcon py-6"
@@ -145,7 +151,11 @@ import AccountMenu from './AccountMenu.vue';
                 v-model="burgerMenuIsVisible" 
                 :attach="this.$refs.menuIcon && this.$refs.menuIcon.$el"
             >
-                <v-list class="burger-menu" bg-color="surface" min-width="120px">
+                <v-list 
+                    class="burger-menu" 
+                    bg-color="surface" 
+                    min-width="120px"
+                >
                     <v-list-item 
                         v-for="button in buttons" 
                         class="burger-menu-item text-button" 

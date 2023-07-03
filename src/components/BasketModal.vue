@@ -23,7 +23,7 @@ export default {
     },
     computed: {
         isAuth() {
-            return this.$store.state.isAuth;
+            return this.$store.getters.isAuth;
         },
         modalIsActive: {
             get() {
@@ -34,16 +34,10 @@ export default {
             },
         },
         products() {
-            return this.$store.state.basket.products;
+            return this.$store.getters.basket;
         },
         orderPrice() {
-            return this.products.map(product => {
-                if (product.amount) {
-                    return product.item.value * product.amount;
-                } else {
-                    return 0;
-                }
-            }).reduce((acc, item) => acc + item, 0);
+            return this.$store.getters.basketPrice;
         },
         createOrderBtnDisabled() {
             if (this.products.length) {
@@ -70,13 +64,21 @@ export default {
                 Cart is empty
             </p>
             <v-item-group>
-                <BasketItem v-for="product in products" :key="product.item._id" :product="product" />
+                <BasketItem 
+                    v-for="product in products" 
+                    :key="product.item._id" 
+                    :product="product"
+                />
             </v-item-group>
         </v-sheet>
         <v-sheet class="basket-control" color="background">
             <v-divider class="border-opacity-25" />
             <p class="basket-item-price px-2" @click="test">
-                <v-icon class="mr-2" icon="mdi-tag-outline" size="small" />
+                <v-icon 
+                    class="mr-2" 
+                    icon="mdi-tag-outline" 
+                    size="small" 
+                />
                 <span class="text-h5">
                     {{ orderPrice }}
                     <span class="text-body-1">

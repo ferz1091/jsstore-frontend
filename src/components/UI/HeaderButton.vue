@@ -3,13 +3,11 @@
         name: 'header-button'
     }
 </script>
-
 <template>
-    <v-btn class="header-btn py-6 h-100" variant="text" color="background" >
+    <v-btn class="header-btn py-6 h-100" variant="text" color="background">
         <slot></slot>
     </v-btn>
 </template>
-
 <style>
     .header-btn {
         display: flex;

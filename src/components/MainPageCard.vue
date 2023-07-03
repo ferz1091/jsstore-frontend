@@ -37,12 +37,16 @@ export default {
     }
 }
 </script>
-
 <template>
-    <v-card class="category-card rounded-0" @mouseenter="mouserEnter" @mouseleave="mouseLeave" @click="cardClick">
+    <v-card 
+        class="category-card rounded-0" 
+        @mouseenter="mouserEnter"
+        @mouseleave="mouseLeave" 
+        @click="cardClick"
+    >
         <v-card-title class="category-title text-overline font-weight-bold">
             {{ category.name }}
-            <v-divider class="border-opacity-75"></v-divider>
+            <v-divider class="border-opacity-75" />
         </v-card-title>
         <v-img 
             class="category-img" 
@@ -57,7 +61,6 @@ export default {
         </Transition>
     </v-card>
 </template>
-
 <style>
     @keyframes imageIn {
         0% {

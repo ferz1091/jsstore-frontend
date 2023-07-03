@@ -55,6 +55,7 @@ export const router = createRouter({
         {path: '/account/recovery', component: () => import('../pages/AccountPages/UserPasswordRecovery.vue')},
         {path: '/order', component: () => import('../pages/OrderPage.vue')},
         {path: '/panel/add', component: () => import('../pages/AdminPages/AddProductPage.vue')},
+        {path: '/panel/products', component: () => import('../pages/AdminPages/ProductsPage.vue')},
         {path: '/authback', component: () => import('../pages/AuthBack.vue')},
         {path: '/:pathMatch(.*)*', redirect: '/'}
     ],

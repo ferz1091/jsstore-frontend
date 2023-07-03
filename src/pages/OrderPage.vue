@@ -106,19 +106,13 @@ export default {
     },
     computed: {
         isAuth() {
-            return this.$store.state.isAuth;
+            return this.$store.getters.isAuth;
         },
         products() {
-            return this.$store.state.basket.products;
+            return this.$store.getters.basket;
         },
         orderPrice() {
-            return this.products.map(product => {
-                if (product.amount) {
-                    return product.item.value * product.amount;
-                } else {
-                    return 0;
-                }
-            }).reduce((acc, item) => acc + item, 0);
+            return this.$store.getters.basketPrice;
         },
         createOrderBtnDisabled() {
             if (!this.contactDetails.name || !this.contactDetails.surname || !this.contactDetails.phone || !this.contactDetails.email || !this.deliveryMethod || this.orderPrice === 0) {
@@ -133,10 +127,10 @@ export default {
             }
         },
         userId() {
-            return this.$store.state.user.id;
+            return this.$store.getters.userId;
         },
         orderItemDeleteBtnIsVisible() {
-            return this.$store.state.basket.products.length > 1;
+            return this.$store.getters.basketSize > 1;
         }
     }
 }
@@ -144,12 +138,20 @@ export default {
 <template>
     <main class="Order page">
         <Transition name="order-page-container" appear>
-            <v-container v-if="products.length && !orderId" class="order-wrapper elevation-10">
+            <v-container 
+                v-if="products.length && !orderId" 
+                class="order-wrapper elevation-10"
+            >
                 <p class="order-page-title text-button pl-2 py-2">
                     <v-icon class="order-page-title-icon" icon="mdi-cart"/>
                     Order
                 </p>
-                <OrderItem v-for="product in products" :key="product.item._id" :product="product" :deleteBtnIsVisible="orderItemDeleteBtnIsVisible" />
+                <OrderItem 
+                    v-for="product in products" 
+                    :key="product.item._id" 
+                    :product="product" 
+                    :deleteBtnIsVisible="orderItemDeleteBtnIsVisible" 
+                />
                 <v-divider class="border-opacity-50 mb-4 mt-8" />
                 <p class="order-page-title text-button pl-2 py-2">
                     <v-icon class="order-page-title-icon" icon="mdi-account-box" />
@@ -207,9 +209,16 @@ export default {
         </Transition>
         <v-container class="order-wrapper order-created" v-if="orderId">
             <v-sheet class="order-created-wrapper elevation-4 w-100 py-4 px-2 rounded-lg" color="background">
-                <p class="order-created-title text-button text-center py-1">№{{ orderId }}</p>
-                <p class="text-body-2 text-center py-1">Order has been successfully created <v-icon icon="mdi-check-circle-outline"/></p>
-                <p class="text-body-2 text-center py-1">Order information has been sent to the specified email address</p>
+                <p class="order-created-title text-button text-center py-1">
+                    №{{ orderId }}
+                </p>
+                <p class="text-body-2 text-center py-1">
+                    Order has been successfully created 
+                    <v-icon icon="mdi-check-circle-outline"/>
+                </p>
+                <p class="text-body-2 text-center py-1">
+                    Order information has been sent to the specified email address
+                </p>
                 <button-ui 
                     class="order-created-btn mt-2" 
                     :set="['e', 0, 0, 0, 0, 'continue shopping']"

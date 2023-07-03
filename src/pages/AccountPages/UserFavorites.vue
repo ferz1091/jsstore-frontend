@@ -70,7 +70,6 @@ export default {
     },
     watch: {
         isAuth() {
-            console.log(this.isAuth);
             if (!this.isAuth) {
                 this.$router.push('/');
             }
@@ -78,10 +77,10 @@ export default {
     },
     computed: {
         isAuth() {
-            return this.$store.state.isAuth;
+            return this.$store.getters.isAuth;
         },
         isFetching() {
-            return this.$store.state.isFetching;
+            return this.$store.getters.isFetching;
         },
         products() {
             const products = this.$store.state.userFavorites;
@@ -92,20 +91,7 @@ export default {
             }
         },
         mergedProducts() {
-            const products = this.$store.state.userFavorites;
-            if (products) {
-                let result = [];
-                for (let i = 0; i < products.men.length + products.women.length; i++) {
-                    if (products.men[i] !== undefined) {
-                        result.push(products.men[i]);
-                    }
-                    if (products.women[i] !== undefined) {
-                        result.push(products.women[i]);
-                    }
-                }
-                return result;
-            }
-            return [];
+            return this.$store.getters.userFavorites;
         },
         panelIsVisible() {
             const favorites = this.$store.state.userFavorites;

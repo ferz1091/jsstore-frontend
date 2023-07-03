@@ -46,7 +46,21 @@ export default {
         }
     },
     getters: {
-
+        basket(state) {
+            return state.products;
+        },
+        basketPrice(state) {
+            return state.products.map(product => {
+                if (product.amount) {
+                    return product.item.value * product.amount;
+                } else {
+                    return 0;
+                }
+            }).reduce((acc, item) => acc + item, 0);
+        },
+        basketSize(state) {
+            return state.products.length;
+        }
     },
     actions: {
 

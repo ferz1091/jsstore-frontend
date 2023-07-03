@@ -131,7 +131,50 @@ export default createStore({
         }
     },
     getters: {
-
+        isAuth(state) {
+            return state.isAuth;
+        },
+        isFetching(state) {
+            return state.isFetching;
+        },
+        panelRights(state) {
+            return state.user.roles.some(role => role === 'ADMIN');
+        },
+        userId(state) {
+            return state.user.id;
+        },
+        userEmail(state) {
+            return state.user.email;
+        },
+        userRoles(state) {
+            return state.user.roles;
+        },
+        userFavorites(state) {
+            const products = state.userFavorites;
+            if (products) {
+                let result = [];
+                for (let i = 0; i < products.men.length + products.women.length; i++) {
+                    if (products.men[i] !== undefined) {
+                        result.push(products.men[i]);
+                    }
+                    if (products.women[i] !== undefined) {
+                        result.push(products.women[i]);
+                    }
+                }
+                return result;
+            }
+            return [];
+        },
+        userOrders(state) {
+            const orders = state.userOrders;
+            return orders && orders.length ? orders.sort((orderA, orderB) => {
+                if (new Date(orderA.order_date) < new Date(orderB.order_date)) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }) : [];
+        }
     },
     actions: {
         async registration({commit, dispatch}, {email, password}) {

@@ -29,6 +29,9 @@ export default {
         },
         toAddProduct() {
             this.$router.push('/panel/add');
+        },
+        toProductsPage() {
+            this.$router.push('/panel/products');
         }
     },
     computed: {
@@ -41,14 +44,18 @@ export default {
             },
         },
         panelAccess() {
-            return this.$store.state.user.roles.some(role => role === 'ADMIN');
+            return this.$store.getters.panelRights;
         }
     }
 }
 </script>
 <template>
     <v-menu v-model="menuIsActive">
-        <v-list class="user-menu" bg-color="surface" min-width="150px">
+        <v-list 
+            class="user-menu" 
+            bg-color="surface" 
+            min-width="150px"
+        >
             <v-list-item
                 v-if="panelAccess"
                 class="user-menu-item text-caption px-3" 
@@ -70,7 +77,7 @@ export default {
                             <v-icon class="" icon="mdi-plus-box" color="background" />
                             Product
                         </v-list-item>
-                        <v-list-item class="user-menu-item text-caption px-3">
+                        <v-list-item class="user-menu-item text-caption px-3" @click="toProductsPage">
                             <v-icon icon="mdi-database-edit" color="background" />
                             Products
                         </v-list-item>

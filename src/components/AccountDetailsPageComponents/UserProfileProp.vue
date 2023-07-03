@@ -67,7 +67,7 @@ export default {
             return this.$store.state.user.isActivated;
         },
         userId() {
-            return this.$store.state.user.id;
+            return this.$store.getters.userId;
         },
         authMethodIsEmail() {
             return this.$store.state.user.authMethod === 'email';

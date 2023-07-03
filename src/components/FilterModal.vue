@@ -33,7 +33,7 @@ export default {
             this.isSubmitted = true;
         },
         resetValueRange() {
-            const range = this.$store.state.products.filters.valueRange;
+            const range = this.filters.valueRange;
             this.priceRange = [range.min, range.max];
             if (this.$store.state.products.initFilters) {
                 this.valueRangeSubmit();
@@ -79,17 +79,18 @@ export default {
             },
         },
         filters() {
-            return this.$store.state.products.filters;
+            return this.$store.getters.filters;
         },
         filterSheetIsVisible() {
-            return this.$store.state.products.filters.brandStats && this.$store.state.products.filters.typeStats;
+            return this.filters.brandStats && this.filters.typeStats;
         },
         clearValueRangeButtonDisabled() {
-             return this.$store.state.products.filters.valueRange.min === this.priceRange[0] && this.$store.state.products.filters.valueRange.max === this.priceRange[1];
+             return this.filters.valueRange.min === this.priceRange[0] && this.filters.valueRange.max === this.priceRange[1];
         },
         submitValueRangeButtonDisabled() {
-            return this.$store.state.products.filters.valueRange.min === this.priceRange[0] && this.$store.state.products.filters.valueRange.max === this.priceRange[1]
-            || this.$store.state.products.filters.valueRange.min === this.$store.state.products.filters.valueRange.max;
+            return this.filters.valueRange.min === this.priceRange[0] 
+            && this.filters.valueRange.max === this.priceRange[1]
+            || this.filters.valueRange.min === this.filters.valueRange.max;
         }
     }
 }
@@ -116,7 +117,9 @@ export default {
                     @click="closeModal"
                 />
                 <v-sheet class="px-5 pt-2" color="background">
-                    <p class="text-overline filter-caption pt-2">Price</p>
+                    <p class="text-overline filter-caption pt-2">
+                        Price
+                    </p>
                     <v-range-slider
                         class="mt-10"
                         v-model="priceRange"
@@ -126,8 +129,9 @@ export default {
                         thumb-label="always"
                         color="surface"
                         :disabled="filters.valueRange.min === filters.valueRange.max"
+                        ref="priceSlider"
                         strict
-                    ></v-range-slider>
+                    />
                     <div class="slider-btns-wrapper">
                         <button-ui 
                             class="submitValue-btn"
@@ -157,10 +161,12 @@ export default {
                         density="compact"
                         hide-details
                         :disabled="!category.count"
-                    ></v-checkbox>
+                    />
                 </v-sheet>
                 <v-sheet class="px-5" color="background">
-                    <p class="text-overline brand-caption pt-2">Brand</p>
+                    <p class="text-overline brand-caption pt-2">
+                        Brand
+                    </p>
                     <v-checkbox
                         class="filter-checkbox"
                         v-for="brand in filters.brandStats" 
@@ -171,10 +177,12 @@ export default {
                         density="compact"
                         hide-details
                         :disabled="!brand.count"
-                    ></v-checkbox>
+                    />
                 </v-sheet>
                 <v-sheet class="px-5 pb-2" color="background">
-                    <p class="text-overline type-caption pt-2">Type</p>
+                    <p class="text-overline type-caption pt-2">
+                        Type
+                    </p>
                     <v-checkbox
                         class="filter-checkbox"
                         v-for="itemType in filters.typeStats" 
@@ -185,17 +193,22 @@ export default {
                         density="compact"
                         hide-details
                         :disabled="!itemType.count"
-                    ></v-checkbox>
+                    />
                 </v-sheet>
             </v-sheet>
-            <v-sheet class="h-100" color="background" v-else key="progress">
+            <v-sheet 
+                class="h-100" 
+                color="background" 
+                key="progress"
+                v-else 
+            >
                 <v-progress-circular
                     class="filterProgress"
                     color="surface"
                     indeterminate
                     :size="64"
                     :width="5"
-                ></v-progress-circular>
+                />
             </v-sheet>
         </Transition>
         <Transition name="filterModalClearBtn" mode="out-in">
@@ -208,7 +221,6 @@ export default {
         </Transition>
     </v-navigation-drawer>
 </template>
-
 <style>
     .filterModal {
         margin-top: calc(64px + 30 * (100vw / 1400));

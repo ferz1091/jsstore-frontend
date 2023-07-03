@@ -180,7 +180,7 @@ export default {
             return this.regPassword === this.confirmPassword;
         },
         isFetching() {
-            return this.$store.state.isFetching;
+            return this.$store.getters.isFetching;
         },
         loginPasswordIsVisible() {
             if (this.passwordLoginType === 'text') {
