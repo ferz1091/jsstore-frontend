@@ -85,6 +85,9 @@ const api = {
     addProduct(data) {
         return instance.post('/product/add', data);
     },
+    editProduct(data) {
+        return instance.put('/product/edit', data);
+    },
     getRecoveryCode(email) {
         return instance.get(`/users/recovery_code?email=${email}`);
     },
@@ -96,6 +99,9 @@ const api = {
     },
     googleAuth(code) {
         return instance.post('/auth/google', {code});
+    },
+    getProductsByString(gender, string, page) {
+        return instance.get(`/product/getByString?gender=${gender}&searchString=${string}&currentPage=${page}`);
     }
 }
 

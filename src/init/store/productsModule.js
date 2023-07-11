@@ -73,9 +73,7 @@ export default {
                 console.log(error);
                 dispatch('activateAlert', {message: error.response.data.error, status: 'error'});
             } finally {
-                setTimeout(() => {
-                    commit('toggleIsFetching', false);
-                }, 2000);
+                commit('toggleIsFetching', false);
             }
         },
         async getSale({ commit, dispatch, state }, {gender, category, page, fetchFilters, sort, brands, types, categoryFilters, valueRange}) {
@@ -116,9 +114,19 @@ export default {
                 console.log(error);
                 dispatch('activateAlert', {message: error.response.data.error, status: 'error'});
             } finally {
-                setTimeout(() => {
-                    commit('toggleIsFetching', false);
-                }, 2000);
+                commit('toggleIsFetching', false);
+            }
+        },
+        async getProductsByString({ commit, dispatch, state }, { gender, string, page }) {
+            try {
+                commit('toggleIsFetching', true);
+                const response = await api.getProductsByString(gender, string, page);
+                commit('setProducts', {data: response.data.data, totalPages: response.data.totalPages, page: response.data.page, category: null, gender});
+            } catch (error) {
+                console.log(error);
+                dispatch('activateAlert', {message: error.response.data.error, status: 'error'});
+            } finally {
+                commit('toggleIsFetching', false);
             }
         }
     }

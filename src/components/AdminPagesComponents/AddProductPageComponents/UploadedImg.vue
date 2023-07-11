@@ -4,7 +4,10 @@ export default {
         image: {type: String, required: true},
         index: {type: Number, required: true},
         title: {type: Number, required: true},
-        imgArrayLength: {type: Number, required: true}
+        imgArrayLength: {type: Number, required: true},
+        newTitle: {type: Boolean, default: false},
+        editMode: {type: Boolean, default: false},
+        secondImgArrayLength: {type: Number, required: true}
     },
     data() {
         return {
@@ -19,7 +22,9 @@ export default {
             }
         },
         toggleScrim(value) {
-            this.scrimIsVisible = value;
+            if (this.imgArrayLength > 1 || this.secondImgArrayLength > 0) {
+                this.scrimIsVisible = value;
+            }
         }
     },
     watch: {
@@ -50,6 +55,7 @@ export default {
             cover
         />
         <v-checkbox 
+            v-if="!editMode || editMode && newTitle"
             v-model="value" 
             :value="index" 
             class="img-checkbox" 

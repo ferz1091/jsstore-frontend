@@ -5,15 +5,18 @@ export default {
         ProductForm
     },
     mounted() {
-        if (!this.userIsAdmin) {
+        if (!this.userIsAdmin || !this.editModeProduct) {
             this.$router.push('/shop/entry/men');
         }
     },
+    unmounted() {
+        this.$store.commit('clearCurrentProduct');
+    },
     methods: {
-        async addProduct(product) {
-            const link = await this.$store.dispatch('addProduct', product);
-            if (link) {
-                this.$router.push(link);
+        async editProduct(payload) {
+            const result = await this.$store.dispatch('editProduct', payload);
+            if (result) {
+                this.$router.push('/panel/products');
             }
         }
     },
@@ -27,14 +30,22 @@ export default {
     computed: {
         userIsAdmin() {
             return this.$store.state.user.roles.some(role => role === 'ADMIN');
+        },
+        editModeProduct() {
+            return this.$store.state.currentProduct;
         }
     }
 }
 </script>
 <template>
-    <main class="addProduct page" v-if="userIsAdmin">
-        <ProductForm @addProduct="addProduct"/>
+    <main class="editProduct page">
+        <ProductForm 
+            @editProduct="editProduct"
+            :editMode="true" 
+            :editModeProduct="editModeProduct" 
+        />
     </main>
 </template>
 <style>
+
 </style>

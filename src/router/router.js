@@ -56,6 +56,7 @@ export const router = createRouter({
         {path: '/order', component: () => import('../pages/OrderPage.vue')},
         {path: '/panel/add', component: () => import('../pages/AdminPages/AddProductPage.vue')},
         {path: '/panel/products', component: () => import('../pages/AdminPages/ProductsPage.vue')},
+        {path: '/panel/edit_product', component: () => import('../pages/AdminPages/EditProductPage.vue')},
         {path: '/authback', component: () => import('../pages/AuthBack.vue')},
         {path: '/:pathMatch(.*)*', redirect: '/'}
     ],

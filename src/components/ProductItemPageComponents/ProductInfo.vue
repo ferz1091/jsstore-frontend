@@ -251,7 +251,7 @@ export default {
                     </v-chip>
                 </span>
             </product-prop>
-            <v-divider class="my-3 border-opacity-25" color="surface" />
+            <v-divider class="my-3 border-opacity-25" color="surface" v-if="currentProduct.description" />
             <product-prop v-if="currentProduct.description" name="Description">
                 <span class="pl-2 text-caption">
                     {{ currentProduct.description }}

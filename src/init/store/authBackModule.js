@@ -27,9 +27,7 @@ export default {
                 dispatch('activateAlert', { message: error.response.data.error, status: 'error' });
                 return false;
             } finally {
-                setTimeout(() => {
-                    commit('toggleIsFetching', false);
-                }, 2000);
+                commit('toggleIsFetching', false);
             }
         }
     }

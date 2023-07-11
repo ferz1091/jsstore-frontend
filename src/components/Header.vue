@@ -6,7 +6,8 @@ import AccountMenu from './AccountMenu.vue';
                 buttons: [{title:'Men\'s', link: '/shop/entry/men', icon: 'mdi-face-man'}, {title:'Women\'s', link: '/shop/entry/women', icon: 'mdi-face-woman'}, {title:'Sale', link: '/shop/sale/1', icon: 'mdi-sale'}],
                 accountMenuIsVisible: false,
                 burgerMenuIsVisible: false,
-                displayWidth: null
+                displayWidth: null,
+                headerButtonIsDisabled: false
             }
         },
         mounted() {
@@ -37,6 +38,14 @@ import AccountMenu from './AccountMenu.vue';
             },
             setDisplayWidth() {
                 this.displayWidth = window.innerWidth;
+            },
+            toggleHeaderBtns(link) {
+                if (this.$route.fullPath !== link) {
+                    this.headerButtonIsDisabled = true;
+                    setTimeout(() => {
+                        this.headerButtonIsDisabled = false;
+                    }, 1500);
+                }
             }
         },
         components: {
@@ -100,7 +109,8 @@ import AccountMenu from './AccountMenu.vue';
                 <router-link 
                     v-for="button in buttons" 
                     :to="button.link" 
-                    style="text-decoration: none;"
+                    v-bind:style="{textDecoration: 'none', pointerEvents: headerButtonIsDisabled ? 'none' : 'auto'}"
+                    @click="toggleHeaderBtns(button.link)"
                 >
                     <header-button>
                         {{ button.title }}

@@ -107,7 +107,7 @@ export default {
     },
     computed: {
         userId() {
-            return this.$store.state.user.id;
+            return this.$store.getters.userId;
         },
         formIsDisabled() {
             return !this.$store.state.user.isActivated;
@@ -141,7 +141,7 @@ export default {
                 @submit.prevent="submitForm" 
                 ref="changePasswordForm"
             >
-                <v-text-field autocomplete="username" style="display: none;"></v-text-field>
+                <v-text-field autocomplete="username" style="display: none;" />
                     <v-text-field 
                         class="my-security-input"
                         variant="solo"

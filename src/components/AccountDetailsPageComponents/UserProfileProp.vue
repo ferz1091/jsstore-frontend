@@ -91,11 +91,22 @@ export default {
             {{ myProfileProp }}
         </span>
         <v-divider />
-        <span class="my-profile-edit-prop" v-if="myProfileEditPropIcon && name !== 'Email' || name === 'Email' && emailIsVerified && authMethodIsEmail" @click="openInput">
+        <span 
+            v-if="myProfileEditPropIcon && name !== 'Email' || name === 'Email' && emailIsVerified && authMethodIsEmail" 
+            class="my-profile-edit-prop" 
+            @click="openInput"
+        >
             {{ myProfileEditProp }}
-            <v-icon class="my-profile-edit-prop-icon" :icon="myProfileEditPropIcon" size="x-small" />
+            <v-icon 
+                class="my-profile-edit-prop-icon" 
+                :icon="myProfileEditPropIcon" 
+                size="x-small" 
+            />
         </span>
-        <span v-if="name === 'Email' && !emailIsVerified && authMethodIsEmail" v-bind:style="{fontSize: '12px', color: 'gray'}">
+        <span 
+            v-if="name === 'Email' && !emailIsVerified && authMethodIsEmail" 
+            v-bind:style="{fontSize: '12px', color: 'gray'}"
+        >
             Verify current email for change this email
         </span>
         <Transition name="profile-prop-input">

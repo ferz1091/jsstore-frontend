@@ -9,12 +9,20 @@ export default {
         gender: {
             type: String,
             default: null
+        },
+        editMode: {
+            type: Boolean,
+            default: false
         }
     },
     methods: {
         cardClick() {
             this.$store.commit('setCurrentProduct', this.product);
-            this.$router.push(`/product/${this.genderPath}/${this.product._id}`);
+            if (!this.editMode) {
+                this.$router.push(`/product/${this.genderPath}/${this.product._id}`);
+            } else {
+                this.$router.push('/panel/edit_product');
+            }
         },
         addToBasket() {
             if (this.productInBasket) {
@@ -105,7 +113,7 @@ export default {
                 </v-chip>
             </div>
             <button-ui
-                v-if="isAuth"
+                v-if="isAuth && !editMode"
                 class="fav-btn"
                 :set="['f', 'b', '2', favBtnIcon, 0]"
                 @click.stop="addToFavorites"
@@ -137,6 +145,7 @@ export default {
                 </s>
             </span>
             <button-ui 
+                v-if="!editMode"
                 class="basket-btn"
                 :set="[0, productInBasket ? 'success' : 'surface', 0, 0, 's', productInBasket ? 'added' : 'add to']"
                 :append-icon="productInBasket ? 'mdi-check' : 'mdi-basket-plus'"

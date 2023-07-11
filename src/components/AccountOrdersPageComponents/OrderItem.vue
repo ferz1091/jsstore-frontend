@@ -207,7 +207,7 @@ export default {
                     </product-prop>
                 </v-sheet>
                 <v-sheet class="order-panel" color="background">
-                    <p class="text-button text-center font-weight-bold mt-4">
+                    <p class="text-button text-center font-weight-bold mt-2">
                         Total price: 
                         <span class="order-value">
                             {{ order.value + '$' }}
@@ -257,6 +257,13 @@ export default {
 .paid-icon {
     position: relative;
     bottom: 1px;
+}
+.order-sendEmail {
+    cursor: pointer;
+    color: #2196F3;
+}
+.order-sendEmail:hover {
+    color: black;
 }
 @media (max-width: 350px) {
     .order-title {
