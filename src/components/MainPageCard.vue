@@ -9,7 +9,7 @@ export default {
         category: {
             type: Object,
             required: true,
-            default: {name: '', link: '', desc: ''}
+            default: {name: '', img: '', desc: ''}
         }
     },
     methods: {
@@ -50,7 +50,7 @@ export default {
         </v-card-title>
         <v-img 
             class="category-img" 
-            :src="category.link" 
+            :src="category.img" 
             cover 
             v-bind:style="{filter: cardImgFilter()}"
         />

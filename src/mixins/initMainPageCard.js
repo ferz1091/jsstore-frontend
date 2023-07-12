@@ -1,3 +1,16 @@
+import men_outerwear from '@/assets/cards_men/outerwear.jpg'
+import men_tops from '@/assets/cards_men/tops.jpg';
+import men_bottoms from '@/assets/cards_men/bottoms.jpg';
+import men_shoes from '@/assets/cards_men/shoes.jpg';
+import men_sportswear from '@/assets/cards_men/sportswear.jpg';
+import hats from '@/assets/cards_men/hats.jpg';
+import women_outerwear from '@/assets/cards_women/outerwear.jpg';
+import women_tops from '@/assets/cards_women/tops.jpg';
+import women_bottoms from '@/assets/cards_women/bottoms.jpg';
+import women_shoes from '@/assets/cards_women/shoes.jpg';
+import women_sportswear from '@/assets/cards_women/sportswear.jpg';
+import dresses from '@/assets/cards_women/dresses.jpg';
+
 export default {
     data() {
         return {
@@ -8,32 +21,32 @@ export default {
                     categories: [
                         {
                             name: 'outerwear', 
-                            link: 'http://localhost:5000/assets/6bf15c5b3b97b811c117908a2fcaf3fb', 
+                            img: men_outerwear, 
                             desc: 'coat jacket vest'
                         }, 
                         { 
                             name: 'tops', 
-                            link: 'http://localhost:5000/assets/e03dd9791336c3f1a85f24e92431a521', 
+                            img: men_tops, 
                             desc: 'shirt sweater cardigan'
                         }, 
                         { 
                             name: 'bottoms', 
-                            link: 'http://localhost:5000/assets/9f389d9d3f3bf8ca9c8ae60de0373635', 
+                            img: men_bottoms, 
                             desc: 'pants jeans shorts'
                         }, 
                         { 
                             name: 'shoes', 
-                            link: 'http://localhost:5000/assets/95648a21a5adbf45191c6c666634b708', 
+                            img: men_shoes, 
                             desc: 'shoes sneakers boots'
                         }, 
                         { 
                             name: 'sportswear', 
-                            link: 'http://localhost:5000/assets/c9944af700ee04799f7109a9ea423f2f', 
+                            img: men_sportswear, 
                             desc: 'pants t-shirt workout jacket'
                         }, 
                         { 
                             name: 'hats', 
-                            link: 'http://localhost:5000/assets/0edad300a039faa70f1510296b9e20d7', 
+                            img: hats, 
                             desc: 'cap panama winter hat' 
                         }
                     ]
@@ -43,31 +56,31 @@ export default {
                     categories: [
                         { 
                             name: 'outerwear', 
-                            link: 'http://localhost:5000/assets/3e5aa503d53e7a87799e097c6e7de32c', 
+                            img: women_outerwear, 
                             desc: 'coat jacket vest'
                         }, 
                         { 
                             name: 'tops', 
-                            link: 'http://localhost:5000/assets/2f291f0ef343faff407786146f534a05', 
+                            img: women_tops, 
                             desc: 'shirt sweater blouse'
                         }, 
                         { 
                             name: 'bottoms', 
-                            link: 'http://localhost:5000/assets/f076ff29d7f1285509b5df6ccdcc1130', 
+                            img: women_bottoms, 
                             desc: 'pants jeans shorts'
                         }, { 
                             name: 'shoes', 
-                            link: 'http://localhost:5000/assets/0c097db7a41b429f0e391504048fcd8c', 
+                            img: women_shoes, 
                             desc: 'shoes sneakers boots'
                         }, 
                         { 
                             name: 'sportswear', 
-                            link: 'http://localhost:5000/assets/ccdf460a93360d2a6b7c9a0705e974d2', 
+                            img: women_sportswear, 
                             desc: 't-shirt leggings shorts'
                         }, 
                         { 
                             name: 'dresses', 
-                            link: 'http://localhost:5000/assets/77d96cf0cdb6589965906b6e4302f268', 
+                            img: dresses, 
                             desc: 'cocktail evening casual'
                         }
                     ]
