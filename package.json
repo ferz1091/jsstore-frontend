@@ -7,6 +7,9 @@
     "build": "vite build",
     "preview": "vite preview"
   },
+  "engines": {
+    "node": "14.x"
+  },
   "dependencies": {
     "@mdi/font": "^7.1.96",
     "@mdi/js": "^7.1.96",

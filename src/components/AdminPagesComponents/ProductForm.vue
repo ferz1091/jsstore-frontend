@@ -631,7 +631,7 @@ export default {
                         <UploadedImg
                             v-for="(image, index) in editModeProduct.images"
                             :index="index" 
-                            :image="`http://localhost:5000/${image.path}`"
+                            :image="`https://jsstore-backend.vercel.app/${image.path}`"
                             :title="title"
                             :imgArrayLength="oldImages ? oldImages.length : 1"
                             :newTitle="!newTitle"

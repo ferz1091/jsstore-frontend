@@ -64,7 +64,7 @@ export default {
         <v-sheet class="order-product-info" color="background">
             <v-img
                 class="order-product-img" 
-                :src="`http://localhost:5000/${product.item.images.find(image => image.title).path}`" 
+                :src="`https://jsstore-backend.vercel.app/${product.item.images.find(image => image.title).path}`" 
             />
             <div class="order-product-info-panel ml-3">
                 <div class="info-panel-content">
