@@ -213,10 +213,11 @@ export default {
         v-model="modalIsActive"
         scroll-strategy="none"
         elevation="24"
+        class="auth_overlay"
     >
-    <v-container class="authModal pa-0 rounded-lg elevation-16">
+    <v-container class="authModal pa-0 elevation-16">
         <v-sheet 
-            class="modal-slider rounded-lg" 
+            class="modal-slider" 
             color="surface" 
             v-bind:style="{left: displayWidth > 600 ? loginMode ? '50%' : '0%' : '0%', top: displayWidth > 600 ? '0%' : loginMode ? '50%' : '0%'}" 
             elevation="16"
@@ -420,6 +421,7 @@ export default {
     width: 60vw !important;
     height: 70vh;
     background: white;
+    border-radius: 8px;
 }
 .modal-slider {
     height: 100%;
@@ -428,6 +430,7 @@ export default {
     top: 0;
     transition: all 0.7s ease-out;
     z-index: 1 !important;
+    border-radius: 8px !important;
 }
 .login-title, .registration-title {
     position: absolute !important;
@@ -577,12 +580,18 @@ form {
     transition: 0.35s ease;
     transition-delay: 0.3s;
 }
+.login-form-enter-active .forgotPass-label {
+    transition: 0.4s ease;
+    transition-delay: 0.4s;
+}
 .registration-form-leave-active .google-btn,
-.login-form-leave-active .google-btn {
+.login-form-leave-active .google-btn,
+.login-form-leave-active .forgotPass-label {
     transition: all 0.2s ease;
 }
 .registration-form-enter-from .google-btn, .login-form-enter-from .google-btn,
-.registration-form-leave-to .google-btn, .login-form-leave-to .google-btn {
+.registration-form-leave-to .google-btn, .login-form-leave-to .google-btn,
+.login-form-enter-from .forgotPass-label, .login-form-leave-to .forgotPass-label {
     scale: 0;
 }
 .registration-form-leave-to {
@@ -638,18 +647,23 @@ form {
 }
 @media (max-width: 750px) {
     .authModal {
-        width: 95vw !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        border-radius: 0px;
+    }
+    .auth_overlay .v-overlay__content {
+        margin: 0 !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
+    }
+    .modal-slider {
+        border-radius: 0px !important;
     }
     .closeAuthModalMobileBtn {
         display: block !important;
     }
 }
 @media (max-width: 600px) {
-    .authModal {
-        margin: 0 !important; 
-        width: 90vw !important;
-        height: 90vh !important;
-    }
     .login-form, .registration-form {
         height: 50%;
         width: 100%;
