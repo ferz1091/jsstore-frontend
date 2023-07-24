@@ -225,7 +225,7 @@ export default {
                 key="post"
                 v-bind:style="{maxHeight: postOfficeSelected ? '244px' : '432px'}"
             >
-                <v-img class="post-logo" :src="`http://localhost:5000/assets/280373e7b35b36c247831c2f4b051cd7`" />
+                <v-img class="post-logo" :src="`https://jsstore-backend.vercel.app/assets/280373e7b35b36c247831c2f4b051cd7`" />
                 <p class="text-button text-center text-no-wrap text-truncate">
                     Enter post office number or address
                 </p>

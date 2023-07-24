@@ -18,7 +18,7 @@ export default {
             <v-img
                 
                 class="order-desc-item-img" 
-                :src="`http://localhost:5000/${product.item.images.find(image => image.title).path}`" 
+                :src="`https://jsstore-backend.vercel.app/${product.item.images.find(image => image.title).path}`" 
             />
             <div class="order-desc-item-panel ml-5">
                 <div class="order-desc-item-panel-content">
